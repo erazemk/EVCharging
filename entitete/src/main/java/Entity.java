@@ -1,6 +1,6 @@
 import java.io.Serializable;
 
-public class Entity implements Serializable {
+public abstract class Entity implements Serializable {
     private Integer id;
 
     public Integer getId() {
