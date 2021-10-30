@@ -39,6 +39,11 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.24</version>
         </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0.2</version>
+        </dependency>
     </dependencies>
 
     <build>
