@@ -5,7 +5,13 @@ public class Owner extends Person {
     private String name;
     private String surname;
     private String email;
-    private ArrayList<String> ownedStations; //TODO: Fix when station class implemented
+    private ArrayList<Station> ownedStations;
 
-    //TODO: Generate getters and setters
+    public ArrayList<Station> getOwnedStations() {
+        return ownedStations;
+    }
+
+    public void setOwnedStations(ArrayList<Station> ownedStations) {
+        this.ownedStations = ownedStations;
+    }
 }
