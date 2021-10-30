@@ -1,4 +1,6 @@
-public class Person extends Entity {
+package si.fri.prpo.skupina00.entitete;
+
+public class Person extends si.fri.prpo.skupina00.entitete.Entity {
     private Integer id;
     private String name;
     private String surname;

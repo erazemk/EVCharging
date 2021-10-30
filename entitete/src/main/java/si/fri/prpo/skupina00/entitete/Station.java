@@ -1,6 +1,8 @@
+package si.fri.prpo.skupina00.entitete;
+
 import java.sql.Time;
 
-public class Station extends Entity {
+public class Station extends si.fri.prpo.skupina00.entitete.Entity {
     private Integer id;
     private String stationName;
     private Time openTime;

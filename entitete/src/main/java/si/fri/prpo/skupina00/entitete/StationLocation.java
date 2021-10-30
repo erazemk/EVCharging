@@ -1,4 +1,6 @@
-public class StationLocation extends Entity {
+package si.fri.prpo.skupina00.entitete;
+
+public class StationLocation extends si.fri.prpo.skupina00.entitete.Entity {
     private Integer id;
     private City city;
     private String address;

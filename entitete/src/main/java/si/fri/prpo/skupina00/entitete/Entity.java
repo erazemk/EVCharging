@@ -1,3 +1,5 @@
+package si.fri.prpo.skupina00.entitete;
+
 import java.io.Serializable;
 
 public abstract class Entity implements Serializable {

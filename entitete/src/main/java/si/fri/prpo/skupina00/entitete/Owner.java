@@ -1,3 +1,5 @@
+package si.fri.prpo.skupina00.entitete;
+
 import java.util.ArrayList;
 
 public class Owner extends Person {
