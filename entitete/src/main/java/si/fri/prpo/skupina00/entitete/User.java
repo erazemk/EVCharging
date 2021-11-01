@@ -7,8 +7,22 @@ public class User extends Person {
     private String name;
     private String surname;
     private String email;
-    private ArrayList<String> charges; //TODO: Fix when charge class implemented
-    private ArrayList<String> reservations; //TODO: Fix when reservation class implemented
+    private ArrayList<Charge> charges;
+    private ArrayList<Reservation> reservations;
 
-    //TODO: Generate getters and setters
+    public ArrayList<Charge> getCharges() {
+        return charges;
+    }
+
+    public void setCharges(ArrayList<Charge> charges) {
+        this.charges = charges;
+    }
+
+    public ArrayList<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(ArrayList<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }
