@@ -4,12 +4,12 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 
-@Entity(name = "user")
+@Entity(name = "users")
 @NamedQueries(value = {
-        @NamedQuery(name = "User.getAll", query = "SELECT u FROM user u"),
-        @NamedQuery(name = "User.getAllCharges", query = "SELECT c FROM charge c, user u WHERE u.id = c.userId AND u.id = :id"),
-        @NamedQuery(name = "User.getAllReservations", query = "SELECT r FROM reservation r, user u WHERE r.userId=u.id AND u.id = :id"),
-        @NamedQuery(name = "User.updateEmailViaEmail", query = "UPDATE user SET email = :newEmail WHERE email = :oldEmail")
+        @NamedQuery(name = "User.getAll", query = "SELECT u FROM users u"),
+        @NamedQuery(name = "User.getAllCharges", query = "SELECT c FROM charges c, users u WHERE u.id = c.userId AND u.id = :id"),
+        @NamedQuery(name = "User.getAllReservations", query = "SELECT r FROM reservations r, users u WHERE r.userId=u.id AND u.id = :id"),
+        @NamedQuery(name = "User.updateEmailViaEmail", query = "UPDATE users SET email = :newEmail WHERE email = :oldEmail")
 })
 public class User extends Person {
     @Id

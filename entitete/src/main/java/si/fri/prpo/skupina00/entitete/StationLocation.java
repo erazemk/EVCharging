@@ -2,12 +2,12 @@ package si.fri.prpo.skupina00.entitete;
 
 import javax.persistence.*;
 
-@javax.persistence.Entity(name = "stationLocation")
+@javax.persistence.Entity(name = "stationLocations")
 @NamedQueries(value = {
-        @NamedQuery(name = "StationLocation.getAll", query = "SELECT l FROM stationLocation l"),
-        @NamedQuery(name = "StationLocation.getCity", query = "SELECT l.city FROM stationLocation l"),
-        @NamedQuery(name = "StationLocation.getAddress", query = "SELECT l.address FROM stationLocation l"),
-        @NamedQuery(name = "StationLocation.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM stationLocation l")
+        @NamedQuery(name = "StationLocation.getAll", query = "SELECT l FROM stationLocations l"),
+        @NamedQuery(name = "StationLocation.getCity", query = "SELECT l.city FROM stationLocations l"),
+        @NamedQuery(name = "StationLocation.getAddress", query = "SELECT l.address FROM stationLocations l"),
+        @NamedQuery(name = "StationLocation.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM stationLocations l")
 })
 public class StationLocation extends si.fri.prpo.skupina00.entitete.Entity {
 

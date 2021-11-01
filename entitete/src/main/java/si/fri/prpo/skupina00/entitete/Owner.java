@@ -4,13 +4,12 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 
-@SuppressWarnings("JpaQlInspection")
-@Entity(name = "owner")
+@Entity(name = "owners")
 @NamedQueries(value = {
-        @NamedQuery(name = "Owner.getAll", query = "SELECT o FROM owner o"),
-        @NamedQuery(name = "Owner.allStations", query = "SELECT s.stationName FROM owner o, station s WHERE o.id = s.ownerId AND o.email = :email"),
-        @NamedQuery(name = "owner.deleteOwnerViaEmail", query = "DELETE FROM owner WHERE email=:email"),
-        @NamedQuery(name = "owner.updateOwnerEmailViaEmail", query = "UPDATE owner SET email =:newEmail WHERE email=:oldEmail")
+        @NamedQuery(name = "Owner.getAll", query = "SELECT o FROM owners o"),
+        @NamedQuery(name = "Owner.allStations", query = "SELECT s.stationName FROM owners o, stations s WHERE o.id = s.ownerId AND o.email = :email"),
+        @NamedQuery(name = "owners.deleteOwnerViaEmail", query = "DELETE FROM owners WHERE email=:email"),
+        @NamedQuery(name = "owners.updateOwnerEmailViaEmail", query = "UPDATE owners SET email =:newEmail WHERE email=:oldEmail")
 })
 
 public class Owner extends Person {

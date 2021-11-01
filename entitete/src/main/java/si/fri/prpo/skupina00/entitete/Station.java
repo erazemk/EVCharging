@@ -3,15 +3,15 @@ package si.fri.prpo.skupina00.entitete;
 import javax.persistence.*;
 import java.sql.Time;
 
-@javax.persistence.Entity(name = "station")
+@javax.persistence.Entity(name = "stations")
 @NamedQueries(value = {
-        @NamedQuery(name = "Station.getAll", query = "SELECT s FROM station s"),
-        @NamedQuery(name = "Station.getStation", query = "SELECT s FROM station s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.getName", query = "SELECT s.stationName FROM station s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.getPrice", query = "SELECT s.price FROM station s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM station s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.delete", query = "DELETE FROM station WHERE id = :id"),
-        @NamedQuery(name = "Station.updatePrice", query = "UPDATE station SET price = :price WHERE id = :id")
+        @NamedQuery(name = "Station.getAll", query = "SELECT s FROM stations s"),
+        @NamedQuery(name = "Station.getStation", query = "SELECT s FROM stations s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getName", query = "SELECT s.stationName FROM stations s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getPrice", query = "SELECT s.price FROM stations s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM stations s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.delete", query = "DELETE FROM stations WHERE id = :id"),
+        @NamedQuery(name = "Station.updatePrice", query = "UPDATE stations SET price = :price WHERE id = :id")
 })
 public class Station extends si.fri.prpo.skupina00.entitete.Entity {
 
