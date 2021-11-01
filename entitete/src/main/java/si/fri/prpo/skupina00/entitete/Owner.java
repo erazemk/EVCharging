@@ -4,10 +4,11 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 
+@SuppressWarnings("JpaQlInspection")
 @Entity(name = "owner")
 @NamedQueries(value = {
         @NamedQuery(name = "Owner.getAll", query = "SELECT o FROM owner o"),
-        @NamedQuery(name = "Owner.allStations", query = "SELECT s.stationName FROM owner o, station s WHERE o.email = :email"),
+        @NamedQuery(name = "Owner.allStations", query = "SELECT s.stationName FROM owner o, station s WHERE o.id = s.ownerId AND o.email = :email"),
         @NamedQuery(name = "owner.deleteOwnerViaEmail", query = "DELETE FROM owner WHERE email=:email"),
         @NamedQuery(name = "owner.updateOwnerEmailViaEmail", query = "UPDATE owner SET email =:newEmail WHERE email=:oldEmail")
 })
