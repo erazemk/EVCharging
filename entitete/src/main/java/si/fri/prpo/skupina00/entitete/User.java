@@ -1,13 +1,31 @@
 package si.fri.prpo.skupina00.entitete;
 
+import javax.persistence.*;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 
+@Entity(name = "user")
+@NamedQueries(value = {
+        @NamedQuery(name = "User.getAll", query = "SELECT u FROM user u"),
+        @NamedQuery(name = "User.getAllCharges", query = "SELECT c FROM charge c, user u WHERE u.id = c.userId AND u.id = :id"),
+        @NamedQuery(name = "User.getAllReservations", query = "SELECT r FROM reservation r, user u WHERE r.userId=u.id AND u.id = :id"),
+        @NamedQuery(name = "User.updateEmailViaEmail", query = "UPDATE user SET email = :newEmail WHERE email = :oldEmail")
+})
 public class User extends Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String name;
     private String surname;
     private String email;
+
+    @OneToMany
+    @JoinColumn(name = "userId")
     private ArrayList<Charge> charges;
+
+    @OneToMany
+    @JoinColumn(name = "userId")
     private ArrayList<Reservation> reservations;
 
     public ArrayList<Charge> getCharges() {
