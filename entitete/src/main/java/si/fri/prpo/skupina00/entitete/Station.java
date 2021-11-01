@@ -31,6 +31,8 @@ public class Station extends si.fri.prpo.skupina00.entitete.Entity {
     private Integer wattage;
     private String adapterType;
 
+    @ManyToOne
+    @JoinColumn(name = "stationId")
     private StationLocation location;
 
     public String getStationName() {

@@ -1,8 +1,24 @@
 package si.fri.prpo.skupina00.entitete;
 
+import javax.persistence.*;
+
+@javax.persistence.Entity(name = "stationLocation")
+@NamedQueries(value = {
+        @NamedQuery(name = "StationLocation.getAll", query = "SELECT l FROM stationLocation l"),
+        @NamedQuery(name = "StationLocation.getCity", query = "SELECT l.city FROM stationLocation l"),
+        @NamedQuery(name = "StationLocation.getAddress", query = "SELECT l.address FROM stationLocation l"),
+        @NamedQuery(name = "StationLocation.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM stationLocation l")
+})
 public class StationLocation extends si.fri.prpo.skupina00.entitete.Entity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "cityId")
     private City city;
+
     private String address;
     private Float xCoordinate;
     private Float yCoordinate;
