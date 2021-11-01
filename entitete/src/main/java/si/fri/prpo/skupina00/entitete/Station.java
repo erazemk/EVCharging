@@ -1,15 +1,36 @@
 package si.fri.prpo.skupina00.entitete;
 
+import javax.persistence.*;
 import java.sql.Time;
 
+@javax.persistence.Entity(name = "station")
+@NamedQueries(value = {
+        @NamedQuery(name = "Station.getAll", query = "SELECT s FROM station s"),
+        @NamedQuery(name = "Station.getStation", query = "SELECT s FROM station s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getName", query = "SELECT s.stationName FROM station s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getPrice", query = "SELECT s.price FROM station s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM station s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.delete", query = "DELETE FROM station WHERE id = :id"),
+        @NamedQuery(name = "Station.updatePrice", query = "UPDATE station SET price = :price WHERE id = :id")
+})
 public class Station extends si.fri.prpo.skupina00.entitete.Entity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String stationName;
+
+    @ManyToOne
+    @JoinColumn(name = "ownerId")
+    private Owner owner;
+
     private Time openTime;
     private Time closeTime;
     private Float price;
     private Integer wattage;
     private String adapterType;
+
     private StationLocation location;
 
     public String getStationName() {
@@ -18,6 +39,14 @@ public class Station extends si.fri.prpo.skupina00.entitete.Entity {
 
     public void setStationName(String stationName) {
         this.stationName = stationName;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 
     public Time getOpenTime() {
