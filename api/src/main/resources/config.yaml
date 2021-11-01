@@ -1,0 +1,10 @@
+kumuluzee:
+  name: evcharging
+  version: 1.0.0
+  env:
+    name: dev
+  datasources:
+    - jndi-name: jdbc/EVChargingDS
+      connection-url: jdbc:postgresql://localhost:5432/evcharging
+      username: postgres
+      password: postgres
