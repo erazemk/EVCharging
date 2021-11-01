@@ -4,5 +4,6 @@ target
 .project
 .settings
 
-# IDE
+# Intellij IDEA
 .idea
+*.iml
