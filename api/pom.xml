@@ -16,6 +16,7 @@
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-core</artifactId>
+            <version>3.12.2</version>
         </dependency>
         <dependency>
             <groupId>com.kumuluz.ee</groupId>
