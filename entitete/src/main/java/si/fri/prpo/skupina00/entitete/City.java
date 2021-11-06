@@ -29,7 +29,7 @@ public class City extends si.fri.prpo.skupina00.entitete.Entity {
         return name;
     }
 
-    public void setCityName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 }

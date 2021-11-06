@@ -51,19 +51,19 @@ public class StationLocation extends si.fri.prpo.skupina00.entitete.Entity {
         this.address = address;
     }
 
-    public Float getxCoordinate() {
+    public Float getXCoordinate() {
         return xCoordinate;
     }
 
-    public void setxCoordinate(Float xCoordinate) {
+    public void setXCoordinate(Float xCoordinate) {
         this.xCoordinate = xCoordinate;
     }
 
-    public Float getyCoordinate() {
+    public Float getYCoordinate() {
         return yCoordinate;
     }
 
-    public void setyCoordinate(Float yCoordinate) {
+    public void setYCoordinate(Float yCoordinate) {
         this.yCoordinate = yCoordinate;
     }
 }
