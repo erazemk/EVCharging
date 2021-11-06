@@ -6,6 +6,16 @@ public class Person extends si.fri.prpo.skupina00.entitete.Entity {
     private String surname;
     private String email;
 
+    public Person() {
+        // Za potrebe JPA ?
+    }
+
+    public Person(String name, String surname, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
+
     public String getName() {
         return name;
     }

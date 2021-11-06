@@ -5,9 +5,10 @@ import javax.persistence.*;
 @javax.persistence.Entity(name = "stationLocations")
 @NamedQueries(value = {
         @NamedQuery(name = "StationLocation.getAll", query = "SELECT l FROM stationLocations l"),
-        @NamedQuery(name = "StationLocation.getCity", query = "SELECT l.city FROM stationLocations l"),
-        @NamedQuery(name = "StationLocation.getAddress", query = "SELECT l.address FROM stationLocations l"),
-        @NamedQuery(name = "StationLocation.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM stationLocations l")
+        @NamedQuery(name = "StationLocation.get", query = "SELECT l FROM stationLocations l WHERE l.id = :id"),
+        @NamedQuery(name = "StationLocation.getCity", query = "SELECT l.city FROM stationLocations l WHERE l.id = :id"),
+        @NamedQuery(name = "StationLocation.getAddress", query = "SELECT l.address FROM stationLocations l WHERE l.id = :id"),
+        @NamedQuery(name = "StationLocation.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM stationLocations l WHERE l.id = :id")
 })
 public class StationLocation extends si.fri.prpo.skupina00.entitete.Entity {
 
@@ -22,6 +23,17 @@ public class StationLocation extends si.fri.prpo.skupina00.entitete.Entity {
     private String address;
     private Float xCoordinate;
     private Float yCoordinate;
+
+    public StationLocation() {
+        // Za potrebe JPA
+    }
+
+    public StationLocation(City city, String address, Float xCoordinate, Float yCoordinate) {
+        this.city = city;
+        this.address = address;
+        this.xCoordinate = xCoordinate;
+        this.yCoordinate = yCoordinate;
+    }
 
     public City getCity() {
         return city;

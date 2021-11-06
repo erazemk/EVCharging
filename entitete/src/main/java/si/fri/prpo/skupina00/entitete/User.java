@@ -1,15 +1,15 @@
 package si.fri.prpo.skupina00.entitete;
 
-import javax.persistence.*;
 import javax.persistence.Entity;
-import java.util.ArrayList;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "users")
 @NamedQueries(value = {
         @NamedQuery(name = "User.getAll", query = "SELECT u FROM users u"),
-        @NamedQuery(name = "User.getAllCharges", query = "SELECT c FROM charges c, users u WHERE u.id = c.userId AND u.id = :id"),
-        @NamedQuery(name = "User.getAllReservations", query = "SELECT r FROM reservations r, users u WHERE r.userId=u.id AND u.id = :id"),
-        @NamedQuery(name = "User.updateEmailViaEmail", query = "UPDATE users SET email = :newEmail WHERE email = :oldEmail")
+        @NamedQuery(name = "User.get", query = "SELECT u FROM users u WHERE u.id = :id"),
+        @NamedQuery(name = "User.getAllCharges", query = "SELECT c FROM charges c WHERE c.user = :user"),
+        @NamedQuery(name = "User.getAllReservations", query = "SELECT r FROM reservations r WHERE r.user = :user"),
 })
 public class User extends Person {
     @Id
@@ -20,27 +20,40 @@ public class User extends Person {
     private String surname;
     private String email;
 
-    @OneToMany
-    @JoinColumn(name = "userId")
-    private ArrayList<Charge> charges;
+    @OneToMany(mappedBy = "user")
+    private List<Charge> charges;
 
-    @OneToMany
-    @JoinColumn(name = "userId")
-    private ArrayList<Reservation> reservations;
+    @OneToMany(mappedBy = "user")
+    private List<Reservation> reservations;
 
-    public ArrayList<Charge> getCharges() {
+    public User() {
+        // Za potrebe JPA
+    }
+
+    public User(String name, String surname, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+    }
+
+    public List<Charge> getCharges() {
         return charges;
     }
 
-    public void setCharges(ArrayList<Charge> charges) {
-        this.charges = charges;
+    public void addCharge(Charge charge) {
+        this.charges.add(charge);
     }
 
-    public ArrayList<Reservation> getReservations() {
+    public List<Reservation> getReservations() {
         return reservations;
     }
 
-    public void setReservations(ArrayList<Reservation> reservations) {
-        this.reservations = reservations;
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
+    }
+
+    @Override
+    public String toString() {
+        return name + " " + surname + " <" + email + ">";
     }
 }

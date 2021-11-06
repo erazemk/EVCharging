@@ -13,8 +13,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.logging.Logger;
 
-@WebServlet("/users")
-public class UserServlet extends HttpServlet {
+@WebServlet("/criteria")
+public class UserServletCriteriaAPI extends HttpServlet {
     private static final Logger log = Logger.getLogger(UserBean.class.getName());
 
     @Inject
@@ -22,7 +22,7 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<User> users = userBean.getUsers();
+        List<User> users = userBean.getUsersCriteria();
 
         resp.setContentType("text/html");
         PrintWriter pw = resp.getWriter();

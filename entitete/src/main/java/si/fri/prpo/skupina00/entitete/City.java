@@ -17,6 +17,14 @@ public class City extends si.fri.prpo.skupina00.entitete.Entity {
 
     private String name;
 
+    public City() {
+        // Za potrebe JPA
+    }
+
+    public City(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

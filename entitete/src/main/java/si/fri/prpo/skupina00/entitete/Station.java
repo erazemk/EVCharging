@@ -6,12 +6,10 @@ import java.sql.Time;
 @javax.persistence.Entity(name = "stations")
 @NamedQueries(value = {
         @NamedQuery(name = "Station.getAll", query = "SELECT s FROM stations s"),
-        @NamedQuery(name = "Station.getStation", query = "SELECT s FROM stations s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.get", query = "SELECT s FROM stations s WHERE s.id = :id"),
         @NamedQuery(name = "Station.getName", query = "SELECT s.stationName FROM stations s WHERE s.id = :id"),
         @NamedQuery(name = "Station.getPrice", query = "SELECT s.price FROM stations s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM stations s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.delete", query = "DELETE FROM stations WHERE id = :id"),
-        @NamedQuery(name = "Station.updatePrice", query = "UPDATE stations SET price = :price WHERE id = :id")
+        @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM stations s WHERE s.id = :id")
 })
 public class Station extends si.fri.prpo.skupina00.entitete.Entity {
 
@@ -26,14 +24,30 @@ public class Station extends si.fri.prpo.skupina00.entitete.Entity {
     private Owner owner;
 
     private Time openTime;
+
     private Time closeTime;
+
     private Float price;
     private Integer wattage;
     private String adapterType;
 
     @ManyToOne
-    @JoinColumn(name = "stationId")
+    @JoinColumn(name = "locationId")
     private StationLocation location;
+
+    public Station() {
+        // Za potrebe JPA
+    }
+
+    public Station(String stationName, Owner owner, Time openTime, Time closeTime, Float price, Integer wattage, String adapterType) {
+        this.stationName = stationName;
+        this.owner = owner;
+        this.openTime = openTime;
+        this.closeTime = closeTime;
+        this.price = price;
+        this.wattage = wattage;
+        this.adapterType = adapterType;
+    }
 
     public String getStationName() {
         return stationName;
