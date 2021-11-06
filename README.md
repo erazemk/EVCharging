@@ -5,6 +5,8 @@ Aplikacija za iskanje, rezerviranje in uporabo polnilnic za električne avtomobi
 
 ## Podatkovni model
 
+![Razredni diagram](res/class-diagram.svg)
+
 Koda za podatkovni model:
 
 ```mermaid
@@ -66,23 +68,26 @@ class Owner~Entity~{
     +getEmail() String
     +setEmail(String)
     -List~Station~ ownedStations
-    +getStations() List~Station~
-    +addStation(Station)
+    +getOwnedStations() List~Station~
+    +addOwnedStation(Station)
 }
 
 class Station~Entity~{
     -Integer id
     -String stationName
+    -Owner owner
     -Time openTime
     -Time closeTime
     -Float price
     -Integer wattage
     -String adapterType
-    -Location location
+    -StationLocation location
     +getId() Integer
     +setId(Integer)
     +getStationName() String
     +setStationName(String)
+    +getOwner() Owner
+    +setOwner(Owner)
     +getOpenTime() Time
     +setOpenTime(Time)
     +getCloseTime() Time
@@ -116,6 +121,8 @@ class StationLocation~Entity~{
     +setId(Integer)
     +getCity() City
     +setCity(City)
+    +getAddress() String
+    +setAddress(String)
     +getXCoordinate() Float
     +setXCoordinate(Float)
     +getYCoordinate() Float
@@ -123,18 +130,33 @@ class StationLocation~Entity~{
 }
 
 class Charge~Entity~{
-    -Integer userId
-    -Integer stationId
+    -User user
+    -Station station
     -Time beginTime
     -Time endTime
     -Float price
+    +getUser() User
+    +setUser(User)
+    +getStation() Station
+    +setStation(Station)
+    +getBeginTime() Time
+    +setBeginTime(Time)
+    +getEndTime() Time
+    +setEndTime(Time)
+    +getPrice() Float
+    +setPrice(Float)
 }
 
 class Reservation~Entity~{
-    -Integer userId
-    -Integer stationId
+    -User user
+    -Station station
     -Time reservationTime
-    +createReservation(Integer, Integer)
+    +getUser() User
+    +setUser(User)
+    +getStation() Station
+    +setStation(Station)
+    +getReservationTime() Time
+    +setReservationTime(Time)
 }
 
 Entity<|--Person: Extends
