@@ -37,55 +37,11 @@ public class UserBean {
         return users;
     }
 
-    public User getUser(String email) {
-        User user = em.createNamedQuery("User.get", User.class)
-                .setParameter("email", email)
-                .getSingleResult();
+    public User getUser(Integer id) {
+        User user = em.find(User.class, id);
         log.info("Queried user info");
-        log.config("Queried " + email + "'s info");
+        log.config("Queried " + user + "'s info");
         return user;
-    }
-
-    @Transactional
-    public boolean createUser(User u) {
-        if (u != null) {
-            em.persist(u);
-            log.info("Created user");
-            log.config("Created user " + u);
-            return true;
-        }
-
-        log.severe("Failed to create user");
-        return false;
-    }
-
-    @Transactional
-    public boolean updateUser(String email, User u) {
-        User user = getUser(email);
-        u.setId(user.getId());
-        if (em.merge(u) != null) {
-            log.info("Updated user");
-            log.config("Updated user " + email);
-            return true;
-        }
-
-        log.severe("Failed to update user " + email);
-        return false;
-    }
-
-    @Transactional
-    public boolean deleteUser(String email) {
-        User u = getUser(email);
-
-        if (u != null) {
-            em.remove(u);
-            log.info("Deleted user");
-            log.config("Deleted user " + u);
-            return true;
-        }
-
-        log.severe("Failed to delete user " + email);
-        return false;
     }
 
     @Transactional
