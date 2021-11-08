@@ -7,9 +7,9 @@ import java.util.List;
 @Entity(name = "users")
 @NamedQueries(value = {
         @NamedQuery(name = "User.getAll", query = "SELECT u FROM users u"),
-        @NamedQuery(name = "User.get", query = "SELECT u FROM users u WHERE u.email = :email"),
-        @NamedQuery(name = "User.getCharges", query = "SELECT c FROM charges c WHERE c.user.email = :email"),
-        @NamedQuery(name = "User.getReservations", query = "SELECT r FROM reservations r WHERE r.user.email = :email"),
+        @NamedQuery(name = "User.get", query = "SELECT u FROM users u WHERE u.id = :id"),
+        @NamedQuery(name = "User.getCharges", query = "SELECT c FROM charges c WHERE c.user = :user"),
+        @NamedQuery(name = "User.getReservations", query = "SELECT r FROM reservations r WHERE r.user = :user"),
 })
 public class User extends Person {
     @Id
@@ -50,10 +50,5 @@ public class User extends Person {
 
     public void addReservation(Reservation reservation) {
         this.reservations.add(reservation);
-    }
-
-    @Override
-    public String toString() {
-        return name + " " + surname + " <" + email + ">";
     }
 }

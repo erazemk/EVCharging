@@ -34,13 +34,25 @@ public class OwnerBean {
         return owners;
     }
 
-    public Owner getOwner(String email) {
-        Owner owner = em.createNamedQuery("Owner.get", Owner.class)
-                .setParameter("email", email)
-                .getSingleResult();
+    public Owner getOwner(Integer id) {
+        Owner owner = em.find(Owner.class, id);
         log.info("Queried owner info");
-        log.config("Queried " + email + "'s info");
+        log.config("Queried " + owner + "'s info");
         return owner;
+    }
+
+    public List<Station> getOwnedStations(Integer id) {
+        Owner o = em.find(Owner.class, id);
+
+        if (o != null) {
+            List<Station> ownedStations = o.getOwnedStations();
+            log.info("Queried owned stations");
+            log.config("Queried " + o + "'s owned stations");
+            return ownedStations;
+        }
+
+        log.severe("Failed to find owner " + id);
+        return null;
     }
 
     @Transactional
@@ -57,7 +69,7 @@ public class OwnerBean {
     }
 
     @Transactional
-    public boolean updateStation(int id, Station stationNew) {
+    public boolean updateStation(Integer id, Station stationNew) {
         Station s = em.find(Station.class, id);
 
         stationNew.setId(s.getId());
@@ -67,7 +79,7 @@ public class OwnerBean {
     }
 
     @Transactional
-    public boolean deleteStation(int id) {
+    public boolean deleteStation(Integer id) {
         Station s = em.find(Station.class, id);
         if(s != null){
             em.remove(s);
