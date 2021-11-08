@@ -2,13 +2,12 @@ package si.fri.prpo.skupina00.storitve;
 
 import si.fri.prpo.skupina00.entitete.User;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -16,20 +15,74 @@ import java.util.logging.Logger;
 public class UserBean {
     private static final Logger log = Logger.getLogger(UserBean.class.getName());
 
+    @PostConstruct
+    private void init() {
+        log.info("Initialized user bean");
+    }
+
+    @PreDestroy
+    private void destroy() {
+        log.info("Destroyed user bean");
+    }
+
     @PersistenceContext(unitName = "evcharging-jpa")
     private EntityManager em;
 
     public List<User> getUsers() {
-        TypedQuery<User> tq = em.createNamedQuery("User.getAll", User.class);
-        return tq.getResultList();
+        List<User> users = em.createNamedQuery("User.getAll", User.class)
+                .getResultList();
+        log.info("Queried user list");
+        return users;
     }
 
-    public List<User> getUsersCriteria() {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<User> cq = cb.createQuery(User.class);
-        Root<User> r = cq.from(User.class);
-        CriteriaQuery<User> users = cq.select(r);
-        TypedQuery<User> usersQuery = em.createQuery(users);
-        return usersQuery.getResultList();
+    public User getUser(String email) {
+        User user = em.createNamedQuery("User.get", User.class)
+                .setParameter("email", email)
+                .getSingleResult();
+        log.info("Queried user info");
+        log.config("Queried " + email + "'s info");
+        return user;
+    }
+
+    @Transactional
+    public boolean createUser(User u) {
+        if (u != null) {
+            em.persist(u);
+            log.info("Created user");
+            log.config("Created user " + u);
+            return true;
+        }
+
+        log.severe("Failed to create user");
+        return false;
+    }
+
+    @Transactional
+    public boolean updateUser(String email, User u) {
+        User user = getUser(email);
+        u.setId(user.getId());
+        if (em.merge(u) != null) {
+            log.info("Updated user");
+            log.config("Updated user " + email);
+            return true;
+        }
+
+        log.severe("Failed to update user " + email);
+        return false;
+    }
+
+    @Transactional
+    public boolean deleteUser(String email) {
+        User u = getUser(email);
+
+        if (u != null) {
+            em.remove(u);
+            log.info("Deleted user");
+            log.config("Deleted user " + u);
+            return true;
+        }
+
+        log.severe("Failed to delete user " + email);
+        return false;
     }
 }
