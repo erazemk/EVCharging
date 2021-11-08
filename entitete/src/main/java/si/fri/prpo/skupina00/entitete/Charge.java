@@ -39,6 +39,14 @@ public class Charge extends si.fri.prpo.skupina00.entitete.Entity {
         this.beginTime = beginTime;
     }
 
+    public Charge(User user, Station station, Time beginTime, Time endTime, Float price) {
+        this.user = user;
+        this.station = station;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+        this.price = price;
+    }
+
     public User getUser() {
         return user;
     }
