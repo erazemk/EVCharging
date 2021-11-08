@@ -1,5 +1,6 @@
 package si.fri.prpo.skupina00.storitve;
 
+import si.fri.prpo.skupina00.entitete.Owner;
 import si.fri.prpo.skupina00.entitete.Station;
 
 import javax.annotation.PostConstruct;
@@ -7,6 +8,7 @@ import javax.annotation.PreDestroy;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class OwnerBean {
@@ -23,6 +25,22 @@ public class OwnerBean {
     @PreDestroy
     private void destroy() {
         log.info("Destroyed owner bean");
+    }
+
+    public List<Owner> getOwners() {
+        List<Owner> owners = em.createNamedQuery("Owner.getAll", Owner.class)
+                .getResultList();
+        log.info("Queried owner list");
+        return owners;
+    }
+
+    public Owner getOwner(String email) {
+        Owner owner = em.createNamedQuery("Owner.get", Owner.class)
+                .setParameter("email", email)
+                .getSingleResult();
+        log.info("Queried owner info");
+        log.config("Queried " + email + "'s info");
+        return owner;
     }
 
     @Transactional

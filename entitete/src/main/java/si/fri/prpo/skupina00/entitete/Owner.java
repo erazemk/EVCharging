@@ -7,7 +7,7 @@ import java.util.List;
 @Entity(name = "owners")
 @NamedQueries(value = {
         @NamedQuery(name = "Owner.getAll", query = "SELECT o FROM owners o"),
-        @NamedQuery(name = "Owner.get", query = "SELECT o FROM owners o WHERE o.id = :id"),
+        @NamedQuery(name = "Owner.get", query = "SELECT o FROM owners o WHERE o.email = :email"),
         @NamedQuery(name = "Owner.getAllStations", query = "SELECT s FROM stations s WHERE s.owner = :owner"),
 })
 
