@@ -4,11 +4,13 @@ import si.fri.prpo.skupina00.entitete.Station;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.logging.Logger;
 
+@ApplicationScoped
 public class StationBean {
     private static final Logger log = Logger.getLogger(UserBean.class.getName());
 
@@ -18,6 +20,7 @@ public class StationBean {
     @PostConstruct
     private void init() {
         log.info("Initialized station bean");
+        log.info(java.util.UUID.randomUUID().toString());
     }
 
     @PreDestroy

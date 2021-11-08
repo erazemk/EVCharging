@@ -6,20 +6,21 @@ import si.fri.prpo.skupina00.entitete.User;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class UserBean {
     private static final Logger log = Logger.getLogger(UserBean.class.getName());
 
     @PostConstruct
     private void init() {
         log.info("Initialized user bean");
+        log.info(java.util.UUID.randomUUID().toString());
     }
 
     @PreDestroy
