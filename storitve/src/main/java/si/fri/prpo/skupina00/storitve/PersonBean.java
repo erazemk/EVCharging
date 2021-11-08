@@ -14,12 +14,12 @@ public class PersonBean {
 
     @PostConstruct
     private void init() {
-        log.info("Initialized user bean");
+        log.info("Initialized person bean");
     }
 
     @PreDestroy
     private void destroy() {
-        log.info("Destroyed user bean");
+        log.info("Destroyed person bean");
     }
 
     @PersistenceContext(unitName = "evcharging-jpa")
