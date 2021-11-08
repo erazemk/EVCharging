@@ -1,5 +1,7 @@
 package si.fri.prpo.skupina00.storitve;
 
+import si.fri.prpo.skupina00.entitete.Charge;
+import si.fri.prpo.skupina00.entitete.Reservation;
 import si.fri.prpo.skupina00.entitete.User;
 
 import javax.annotation.PostConstruct;
@@ -83,6 +85,59 @@ public class UserBean {
         }
 
         log.severe("Failed to delete user " + email);
+        return false;
+    }
+
+    @Transactional
+    public boolean addCharge(Charge chr) {
+        if(chr != null){
+            em.persist(chr);
+            log.info("Created charge");
+            log.config("Created charge" + chr);
+        }
+        log.severe("Failed to add charge");
+        return false;
+    }
+
+    @Transactional
+    public boolean deleteCharge(Charge chr) {
+        if(chr != null){
+            em.remove(chr);
+            log.info("Deleted charge");
+            log.config("Deleted charge" + chr);
+        }
+        log.severe("Failed to delete charge");
+        return false;
+    }
+
+    public List<Reservation> getReservations(Integer id){
+        List<Reservation> reservations = em.createNamedQuery("Reservation.getAll", Reservation.class)
+                .getResultList();
+        log.info("Query: get all reservations for user");
+        return reservations;
+    }
+
+    @Transactional
+    public boolean addReservation(Reservation r) {
+        if(r != null){
+            em.persist(r);
+            log.info("Created reservation");
+            log.config("Created reservation" + r);
+            return true;
+        }
+        log.severe("Failed to add reservation");
+        return false;
+    }
+
+    @Transactional
+    public boolean deleteReservation(Reservation r) {
+        if(r != null){
+            em.remove(r);
+            log.info("Deleted reservation");
+            log.config("Deleted reservation" + r);
+            return true;
+        }
+        log.severe("Failed to delete reservation");
         return false;
     }
 }

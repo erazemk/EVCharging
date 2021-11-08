@@ -33,7 +33,7 @@ public class CityBean {
         return stations;
     }
 
-    public City getCity(int id) {
+    public City getCity(Integer id) {
         City city = em.find(City.class, id);
         log.info("Query: get id specific city");
         log.config("Got city:" + city);
@@ -54,7 +54,7 @@ public class CityBean {
     }
 
     @Transactional
-    public boolean deleteCity(int id) {
+    public boolean deleteCity(Integer id) {
         City c = getCity(id);
         if(c != null){
             em.remove(c);
