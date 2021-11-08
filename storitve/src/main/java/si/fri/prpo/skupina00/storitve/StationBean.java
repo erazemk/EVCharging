@@ -17,12 +17,12 @@ public class StationBean {
 
     @PostConstruct
     private void init() {
-        log.info("Initialized user bean");
+        log.info("Initialized station bean");
     }
 
     @PreDestroy
     private void destroy() {
-        log.info("Destroyed user bean");
+        log.info("Destroyed station bean");
     }
 
     public List<Station> getAll() {

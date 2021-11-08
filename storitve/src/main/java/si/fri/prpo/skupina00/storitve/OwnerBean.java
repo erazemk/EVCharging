@@ -17,12 +17,12 @@ public class OwnerBean {
 
     @PostConstruct
     private void init() {
-        log.info("Initialized user bean");
+        log.info("Initialized owner bean");
     }
 
     @PreDestroy
     private void destroy() {
-        log.info("Destroyed user bean");
+        log.info("Destroyed owner bean");
     }
 
     @Transactional
