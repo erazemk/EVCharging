@@ -7,6 +7,10 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
@@ -34,6 +38,15 @@ public class UserBean {
                 .getResultList();
         log.info("Queried user list");
         return users;
+    }
+
+    public List<User> getUsersCriteriaAPI() {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<User> cq = cb.createQuery(User.class);
+        Root<User> r = cq.from(User.class);
+        CriteriaQuery<User> users = cq.select(r);
+        TypedQuery<User> usersQuery = em.createQuery(users);
+        return usersQuery.getResultList();
     }
 
     public User getUser(Integer id) {
