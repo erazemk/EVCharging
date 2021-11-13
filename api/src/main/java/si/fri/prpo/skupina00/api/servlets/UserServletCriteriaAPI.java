@@ -1,7 +1,7 @@
 package si.fri.prpo.skupina00.api.servlets;
 
 import si.fri.prpo.skupina00.entitete.User;
-import si.fri.prpo.skupina00.storitve.UserBean;
+import si.fri.prpo.skupina00.storitve.beans.UserBean;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ public class UserServletCriteriaAPI extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        List<User> users = userBean.getUsersCriteria();
+        List<User> users = userBean.getUsersCriteriaAPI();
 
         resp.setContentType("text/html");
         PrintWriter pw = resp.getWriter();

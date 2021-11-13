@@ -1,7 +1,7 @@
 package si.fri.prpo.skupina00.api.servlets;
 
 import si.fri.prpo.skupina00.entitete.User;
-import si.fri.prpo.skupina00.storitve.UserBean;
+import si.fri.prpo.skupina00.storitve.beans.UserBean;
 
 import javax.inject.Inject;
 import javax.servlet.annotation.WebServlet;
