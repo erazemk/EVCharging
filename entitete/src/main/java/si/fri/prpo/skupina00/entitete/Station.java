@@ -39,7 +39,8 @@ public class Station extends si.fri.prpo.skupina00.entitete.Entity {
         // Za potrebe JPA
     }
 
-    public Station(String stationName, Owner owner, Time openTime, Time closeTime, Float price, Integer wattage, String adapterType) {
+    public Station(String stationName, Owner owner, Time openTime, Time closeTime, Float price, Integer wattage,
+                   String adapterType, StationLocation stationLocation) {
         this.stationName = stationName;
         this.owner = owner;
         this.openTime = openTime;
@@ -47,6 +48,7 @@ public class Station extends si.fri.prpo.skupina00.entitete.Entity {
         this.price = price;
         this.wattage = wattage;
         this.adapterType = adapterType;
+        this.location = stationLocation;
     }
 
     public String getStationName() {
