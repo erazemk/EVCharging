@@ -20,9 +20,6 @@ public class ManageStationsBean {
     private UserBean userBean;
 
     @Inject
-    private OwnerBean ownerBean;
-
-    @Inject
     private CityBean cityBean;
 
     @Inject
@@ -36,6 +33,9 @@ public class ManageStationsBean {
 
     @Inject
     private StationLocationBean stationLocationBean;
+
+    @Inject
+    private OwnerBean ownerBean;
 
     @PostConstruct
     private void init() {

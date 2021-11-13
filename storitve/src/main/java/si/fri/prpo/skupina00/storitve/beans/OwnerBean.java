@@ -4,12 +4,14 @@ import si.fri.prpo.skupina00.entitete.Owner;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
+@RequestScoped
 public class OwnerBean {
     private static final Logger log = Logger.getLogger(OwnerBean.class.getName());
 
@@ -19,6 +21,7 @@ public class OwnerBean {
     @PostConstruct
     private void init() {
         log.info("Initialized bean " + OwnerBean.class.getSimpleName());
+        log.info(java.util.UUID.randomUUID().toString());
     }
 
     @PreDestroy

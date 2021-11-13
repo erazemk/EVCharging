@@ -1,16 +1,17 @@
 package si.fri.prpo.skupina00.storitve.beans;
 
 import si.fri.prpo.skupina00.entitete.Reservation;
-import si.fri.prpo.skupina00.entitete.User;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
+@RequestScoped
 public class ReservationBean {
     private static final Logger log = Logger.getLogger(ReservationBean.class.getName());
 
