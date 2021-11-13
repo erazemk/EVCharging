@@ -1,4 +1,4 @@
-package si.fri.prpo.skupina00.storitve;
+package si.fri.prpo.skupina00.storitve.beans;
 
 import si.fri.prpo.skupina00.entitete.City;
 
@@ -13,59 +13,58 @@ import java.util.logging.Logger;
 
 @RequestScoped
 public class CityBean {
-    private static final Logger log = Logger.getLogger(UserBean.class.getName());
+    private static final Logger log = Logger.getLogger(CityBean.class.getName());
 
     @PersistenceContext(unitName = "evcharging-jpa")
     private EntityManager em;
 
     @PostConstruct
     private void init() {
-        log.info("Initialized city bean");
+        log.info("Initialized bean " + CityBean.class.getSimpleName());
         log.info(java.util.UUID.randomUUID().toString());
     }
 
     @PreDestroy
     private void destroy() {
-        log.info("Destroyed city bean");
+        log.info("Destroyed bean " + CityBean.class.getSimpleName());
     }
 
-    public List<City> getAll() {
+    public List<City> getCities() {
         List<City> stations = em.createNamedQuery("City.getAll", City.class)
                 .getResultList();
-        log.info("Query: get all cities");
+        log.info("Query cities list");
         return stations;
     }
 
     public City getCity(Integer id) {
         City city = em.find(City.class, id);
-        log.info("Query: get id specific city");
-        log.config("Got city:" + city);
+        log.info("Query city " + city.getName());
         return city;
     }
 
     @Transactional
-    public boolean createCity(City c) {
-        if(c != null) {
-            em.persist(c);
-            log.info("Created city");
-            log.config("Created city" + c);
+    public boolean addCity(City city) {
+        if(city != null) {
+            em.persist(city);
+            log.info("Added city " + city.getName());
             return true;
         }
 
-        log.severe("Failed to create city");
+        log.severe("Failed to add city");
         return false;
     }
 
     @Transactional
     public boolean deleteCity(Integer id) {
-        City c = getCity(id);
-        if(c != null){
-            em.remove(c);
-            log.info("Deleted city");
-            log.config("Deleted city" + c);
+        City city = this.getCity(id);
+
+        if(city != null){
+            em.remove(city);
+            log.config("Deleted city " + city.getName());
             return true;
         }
-        log.severe("Delete city failed");
+
+        log.severe("Failed to delete city");
         return false;
     }
 }

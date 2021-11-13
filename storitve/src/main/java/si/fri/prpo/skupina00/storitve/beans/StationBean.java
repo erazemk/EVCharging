@@ -1,66 +1,53 @@
-package si.fri.prpo.skupina00.storitve;
+package si.fri.prpo.skupina00.storitve.beans;
 
-import si.fri.prpo.skupina00.entitete.Owner;
 import si.fri.prpo.skupina00.entitete.Station;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class OwnerBean {
-    private static final Logger log = Logger.getLogger(UserBean.class.getName());
+@ApplicationScoped
+public class StationBean {
+    private static final Logger log = Logger.getLogger(StationBean.class.getName());
 
     @PersistenceContext(unitName = "evcharging-jpa")
     private EntityManager em;
 
     @PostConstruct
     private void init() {
-        log.info("Initialized owner bean");
+        log.info("Initialized bean " + StationBean.class.getSimpleName());
+        log.info(java.util.UUID.randomUUID().toString());
     }
 
     @PreDestroy
     private void destroy() {
-        log.info("Destroyed owner bean");
+        log.info("Destroyed bean " + StationBean.class.getSimpleName());
     }
 
-    public List<Owner> getOwners() {
-        List<Owner> owners = em.createNamedQuery("Owner.getAll", Owner.class)
+    public List<Station> getStations() {
+        List<Station> stations = em.createNamedQuery("Station.getAll", Station.class)
                 .getResultList();
-        log.info("Queried owner list");
-        return owners;
+        log.info("Query stations");
+        return stations;
     }
 
-    public Owner getOwner(Integer id) {
-        Owner owner = em.find(Owner.class, id);
-        log.info("Queried owner info");
-        log.config("Queried " + owner + "'s info");
-        return owner;
-    }
-
-    public List<Station> getOwnedStations(Integer id) {
-        Owner o = em.find(Owner.class, id);
-
-        if (o != null) {
-            List<Station> ownedStations = o.getOwnedStations();
-            log.info("Queried owned stations");
-            log.config("Queried " + o + "'s owned stations");
-            return ownedStations;
-        }
-
-        log.severe("Failed to find owner " + id);
-        return null;
+    public Station getStation(int id) {
+        Station station = em.find(Station.class, id);
+        log.info("Query station " + station);
+        return station;
     }
 
     @Transactional
-    public boolean createStation(Station s) {
-        if(s != null) {
-            em.persist(s);
+    public boolean addStation(Station station) {
+        if(station != null) {
+            em.persist(station);
             log.info("Created station");
-            log.config("Created station" + s);
+            log.config("Created station " + station.getStationName());
             return true;
         }
 
