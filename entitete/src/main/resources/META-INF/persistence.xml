@@ -18,6 +18,7 @@
             <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
             <property name="javax.persistence.sql-load-script-source" value="sql-scripts/init-db.sql"/>
             <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
+            <property name="hibernate.show-sql" value="true"/>
         </properties>
     </persistence-unit>
 </persistence>
