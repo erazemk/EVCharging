@@ -1,11 +1,10 @@
 package si.fri.prpo.skupina00.storitve.beans;
 
 import si.fri.prpo.skupina00.entitete.*;
-import si.fri.prpo.skupina00.storitve.dto.ChargeDto;
-import si.fri.prpo.skupina00.storitve.dto.CityDto;
-import si.fri.prpo.skupina00.storitve.dto.ReservationDto;
-import si.fri.prpo.skupina00.storitve.dto.StationDto;
+import si.fri.prpo.skupina00.storitve.dto.*;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -15,7 +14,7 @@ import java.util.logging.Logger;
 
 @ApplicationScoped
 public class ManageStationsBean {
-    private static final Logger log = Logger.getLogger(UserBean.class.getName());
+    private static final Logger log = Logger.getLogger(ManageStationsBean.class.getName());
 
     @Inject
     private UserBean userBean;
@@ -37,6 +36,17 @@ public class ManageStationsBean {
 
     @Inject
     private StationLocationBean stationLocationBean;
+
+    @PostConstruct
+    private void init() {
+        log.info("Initialized bean " + ManageStationsBean.class.getSimpleName());
+        log.info(java.util.UUID.randomUUID().toString());
+    }
+
+    @PreDestroy
+    private void destroy() {
+        log.info("Destroyed bean " + ManageStationsBean.class.getSimpleName());
+    }
 
     @Transactional
     public boolean addCharge(ChargeDto chargeDto) {

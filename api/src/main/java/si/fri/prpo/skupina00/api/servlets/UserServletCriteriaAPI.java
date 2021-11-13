@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 @WebServlet("/criteria")
 public class UserServletCriteriaAPI extends HttpServlet {
-    private static final Logger log = Logger.getLogger(UserBean.class.getName());
+    private static final Logger log = Logger.getLogger(UserServletCriteriaAPI.class.getName());
 
     @Inject
     private UserBean userBean;

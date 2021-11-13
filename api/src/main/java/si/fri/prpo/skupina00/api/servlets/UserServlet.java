@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 @WebServlet("/users")
 public class UserServlet extends HttpServlet {
-    private static final Logger log = Logger.getLogger(UserBean.class.getName());
+    private static final Logger log = Logger.getLogger(UserServlet.class.getName());
 
     @Inject
     private UserBean userBean;
