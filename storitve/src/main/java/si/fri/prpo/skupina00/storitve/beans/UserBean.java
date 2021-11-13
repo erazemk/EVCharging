@@ -36,7 +36,12 @@ public class UserBean {
     public List<User> getUsers() {
         List<User> users = em.createNamedQuery("User.getAll", User.class)
                 .getResultList();
-        log.info("Queried user list");
+        log.info("Queried user list:");
+
+        for (User user : users) {
+            log.info(user.toString());
+        }
+
         return users;
     }
 
@@ -52,7 +57,7 @@ public class UserBean {
     public User getUser(Integer id) {
         User user = em.find(User.class, id);
         log.info("Queried user info");
-        log.config("Queried " + user + "'s info");
+        log.info("User: " + user);
         return user;
     }
 
