@@ -86,4 +86,9 @@ public class Charge extends si.fri.prpo.skupina00.entitete.Entity {
     public void setPrice(Float price) {
         this.price = price;
     }
+
+    @Override
+    public String toString() {
+        return user.getName() + " " + user.getSurname() + ", " + station.getStationName() + ", " + beginTime + "-" + endTime + " (" + price + "€)";
+    }
 }

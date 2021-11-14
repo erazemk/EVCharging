@@ -66,4 +66,9 @@ public class StationLocation extends si.fri.prpo.skupina00.entitete.Entity {
     public void setYCoordinate(Float yCoordinate) {
         this.yCoordinate = yCoordinate;
     }
+
+    @Override
+    public String toString() {
+        return id + "[" + city + ", " + address + " (" + xCoordinate + ", " + yCoordinate + ")]";
+    }
 }

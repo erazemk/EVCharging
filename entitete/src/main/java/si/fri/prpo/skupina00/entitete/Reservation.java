@@ -58,4 +58,8 @@ public class Reservation extends si.fri.prpo.skupina00.entitete.Entity {
     public void setReservationTime(Time reservationTime) {
         this.reservationTime = reservationTime;
     }
+
+    public String toString() {
+        return user + ", " + station.getStationName() + ", " + reservationTime;
+    }
 }

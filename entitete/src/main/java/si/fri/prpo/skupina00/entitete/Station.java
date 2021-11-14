@@ -114,4 +114,9 @@ public class Station extends si.fri.prpo.skupina00.entitete.Entity {
     public void setLocation(StationLocation location) {
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return stationName + "[" + owner + ", " + openTime + "-" + closeTime + ", " + price + "€, " + wattage + "W, " + adapterType + ", " + location;
+    }
 }
