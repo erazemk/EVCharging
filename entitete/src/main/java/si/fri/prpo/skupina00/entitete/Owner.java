@@ -40,4 +40,9 @@ public class Owner extends Person {
     public void addOwnedStation(Station station) {
         this.ownedStations.add(station);
     }
+
+    @Override
+    public String toString() {
+        return name + " " + surname + " <" + email + ">";
+    }
 }

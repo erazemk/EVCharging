@@ -51,4 +51,9 @@ public class User extends Person {
     public void addReservation(Reservation reservation) {
         this.reservations.add(reservation);
     }
+
+    @Override
+    public String toString() {
+        return name + " " + surname + " <" + email + ">";
+    }
 }
