@@ -1,7 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.entities;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.List;
 
 @javax.persistence.Entity(name = "owners")

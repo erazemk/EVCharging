@@ -1,6 +1,5 @@
 package si.fri.prpo.skupina00.evcharging.entities;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.List;
 
