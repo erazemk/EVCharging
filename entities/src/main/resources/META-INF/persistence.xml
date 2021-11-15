@@ -7,7 +7,7 @@
         <class>si.fri.prpo.skupina00.evcharging.entities.Owner</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.Reservation</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.Station</class>
-        <class>si.fri.prpo.skupina00.evcharging.entities.StationLocation</class>
+        <class>si.fri.prpo.skupina00.evcharging.entities.Location</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.User</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.Charge</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.City</class>

@@ -30,7 +30,7 @@ public class StationManagerBean {
     private StationBean stationBean;
 
     @Inject
-    private StationLocationBean stationLocationBean;
+    private LocationBean locationBean;
 
     @Inject
     private OwnerBean ownerBean;
@@ -81,27 +81,26 @@ public class StationManagerBean {
 
     public boolean addStation(StationDto stationDto) {
         Owner owner = ownerBean.getOwner(stationDto.getOwnerId());
-        StationLocation stationLocation = stationLocationBean.getStationLocation(stationDto.getStationLocationId());
+        Location location = locationBean.getLocation(stationDto.getLocationId());
 
         if (owner == null) {
             log.warning("Could not add station, owner does not exist");
         }
 
-        if (stationLocation == null) {
-            log.warning("Could not add station, station location does not exist");
+        if (location == null) {
+            log.warning("Could not add station, location does not exist");
         }
 
-        Station station = new Station(stationDto.getStationName(), owner, stationDto.getOpenTime(),
-                stationDto.getCloseTime(), stationDto.getPrice(), stationDto.getWattage(), stationDto.getAdapterType(),
-                stationLocation);
+        Station station = new Station(stationDto.getName(), owner, stationDto.getOpenTime(), stationDto.getCloseTime(),
+                stationDto.getPrice(), stationDto.getWattage(), stationDto.getAdapterType(), location);
         return stationBean.addStation(station);
     }
 
-    public boolean addStationLocation(StationLocationDto stationLocationDto) {
-        City city = cityBean.getCity(stationLocationDto.getCityId());
-        StationLocation stationLocation = new StationLocation(city, stationLocationDto.getAddress(),
-                stationLocationDto.getXCoordinate(), stationLocationDto.getYCoordinate());
-        return stationLocationBean.addStationLocation(stationLocation);
+    public boolean addLocation(LocationDto locationDto) {
+        City city = cityBean.getCity(locationDto.getCityId());
+        Location location = new Location(city, locationDto.getAddress(), locationDto.getXCoordinate(),
+                locationDto.getYCoordinate());
+        return locationBean.addLocation(location);
     }
 
     public boolean addCity(CityDto cityDto) {

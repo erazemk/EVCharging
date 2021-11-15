@@ -8,10 +8,10 @@ INSERT INTO cities (name) VALUES ('Ljubljana');
 INSERT INTO cities (name) VALUES ('Maribor');
 INSERT INTO cities (name) VALUES ('Celje');
 
--- Station Locations
-INSERT INTO stationLocations (cityId, address, xCoordinate, yCoordinate) VALUES (1, 'Ulica 1', 12.345, 12.345);
-INSERT INTO stationLocations (cityId, address, xCoordinate, yCoordinate) VALUES (2, 'Ulica 2', 23.456, 23.456);
-INSERT INTO stationLocations (cityId, address, xCoordinate, yCoordinate) VALUES (3, 'Ulica 3', 34.567, 34.567);
+-- Locations
+INSERT INTO locations (cityId, address, xCoordinate, yCoordinate) VALUES (1, 'Ulica 1', 12.345, 12.345);
+INSERT INTO locations (cityId, address, xCoordinate, yCoordinate) VALUES (2, 'Ulica 2', 23.456, 23.456);
+INSERT INTO locations (cityId, address, xCoordinate, yCoordinate) VALUES (3, 'Ulica 3', 34.567, 34.567);
 
 -- Owners
 INSERT INTO owners (name, surname, email) VALUES ('Janez', 'Petrovic', 'janez.petrovic@gmail.com');

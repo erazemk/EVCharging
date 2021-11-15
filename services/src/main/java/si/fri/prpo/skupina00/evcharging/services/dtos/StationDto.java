@@ -4,14 +4,14 @@ import java.sql.Time;
 
 public class StationDto {
     private Integer id;
-    private String stationName;
+    private String name;
     private Integer ownerId;
     private Time openTime;
     private Time closeTime;
     private Float price;
     private Integer wattage;
     private String adapterType;
-    private Integer stationLocationId;
+    private Integer locationId;
 
     public Integer getId() {
         return id;
@@ -21,12 +21,12 @@ public class StationDto {
         this.id = id;
     }
 
-    public String getStationName() {
-        return stationName;
+    public String getName() {
+        return name;
     }
 
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Integer getOwnerId() {
@@ -77,11 +77,11 @@ public class StationDto {
         this.adapterType = adapterType;
     }
 
-    public Integer getStationLocationId() {
-        return stationLocationId;
+    public Integer getLocationId() {
+        return locationId;
     }
 
-    public void setStationLocationId(Integer stationLocationId) {
-        this.stationLocationId = stationLocationId;
+    public void setLocationId(Integer locationId) {
+        this.locationId = locationId;
     }
 }

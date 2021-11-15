@@ -1,6 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.services.dtos;
 
-public class StationLocationDto {
+public class LocationDto {
     private Integer id;
     private Integer cityId;
     private String address;

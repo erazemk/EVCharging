@@ -2,15 +2,15 @@ package si.fri.prpo.skupina00.evcharging.entities;
 
 import javax.persistence.*;
 
-@javax.persistence.Entity(name = "stationLocations")
+@javax.persistence.Entity(name = "locations")
 @NamedQueries(value = {
-        @NamedQuery(name = "StationLocation.getAll", query = "SELECT l FROM stationLocations l"),
-        @NamedQuery(name = "StationLocation.get", query = "SELECT l FROM stationLocations l WHERE l.id = :id"),
-        @NamedQuery(name = "StationLocation.getCity", query = "SELECT l.city FROM stationLocations l WHERE l.id = :id"),
-        @NamedQuery(name = "StationLocation.getAddress", query = "SELECT l.address FROM stationLocations l WHERE l.id = :id"),
-        @NamedQuery(name = "StationLocation.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM stationLocations l WHERE l.id = :id")
+        @NamedQuery(name = "Location.getAll", query = "SELECT l FROM locations l"),
+        @NamedQuery(name = "Location.get", query = "SELECT l FROM locations l WHERE l.id = :id"),
+        @NamedQuery(name = "Location.getCity", query = "SELECT l.city FROM locations l WHERE l.id = :id"),
+        @NamedQuery(name = "Location.getAddress", query = "SELECT l.address FROM locations l WHERE l.id = :id"),
+        @NamedQuery(name = "Location.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM locations l WHERE l.id = :id")
 })
-public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.Entity {
+public class Location extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -23,11 +23,11 @@ public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.E
     private Float xCoordinate;
     private Float yCoordinate;
 
-    public StationLocation() {
+    public Location() {
         super();
     }
 
-    public StationLocation(City city, String address, Float xCoordinate, Float yCoordinate) {
+    public Location(City city, String address, Float xCoordinate, Float yCoordinate) {
         super();
         this.city = city;
         this.address = address;

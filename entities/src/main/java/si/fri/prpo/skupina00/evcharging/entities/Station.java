@@ -32,14 +32,14 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @ManyToOne
     @JoinColumn(name = "locationId")
-    private StationLocation location;
+    private Location location;
 
     public Station() {
         super();
     }
 
     public Station(String name, Owner owner, Time openTime, Time closeTime, Float price, Integer wattage,
-                   String adapterType, StationLocation location) {
+                   String adapterType, Location location) {
         super();
         this.name = name;
         this.owner = owner;
@@ -107,11 +107,11 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
         this.adapterType = adapterType;
     }
 
-    public StationLocation getLocation() {
+    public Location getLocation() {
         return this.location;
     }
 
-    public void setLocation(StationLocation location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
