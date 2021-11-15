@@ -26,17 +26,18 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     private List<Reservation> reservations;
 
     public User() {
-        // Za potrebe JPA
+        super();
     }
 
     public User(String name, String surname, String email) {
+        super();
         this.name = name;
         this.surname = surname;
         this.email = email;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -44,7 +45,7 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getSurname() {
-        return surname;
+        return this.surname;
     }
 
     public void setSurname(String surname) {
@@ -52,7 +53,7 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -60,7 +61,7 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public List<Charge> getCharges() {
-        return charges;
+        return this.charges;
     }
 
     public void addCharge(Charge charge) {
@@ -68,7 +69,7 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public List<Reservation> getReservations() {
-        return reservations;
+        return this.reservations;
     }
 
     public void addReservation(Reservation reservation) {
@@ -77,6 +78,6 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Override
     public String toString() {
-        return name + " " + surname + " <" + email + ">";
+        return this.name + " " + this.surname + " <" + this.email + ">";
     }
 }

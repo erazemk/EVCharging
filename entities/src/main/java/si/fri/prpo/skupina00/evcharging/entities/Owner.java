@@ -23,17 +23,18 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     private List<Station> ownedStations;
 
     public Owner() {
-        // Za potrebe JPA
+        super();
     }
 
     public Owner(String name, String surname, String email) {
+        super();
         this.name = name;
         this.surname = surname;
         this.email = email;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -41,7 +42,7 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getSurname() {
-        return surname;
+        return this.surname;
     }
 
     public void setSurname(String surname) {
@@ -49,7 +50,7 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -57,7 +58,7 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public List<Station> getOwnedStations() {
-        return ownedStations;
+        return this.ownedStations;
     }
 
     public void addOwnedStation(Station station) {
@@ -66,6 +67,6 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Override
     public String toString() {
-        return name + " " + surname + " <" + email + ">";
+        return this.name + " " + this.surname + " <" + this.email + ">";
     }
 }

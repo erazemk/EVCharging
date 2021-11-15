@@ -10,7 +10,6 @@ import javax.persistence.*;
         @NamedQuery(name = "City.getName", query = "SELECT c.name FROM cities c WHERE c.id = :id")
 })
 public class City extends si.fri.prpo.skupina00.evcharging.entities.Entity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -18,15 +17,16 @@ public class City extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     private String name;
 
     public City() {
-        // Za potrebe JPA
+        super();
     }
 
     public City(String name) {
+        super();
         this.name = name;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -35,6 +35,6 @@ public class City extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Override
     public String toString() {
-        return name;
+        return this.name;
     }
 }

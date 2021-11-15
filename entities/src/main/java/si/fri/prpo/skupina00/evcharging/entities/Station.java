@@ -12,7 +12,6 @@ import java.sql.Time;
         @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM stations s WHERE s.id = :id")
 })
 public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -36,11 +35,12 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     private StationLocation location;
 
     public Station() {
-        // Za potrebe JPA
+        super();
     }
 
     public Station(String stationName, Owner owner, Time openTime, Time closeTime, Float price, Integer wattage,
                    String adapterType, StationLocation stationLocation) {
+        super();
         this.stationName = stationName;
         this.owner = owner;
         this.openTime = openTime;
@@ -52,7 +52,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getStationName() {
-        return stationName;
+        return this.stationName;
     }
 
     public void setStationName(String stationName) {
@@ -60,7 +60,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Owner getOwner() {
-        return owner;
+        return this.owner;
     }
 
     public void setOwner(Owner owner) {
@@ -68,7 +68,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Time getOpenTime() {
-        return openTime;
+        return this.openTime;
     }
 
     public void setOpenTime(Time openTime) {
@@ -76,7 +76,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Time getCloseTime() {
-        return closeTime;
+        return this.closeTime;
     }
 
     public void setCloseTime(Time closeTime) {
@@ -84,7 +84,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Float getPrice() {
-        return price;
+        return this.price;
     }
 
     public void setPrice(Float price) {
@@ -92,7 +92,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Integer getWattage() {
-        return wattage;
+        return this.wattage;
     }
 
     public void setWattage(Integer wattage) {
@@ -100,7 +100,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getAdapterType() {
-        return adapterType;
+        return this.adapterType;
     }
 
     public void setAdapterType(String adapterType) {
@@ -108,7 +108,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public StationLocation getLocation() {
-        return location;
+        return this.location;
     }
 
     public void setLocation(StationLocation location) {
@@ -117,6 +117,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Override
     public String toString() {
-        return stationName + "[" + owner + ", " + openTime + "-" + closeTime + ", " + price + "€, " + wattage + "W, " + adapterType + ", " + location;
+        return this.stationName + "[" + this.owner + ", " + this.openTime + "-" + this.closeTime
+                + ", " + this.price + "€, " + this.wattage + "W, " + this.adapterType + ", " + this.location;
     }
 }

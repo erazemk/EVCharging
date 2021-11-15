@@ -11,7 +11,6 @@ import java.sql.Time;
         @NamedQuery(name = "Reservation.getUserCharges", query = "SELECT r FROM reservations r WHERE r.user = :user")
 })
 public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entity {
-
     @Id
     @ManyToOne
     @JoinColumn(name = "userId")
@@ -26,17 +25,18 @@ public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entit
     private Time reservationTime;
 
     public Reservation() {
-        // Za potrebe JPA
+        super();
     }
 
     public Reservation(User user, Station station, Time reservationTime) {
+        super();
         this.user = user;
         this.station = station;
         this.reservationTime = reservationTime;
     }
 
     public User getUser() {
-        return user;
+        return this.user;
     }
 
     public void setUser(User user) {
@@ -44,7 +44,7 @@ public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entit
     }
 
     public Station getStation() {
-        return station;
+        return this.station;
     }
 
     public void setStation(Station station) {
@@ -52,7 +52,7 @@ public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entit
     }
 
     public Time getReservationTime() {
-        return reservationTime;
+        return this.reservationTime;
     }
 
     public void setReservationTime(Time reservationTime) {
@@ -60,6 +60,6 @@ public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entit
     }
 
     public String toString() {
-        return user + ", " + station.getStationName() + ", " + reservationTime;
+        return this.user + ", " + this.station.getStationName() + ", " + this.reservationTime;
     }
 }

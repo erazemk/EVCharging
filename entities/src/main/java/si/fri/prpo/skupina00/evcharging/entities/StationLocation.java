@@ -11,7 +11,6 @@ import javax.persistence.*;
         @NamedQuery(name = "StationLocation.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM stationLocations l WHERE l.id = :id")
 })
 public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.Entity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,10 +24,11 @@ public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.E
     private Float yCoordinate;
 
     public StationLocation() {
-        // Za potrebe JPA
+        super();
     }
 
     public StationLocation(City city, String address, Float xCoordinate, Float yCoordinate) {
+        super();
         this.city = city;
         this.address = address;
         this.xCoordinate = xCoordinate;
@@ -36,7 +36,7 @@ public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.E
     }
 
     public City getCity() {
-        return city;
+        return this.city;
     }
 
     public void setCity(City city) {
@@ -44,7 +44,7 @@ public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.E
     }
 
     public String getAddress() {
-        return address;
+        return this.address;
     }
 
     public void setAddress(String address) {
@@ -52,7 +52,7 @@ public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.E
     }
 
     public Float getXCoordinate() {
-        return xCoordinate;
+        return this.xCoordinate;
     }
 
     public void setXCoordinate(Float xCoordinate) {
@@ -60,7 +60,7 @@ public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.E
     }
 
     public Float getYCoordinate() {
-        return yCoordinate;
+        return this.yCoordinate;
     }
 
     public void setYCoordinate(Float yCoordinate) {
@@ -69,6 +69,7 @@ public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.E
 
     @Override
     public String toString() {
-        return id + "[" + city + ", " + address + " (" + xCoordinate + ", " + yCoordinate + ")]";
+        return this.id + "[" + this.city + ", " + this.address + " (" + this.xCoordinate + ", "
+                + this.yCoordinate + ")]";
     }
 }
