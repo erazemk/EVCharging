@@ -7,3 +7,5 @@ target
 # Intellij IDEA
 .idea
 *.iml
+*.ipr
+*.iws
