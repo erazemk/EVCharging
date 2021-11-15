@@ -42,8 +42,11 @@ tag:
 		sed -i '0,/version/{s/version: .*/version: '$(ver)'/}' api/src/main/resources/config.yaml
 
 		git add pom.xml api/pom.xml services/pom.xml entities/pom.xml api/src/main/resources/config.yaml
-		git commit -qm "Bump project version number to $(ver)"
-		git tag -asm "Release v$(ver)" v"$(ver)"
+		git commit -qm "Bump project version to $(ver)"
+		printf "Release v$(ver)\n\nChangelog:\n" > changelog.txt
+		git log $(shell git describe --tags --abbrev=0)..HEAD~1 --pretty=format:"  - %s" >> changelog.txt
+		git tag -asF changelog.txt v"$(ver)"
+		rm changelog.txt
     endif
 
 zip: clean
