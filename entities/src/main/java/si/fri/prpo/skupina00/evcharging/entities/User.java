@@ -4,14 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "users")
+@javax.persistence.Entity(name = "users")
 @NamedQueries(value = {
         @NamedQuery(name = "User.getAll", query = "SELECT u FROM users u"),
         @NamedQuery(name = "User.get", query = "SELECT u FROM users u WHERE u.id = :id"),
         @NamedQuery(name = "User.getCharges", query = "SELECT c FROM charges c WHERE c.user = :user"),
         @NamedQuery(name = "User.getReservations", query = "SELECT r FROM reservations r WHERE r.user = :user"),
 })
-public class User extends Person {
+public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

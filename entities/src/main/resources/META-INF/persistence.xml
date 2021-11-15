@@ -11,7 +11,6 @@
         <class>si.fri.prpo.skupina00.evcharging.entities.User</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.Charge</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.City</class>
-        <class>si.fri.prpo.skupina00.evcharging.entities.Person</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
