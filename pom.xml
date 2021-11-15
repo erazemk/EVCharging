@@ -12,8 +12,8 @@
 
     <modules>
         <module>api</module>
-        <module>storitve</module>
-        <module>entitete</module>
+        <module>services</module>
+        <module>entities</module>
     </modules>
 
     <properties>
@@ -38,12 +38,12 @@
             </dependency>
             <dependency>
                 <groupId>si.fri.prpo.skupina00</groupId>
-                <artifactId>evcharging-entitete</artifactId>
+                <artifactId>evcharging-entities</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>si.fri.prpo.skupina00</groupId>
-                <artifactId>evcharging-storitve</artifactId>
+                <artifactId>evcharging-services</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

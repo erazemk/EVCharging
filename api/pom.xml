@@ -23,7 +23,11 @@
         </dependency>
         <dependency>
             <groupId>si.fri.prpo.skupina00</groupId>
-            <artifactId>evcharging-storitve</artifactId>
+            <artifactId>evcharging-services</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kumuluz.ee</groupId>
+            <artifactId>kumuluzee-jax-rs-jersey</artifactId>
         </dependency>
     </dependencies>
 
