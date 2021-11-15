@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
 import si.fri.prpo.skupina00.evcharging.entities.Owner;
+import si.fri.prpo.skupina00.evcharging.entities.Station;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -58,15 +59,16 @@ public class OwnerBean {
 
     @Transactional
     public boolean updateOwner(Integer id, Owner owner) {
-        Owner oldOwner = em.find(Owner.class, id);
+        Owner oldOwner = getOwner(id);
         owner.setId(oldOwner.getId());
+
         if (em.merge(owner) != null) {
             log.info("Updated owner");
             log.config("Updated owner " + owner);
             return true;
         }
 
-        log.severe("Failed to update owner " + oldOwner);
+        log.severe("Failed to update owner");
         return false;
     }
 
@@ -85,7 +87,6 @@ public class OwnerBean {
         return false;
     }
 
-    /*
     public List<Station> getOwnedStations(Integer id) {
         Owner owner = em.find(Owner.class, id);
 
@@ -96,8 +97,7 @@ public class OwnerBean {
             return ownedStations;
         }
 
-        log.severe("Failed to find owner " + id);
+        log.severe("Failed to get owned stations, owner does not exist");
         return null;
     }
-    */
 }

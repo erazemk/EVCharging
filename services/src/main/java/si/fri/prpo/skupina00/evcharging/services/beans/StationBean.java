@@ -47,7 +47,7 @@ public class StationBean {
         if(station != null) {
             em.persist(station);
             log.info("Created station");
-            log.config("Created station " + station.getStationName());
+            log.config("Created station " + station.getName());
             return true;
         }
 
@@ -56,25 +56,28 @@ public class StationBean {
     }
 
     @Transactional
-    public boolean updateStation(Integer id, Station stationNew) {
-        Station s = em.find(Station.class, id);
+    public boolean updateStation(Integer id, Station station) {
+        Station oldStation = getStation(id);
+        station.setId(oldStation.getId());
 
-        stationNew.setId(s.getId());
-        em.merge(stationNew);
+        if (em.merge(station) != null) {
+            log.info("Updated station " + station.getName());
+            return true;
+        }
 
-        return true;
+        log.severe("Failed to update station");
+        return false;
     }
 
     @Transactional
-    public boolean deleteStation(Integer id) {
-        Station s = em.find(Station.class, id);
-        if(s != null){
-            em.remove(s);
-            log.info("Deleted station");
-            log.config("Deleted station" + s);
+    public boolean deleteStation(Station station) {
+        if(station != null){
+            em.remove(station);
+            log.info("Deleted station" + station.getName());
             return true;
         }
-        log.severe("Delete station failed");
+
+        log.severe("Failed to delete station");
         return false;
     }
 }

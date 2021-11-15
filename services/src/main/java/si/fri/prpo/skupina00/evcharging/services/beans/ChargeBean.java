@@ -56,6 +56,21 @@ public class ChargeBean {
     }
 
     @Transactional
+    public boolean updateCharge(Integer id, Charge charge) {
+        Charge oldCharge = getCharge(id);
+        charge.setId(oldCharge.getId());
+
+        if (em.merge(charge) != null) {
+            log.info("Updated charge");
+            log.config("Updated charge " + charge);
+            return true;
+        }
+
+        log.severe("Failed to update charge");
+        return false;
+    }
+
+    @Transactional
     public boolean deleteCharge(Charge charge) {
         if(charge != null){
             em.remove(charge);

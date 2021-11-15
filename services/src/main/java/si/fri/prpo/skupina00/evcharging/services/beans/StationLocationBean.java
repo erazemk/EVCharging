@@ -56,7 +56,7 @@ public class StationLocationBean {
 
     @Transactional
     public boolean updateStationLocation(Integer id, StationLocation stationLocation) {
-        StationLocation oldStationLocation = em.find(StationLocation.class, id);
+        StationLocation oldStationLocation = getStationLocation(id);
         stationLocation.setId(oldStationLocation.getId());
 
         if (em.merge(stationLocation) != null) {
@@ -70,7 +70,7 @@ public class StationLocationBean {
 
     @Transactional
     public boolean deleteStationLocation(Integer id) {
-        StationLocation stationLocation = this.getStationLocation(id);
+        StationLocation stationLocation = getStationLocation(id);
 
         if(stationLocation != null){
             em.remove(stationLocation);

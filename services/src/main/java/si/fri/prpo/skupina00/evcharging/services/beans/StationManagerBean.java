@@ -1,23 +1,18 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
 import si.fri.prpo.skupina00.evcharging.entities.*;
-import si.fri.prpo.skupina00.evcharging.services.dtos.ChargeDto;
-import si.fri.prpo.skupina00.evcharging.services.dtos.CityDto;
-import si.fri.prpo.skupina00.evcharging.services.dtos.ReservationDto;
-import si.fri.prpo.skupina00.evcharging.services.dtos.StationDto;
+import si.fri.prpo.skupina00.evcharging.services.dtos.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import java.sql.Time;
-import java.time.LocalTime;
 import java.util.logging.Logger;
 
-@ApplicationScoped
-public class ManageStationsBean {
-    private static final Logger log = Logger.getLogger(ManageStationsBean.class.getName());
+@RequestScoped
+public class StationManagerBean {
+    private static final Logger log = Logger.getLogger(StationManagerBean.class.getName());
 
     @Inject
     private UserBean userBean;
@@ -42,13 +37,13 @@ public class ManageStationsBean {
 
     @PostConstruct
     private void init() {
-        log.info("Initialized bean " + ManageStationsBean.class.getSimpleName());
+        log.info("Initialized bean " + StationManagerBean.class.getSimpleName());
         log.info(java.util.UUID.randomUUID().toString());
     }
 
     @PreDestroy
     private void destroy() {
-        log.info("Destroyed bean " + ManageStationsBean.class.getSimpleName());
+        log.info("Destroyed bean " + StationManagerBean.class.getSimpleName());
     }
 
     @Transactional
@@ -64,7 +59,7 @@ public class ManageStationsBean {
             log.warning("Could not add charge, station does not exist");
         }
 
-        Charge charge = new Charge(user, station, Time.valueOf(LocalTime.now()));
+        Charge charge = new Charge(user, station);
         return chargeBean.addCharge(charge);
     }
 
@@ -80,7 +75,7 @@ public class ManageStationsBean {
             log.warning("Could not add reservation, station does not exist");
         }
 
-        Reservation reservation = new Reservation(user, station, Time.valueOf(LocalTime.now()));
+        Reservation reservation = new Reservation(user, station);
         return reservationBean.addReservation(reservation);
     }
 
@@ -100,6 +95,13 @@ public class ManageStationsBean {
                 stationDto.getCloseTime(), stationDto.getPrice(), stationDto.getWattage(), stationDto.getAdapterType(),
                 stationLocation);
         return stationBean.addStation(station);
+    }
+
+    public boolean addStationLocation(StationLocationDto stationLocationDto) {
+        City city = cityBean.getCity(stationLocationDto.getCityId());
+        StationLocation stationLocation = new StationLocation(city, stationLocationDto.getAddress(),
+                stationLocationDto.getXCoordinate(), stationLocationDto.getYCoordinate());
+        return stationLocationBean.addStationLocation(stationLocation);
     }
 
     public boolean addCity(CityDto cityDto) {

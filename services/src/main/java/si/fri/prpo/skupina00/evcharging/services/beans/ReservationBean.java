@@ -1,5 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
+import si.fri.prpo.skupina00.evcharging.entities.Owner;
 import si.fri.prpo.skupina00.evcharging.entities.Reservation;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +37,12 @@ public class ReservationBean {
         return reservations;
     }
 
+    public Reservation getReservation(Integer id) {
+        Reservation reservation = em.find(Reservation.class, id);
+        log.info("Queried reservation");
+        return reservation;
+    }
+
     @Transactional
     public boolean addReservation(Reservation reservation) {
         if(reservation != null){
@@ -46,6 +53,20 @@ public class ReservationBean {
         }
 
         log.severe("Failed to add reservation");
+        return false;
+    }
+
+    @Transactional
+    public boolean updateReservation(Integer id, Reservation reservation) {
+        Reservation oldReservation = getReservation(id);
+        reservation.setId(oldReservation.getId());
+
+        if (em.merge(reservation) != null) {
+            log.info("Updated reservation");
+            return true;
+        }
+
+        log.severe("Failed to update reservation");
         return false;
     }
 

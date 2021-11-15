@@ -37,11 +37,6 @@ public class UserBean {
         List<User> users = em.createNamedQuery("User.getAll", User.class)
                 .getResultList();
         log.info("Queried user list:");
-
-        for (User user : users) {
-            log.info(user.toString());
-        }
-
         return users;
     }
 
@@ -76,15 +71,16 @@ public class UserBean {
 
     @Transactional
     public boolean updateUser(Integer id, User user) {
-        User oldUser = em.find(User.class, id);
+        User oldUser = getUser(id);
         user.setId(oldUser.getId());
+
         if (em.merge(user) != null) {
             log.info("Updated user");
             log.config("Updated user " + user);
             return true;
         }
 
-        log.severe("Failed to update user " + oldUser);
+        log.severe("Failed to update user");
         return false;
     }
 

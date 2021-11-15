@@ -7,7 +7,7 @@ import java.sql.Time;
 @NamedQueries(value = {
         @NamedQuery(name = "Station.getAll", query = "SELECT s FROM stations s"),
         @NamedQuery(name = "Station.get", query = "SELECT s FROM stations s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.getName", query = "SELECT s.stationName FROM stations s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getName", query = "SELECT s.name FROM stations s WHERE s.id = :id"),
         @NamedQuery(name = "Station.getPrice", query = "SELECT s.price FROM stations s WHERE s.id = :id"),
         @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM stations s WHERE s.id = :id")
 })
@@ -16,7 +16,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String stationName;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "ownerId")
@@ -38,25 +38,25 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
         super();
     }
 
-    public Station(String stationName, Owner owner, Time openTime, Time closeTime, Float price, Integer wattage,
-                   String adapterType, StationLocation stationLocation) {
+    public Station(String name, Owner owner, Time openTime, Time closeTime, Float price, Integer wattage,
+                   String adapterType, StationLocation location) {
         super();
-        this.stationName = stationName;
+        this.name = name;
         this.owner = owner;
         this.openTime = openTime;
         this.closeTime = closeTime;
         this.price = price;
         this.wattage = wattage;
         this.adapterType = adapterType;
-        this.location = stationLocation;
+        this.location = location;
     }
 
-    public String getStationName() {
-        return this.stationName;
+    public String getName() {
+        return this.name;
     }
 
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Owner getOwner() {
@@ -117,7 +117,7 @@ public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Override
     public String toString() {
-        return this.stationName + "[" + this.owner + ", " + this.openTime + "-" + this.closeTime
+        return this.name + "[" + this.owner + ", " + this.openTime + "-" + this.closeTime
                 + ", " + this.price + "€, " + this.wattage + "W, " + this.adapterType + ", " + this.location;
     }
 }

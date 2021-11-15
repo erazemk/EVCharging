@@ -1,5 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
+import si.fri.prpo.skupina00.evcharging.entities.Charge;
 import si.fri.prpo.skupina00.evcharging.entities.City;
 
 import javax.annotation.PostConstruct;
@@ -51,6 +52,20 @@ public class CityBean {
         }
 
         log.severe("Failed to add city");
+        return false;
+    }
+
+    @Transactional
+    public boolean updateCity(Integer id, City city) {
+        City oldCity = getCity(id);
+        city.setId(oldCity.getId());
+
+        if (em.merge(city) != null) {
+            log.info("Updated city " + city.getName());
+            return true;
+        }
+
+        log.severe("Failed to update city");
         return false;
     }
 
