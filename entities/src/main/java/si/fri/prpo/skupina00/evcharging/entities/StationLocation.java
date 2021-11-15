@@ -10,7 +10,7 @@ import javax.persistence.*;
         @NamedQuery(name = "StationLocation.getAddress", query = "SELECT l.address FROM stationLocations l WHERE l.id = :id"),
         @NamedQuery(name = "StationLocation.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM stationLocations l WHERE l.id = :id")
 })
-public class StationLocation extends Entity {
+public class StationLocation extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

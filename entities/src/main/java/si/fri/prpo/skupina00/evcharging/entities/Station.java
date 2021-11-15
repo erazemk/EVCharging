@@ -11,7 +11,7 @@ import java.sql.Time;
         @NamedQuery(name = "Station.getPrice", query = "SELECT s.price FROM stations s WHERE s.id = :id"),
         @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM stations s WHERE s.id = :id")
 })
-public class Station extends Entity {
+public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -9,7 +9,7 @@ import javax.persistence.*;
         @NamedQuery(name = "City.getId", query = "SELECT c.id FROM cities c WHERE c.name = :name"),
         @NamedQuery(name = "City.getName", query = "SELECT c.name FROM cities c WHERE c.id = :id")
 })
-public class City extends Entity {
+public class City extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

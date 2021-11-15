@@ -10,7 +10,7 @@ import java.sql.Time;
         @NamedQuery(name = "Charge.getPrice", query = "SELECT c.price FROM charges c WHERE c.user = :user AND c.station = :station AND c.beginTime = :beginTime"),
         @NamedQuery(name = "Charge.getTime", query = "SELECT c.beginTime, c.endTime FROM charges c WHERE c.user = :user AND c.station = :station AND c.beginTime = :beginTime")
 })
-public class Charge extends Entity {
+public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Id
     @ManyToOne

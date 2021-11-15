@@ -10,7 +10,7 @@ import java.sql.Time;
         @NamedQuery(name = "Reservation.getLocationCharges", query = "SELECT r FROM reservations r WHERE r.user = :user AND r.station = :station"),
         @NamedQuery(name = "Reservation.getUserCharges", query = "SELECT r FROM reservations r WHERE r.user = :user")
 })
-public class Reservation extends Entity {
+public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Id
     @ManyToOne
