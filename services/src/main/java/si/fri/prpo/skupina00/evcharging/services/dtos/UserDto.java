@@ -5,8 +5,8 @@ public class UserDto {
     private String name;
     private String surname;
     private String email;
-    private Integer chargeId;
-    private Integer reservationId;
+    private List<ChargeDto> charges;
+    private List<ReservationDto> reservations;
 
     public Integer getId() {
         return id;
@@ -40,19 +40,19 @@ public class UserDto {
         this.email = email;
     }
 
-    public Integer getChargeId() {
-        return chargeId;
+    public Integer getCharges() {
+        return charges;
     }
 
-    public void setChargeId(Integer chargeId) {
-        this.chargeId = chargeId;
+    public void setCharges(List<ChargeDto> charges) {
+        this.charges = charges;
     }
 
-    public Integer getReservationId() {
-        return reservationId;
+    public Integer getReservations() {
+        return reservations;
     }
 
-    public void setReservationId(Integer reservationId) {
-        this.reservationId = reservationId;
+    public void setReservations(List<ReservationDto> reservations) {
+        this.reservations = reservations;
     }
 }

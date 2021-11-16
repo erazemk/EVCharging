@@ -5,7 +5,7 @@ public class OwnerDto {
     private String name;
     private String surname;
     private String email;
-    private Integer stationId;
+    private List<StationDto> stationDtoList;
 
     public Integer getId() {
         return id;
@@ -43,7 +43,7 @@ public class OwnerDto {
         return stationId;
     }
 
-    public void setStationId(Integer stationId) {
-        this.stationId = stationId;
+    public void setStationId(List<StationDto> stationDtoList) {
+        this.stationDtoList = stationDtoList;
     }
 }
