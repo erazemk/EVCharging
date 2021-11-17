@@ -86,7 +86,7 @@ public class UserBean {
 
     @Transactional
     public boolean deleteUser(Integer id) {
-        User user = em.find(User.class, id);
+        User user = getUser(id);
 
         if (user != null) {
             em.remove(user);

@@ -70,7 +70,9 @@ public class ReservationBean {
     }
 
     @Transactional
-    public boolean deleteReservation(Reservation reservation) {
+    public boolean deleteReservation(Integer id) {
+        Reservation reservation = getReservation(id);
+
         if(reservation != null){
             em.remove(reservation);
             log.info("Deleted reservation");

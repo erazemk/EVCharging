@@ -71,7 +71,9 @@ public class ChargeBean {
     }
 
     @Transactional
-    public boolean deleteCharge(Charge charge) {
+    public boolean deleteCharge(Integer id) {
+        Charge charge = getCharge(id);
+
         if(charge != null){
             em.remove(charge);
             log.info("Deleted charge");

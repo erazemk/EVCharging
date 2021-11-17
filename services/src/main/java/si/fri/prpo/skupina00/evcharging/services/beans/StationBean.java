@@ -70,7 +70,9 @@ public class StationBean {
     }
 
     @Transactional
-    public boolean deleteStation(Station station) {
+    public boolean deleteStation(Integer id) {
+        Station station = getStation(id);
+
         if(station != null){
             em.remove(station);
             log.info("Deleted station" + station.getName());
