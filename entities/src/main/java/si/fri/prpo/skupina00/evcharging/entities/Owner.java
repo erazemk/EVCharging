@@ -1,5 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     private String surname;
     private String email;
 
+    @JsonbTransient
     @OneToMany(mappedBy = "owner")
     private List<Station> ownedStations;
 
