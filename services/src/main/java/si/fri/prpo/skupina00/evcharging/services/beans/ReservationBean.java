@@ -1,6 +1,5 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
-import si.fri.prpo.skupina00.evcharging.entities.Owner;
 import si.fri.prpo.skupina00.evcharging.entities.Reservation;
 
 import javax.annotation.PostConstruct;
@@ -30,7 +29,7 @@ public class ReservationBean {
         log.info("Destroyed bean " + ReservationBean.class.getSimpleName());
     }
 
-    public List<Reservation> getReservations(Integer id) {
+    public List<Reservation> getReservations() {
         List<Reservation> reservations = em.createNamedQuery("Reservation.getAll", Reservation.class)
                 .getResultList();
         log.info("Query reservations");
