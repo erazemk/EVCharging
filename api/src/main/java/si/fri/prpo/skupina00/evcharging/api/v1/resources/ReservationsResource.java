@@ -17,7 +17,7 @@ import java.util.List;
 public class ReservationsResource {
 
     @Inject
-    ReservationBean reservationBean;
+    private ReservationBean reservationBean;
 
     @GET
     public Response getReservations() {
@@ -27,13 +27,13 @@ public class ReservationsResource {
         if (!reservationList.isEmpty()) {
             response = Response.status(Response.Status.OK).entity(reservationList).build();
         } else {
-            // Internal error - can't retrieve reservations from database
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return response;
     }
 
+    @GET
     @Path("{id}")
     public Response getReservation(@PathParam("id") Integer id) {
         Reservation reservation = reservationBean.getReservation(id);
@@ -43,6 +43,47 @@ public class ReservationsResource {
             response = Response.status(Response.Status.OK).entity(reservation).build();
         } else {
             response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return response;
+    }
+
+    @POST
+    public Response addReservation(Reservation reservation) {
+        Response response;
+
+        if (reservationBean.addReservation(reservation)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response updateReservation(@PathParam("id") Integer id, Reservation reservation) {
+        Response response;
+
+        if (reservationBean.updateReservation(id, reservation)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteReservation(@PathParam("id") Integer id) {
+        Response response;
+
+        if (reservationBean.deleteReservation(id)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
         }
 
         return response;

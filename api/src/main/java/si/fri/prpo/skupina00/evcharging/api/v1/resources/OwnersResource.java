@@ -17,7 +17,7 @@ import java.util.List;
 public class OwnersResource {
 
     @Inject
-    OwnerBean ownerBean;
+    private OwnerBean ownerBean;
 
     @GET
     public Response getOwners() {
@@ -27,13 +27,13 @@ public class OwnersResource {
         if (!ownerList.isEmpty()) {
             response = Response.status(Response.Status.OK).entity(ownerList).build();
         } else {
-            // Internal error - can't retrieve owners from database
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return response;
     }
 
+    @GET
     @Path("{id}")
     public Response getOwner(@PathParam("id") Integer id) {
         Owner owner = ownerBean.getOwner(id);
@@ -43,6 +43,47 @@ public class OwnersResource {
             response = Response.status(Response.Status.OK).entity(owner).build();
         } else {
             response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return response;
+    }
+
+    @POST
+    public Response addOwner(Owner owner) {
+        Response response;
+
+        if (ownerBean.addOwner(owner)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response updateOwner(@PathParam("id") Integer id, Owner owner) {
+        Response response;
+
+        if (ownerBean.updateOwner(id, owner)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteOwner(@PathParam("id") Integer id) {
+        Response response;
+
+        if (ownerBean.deleteOwner(id)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
         }
 
         return response;

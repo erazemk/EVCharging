@@ -17,7 +17,7 @@ import java.util.List;
 public class CitiesResource {
 
     @Inject
-    CityBean cityBean;
+    private CityBean cityBean;
 
     @GET
     public Response getCities() {
@@ -27,13 +27,13 @@ public class CitiesResource {
         if (!cityList.isEmpty()) {
             response = Response.status(Response.Status.OK).entity(cityList).build();
         } else {
-            // Internal error - can't retrieve cities from database
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return response;
     }
 
+    @GET
     @Path("{id}")
     public Response getCity(@PathParam("id") Integer id) {
         City city = cityBean.getCity(id);
@@ -43,6 +43,47 @@ public class CitiesResource {
             response = Response.status(Response.Status.OK).entity(city).build();
         } else {
             response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return response;
+    }
+
+    @POST
+    public Response addCity(City city) {
+        Response response;
+
+        if (cityBean.addCity(city)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response updateCity(@PathParam("id") Integer id, City city) {
+        Response response;
+
+        if (cityBean.updateCity(id, city)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteCity(@PathParam("id") Integer id) {
+        Response response;
+
+        if (cityBean.deleteCity(id)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
         }
 
         return response;

@@ -17,7 +17,7 @@ import java.util.List;
 public class UsersResource {
 
     @Inject
-    UserBean userBean;
+    private UserBean userBean;
 
     @GET
     public Response getUsers() {
@@ -34,6 +34,7 @@ public class UsersResource {
         return response;
     }
 
+    @GET
     @Path("{id}")
     public Response getUser(@PathParam("id") Integer id) {
         User user = userBean.getUser(id);
@@ -43,6 +44,47 @@ public class UsersResource {
             response = Response.status(Response.Status.OK).entity(user).build();
         } else {
             response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return response;
+    }
+
+    @POST
+    public Response addUser(User user) {
+        Response response;
+
+        if (userBean.addUser(user)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response updateUser(@PathParam("id") Integer id, User user) {
+        Response response;
+
+        if (userBean.updateUser(id, user)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteUser(@PathParam("id") Integer id) {
+        Response response;
+
+        if (userBean.deleteUser(id)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
         }
 
         return response;

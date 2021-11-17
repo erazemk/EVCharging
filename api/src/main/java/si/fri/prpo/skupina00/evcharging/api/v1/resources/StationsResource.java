@@ -17,7 +17,7 @@ import java.util.List;
 public class StationsResource {
 
     @Inject
-    StationBean stationBean;
+    private StationBean stationBean;
 
     @GET
     public Response getStations() {
@@ -27,13 +27,13 @@ public class StationsResource {
         if (!stationList.isEmpty()) {
             response = Response.status(Response.Status.OK).entity(stationList).build();
         } else {
-            // Internal error - can't retrieve stations from database
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return response;
     }
 
+    @GET
     @Path("{id}")
     public Response getStation(@PathParam("id") Integer id) {
         Station station = stationBean.getStation(id);
@@ -43,6 +43,47 @@ public class StationsResource {
             response = Response.status(Response.Status.OK).entity(station).build();
         } else {
             response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return response;
+    }
+
+    @POST
+    public Response addStation(Station station) {
+        Response response;
+
+        if (stationBean.addStation(station)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response updateStation(@PathParam("id") Integer id, Station station) {
+        Response response;
+
+        if (stationBean.updateStation(id, station)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteStation(@PathParam("id") Integer id) {
+        Response response;
+
+        if (stationBean.deleteStation(id)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
         }
 
         return response;

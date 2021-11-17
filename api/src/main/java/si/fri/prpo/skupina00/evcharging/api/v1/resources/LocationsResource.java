@@ -17,7 +17,7 @@ import java.util.List;
 public class LocationsResource {
 
     @Inject
-    LocationBean locationBean;
+    private LocationBean locationBean;
 
     @GET
     public Response getLocations() {
@@ -27,13 +27,13 @@ public class LocationsResource {
         if (!locationList.isEmpty()) {
             response = Response.status(Response.Status.OK).entity(locationList).build();
         } else {
-            // Internal error - can't retrieve locations from database
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return response;
     }
 
+    @GET
     @Path("{id}")
     public Response getLocation(@PathParam("id") Integer id) {
         Location location = locationBean.getLocation(id);
@@ -43,6 +43,47 @@ public class LocationsResource {
             response = Response.status(Response.Status.OK).entity(location).build();
         } else {
             response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return response;
+    }
+
+    @POST
+    public Response addLocation(Location location) {
+        Response response;
+
+        if (locationBean.addLocation(location)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response updateLocation(@PathParam("id") Integer id, Location location) {
+        Response response;
+
+        if (locationBean.updateLocation(id, location)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteLocation(@PathParam("id") Integer id) {
+        Response response;
+
+        if (locationBean.deleteLocation(id)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
         }
 
         return response;

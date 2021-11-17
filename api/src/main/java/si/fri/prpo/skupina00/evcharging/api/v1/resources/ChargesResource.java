@@ -17,7 +17,7 @@ import java.util.List;
 public class ChargesResource {
 
     @Inject
-    ChargeBean chargeBean;
+    private ChargeBean chargeBean;
 
     @GET
     public Response getCharges() {
@@ -27,13 +27,13 @@ public class ChargesResource {
         if (!chargeList.isEmpty()) {
             response = Response.status(Response.Status.OK).entity(chargeList).build();
         } else {
-            // Internal error - can't retrieve charges from database
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         return response;
     }
 
+    @GET
     @Path("{id}")
     public Response getCharge(@PathParam("id") Integer id) {
         Charge charge = chargeBean.getCharge(id);
@@ -43,6 +43,47 @@ public class ChargesResource {
             response = Response.status(Response.Status.OK).entity(charge).build();
         } else {
             response = Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return response;
+    }
+
+    @POST
+    public Response addCharge(Charge charge) {
+        Response response;
+
+        if (chargeBean.addCharge(charge)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @PUT
+    @Path("{id}")
+    public Response updateCharge(@PathParam("id") Integer id, Charge charge) {
+        Response response;
+
+        if (chargeBean.updateCharge(id, charge)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return response;
+    }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteCharge(@PathParam("id") Integer id) {
+        Response response;
+
+        if (chargeBean.deleteCharge(id)) {
+            response = Response.status(Response.Status.OK).build();
+        } else {
+            response = Response.status(Response.Status.FORBIDDEN).build();
         }
 
         return response;
