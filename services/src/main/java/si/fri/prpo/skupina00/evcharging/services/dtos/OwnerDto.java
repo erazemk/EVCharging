@@ -1,11 +1,13 @@
 package si.fri.prpo.skupina00.evcharging.services.dtos;
 
+import java.util.List;
+
 public class OwnerDto {
     private Integer id;
     private String name;
     private String surname;
     private String email;
-    private List<StationDto> stationDtoList;
+    private List<StationDto> stations;
 
     public Integer getId() {
         return id;
@@ -39,11 +41,11 @@ public class OwnerDto {
         this.email = email;
     }
 
-    public Integer getStationId() {
-        return stationId;
+    public List<StationDto> getStations() {
+        return stations;
     }
 
-    public void setStationId(List<StationDto> stationDtoList) {
-        this.stationDtoList = stationDtoList;
+    public void setStations(List<StationDto> stationDtoList) {
+        this.stations = stationDtoList;
     }
 }
