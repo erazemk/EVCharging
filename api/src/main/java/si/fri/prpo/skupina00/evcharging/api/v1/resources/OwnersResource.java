@@ -9,6 +9,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Path("owners")
 @Produces(MediaType.APPLICATION_JSON)
@@ -16,21 +17,15 @@ import java.util.List;
 @ApplicationScoped
 public class OwnersResource {
 
+    private static final Logger log = Logger.getLogger(OwnersResource.class.getName());
+
     @Inject
     private OwnerBean ownerBean;
 
     @GET
     public Response getOwners() {
         List<Owner> ownerList = ownerBean.getOwners();
-        Response response;
-
-        if (!ownerList.isEmpty()) {
-            response = Response.status(Response.Status.OK).entity(ownerList).build();
-        } else {
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-        return response;
+        return Response.status(Response.Status.OK).entity(ownerList).build();
     }
 
     @GET

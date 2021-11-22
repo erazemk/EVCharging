@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalTime;
 
-@javax.persistence.Entity(name = "charges")
+@javax.persistence.Entity
+@Table(name = "charges")
 @NamedQueries(value = {
-        @NamedQuery(name = "Charge.getAll", query = "SELECT c FROM charges c"),
-        @NamedQuery(name = "Charge.get", query = "SELECT c FROM charges c WHERE c.id = :id"),
-        @NamedQuery(name = "Charge.getPrice", query = "SELECT c.price FROM charges c WHERE c.id = :id"),
-        @NamedQuery(name = "Charge.getTime", query = "SELECT c.beginTime, c.endTime FROM charges c WHERE c.id = :id")
+        @NamedQuery(name = "Charge.getAll", query = "SELECT c FROM Charge c"),
+        @NamedQuery(name = "Charge.get", query = "SELECT c FROM Charge c WHERE c.id = :id"),
+        @NamedQuery(name = "Charge.getPrice", query = "SELECT c.price FROM Charge c WHERE c.id = :id"),
+        @NamedQuery(name = "Charge.getTime", query = "SELECT c.beginTime, c.endTime FROM Charge c WHERE c.id = :id")
 })
 public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     @Id

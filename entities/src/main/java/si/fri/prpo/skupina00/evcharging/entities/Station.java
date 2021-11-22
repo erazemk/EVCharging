@@ -3,13 +3,14 @@ package si.fri.prpo.skupina00.evcharging.entities;
 import javax.persistence.*;
 import java.sql.Time;
 
-@javax.persistence.Entity(name = "stations")
+@javax.persistence.Entity
+@Table(name = "stations")
 @NamedQueries(value = {
-        @NamedQuery(name = "Station.getAll", query = "SELECT s FROM stations s"),
-        @NamedQuery(name = "Station.get", query = "SELECT s FROM stations s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.getName", query = "SELECT s.name FROM stations s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.getPrice", query = "SELECT s.price FROM stations s WHERE s.id = :id"),
-        @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM stations s WHERE s.id = :id")
+        @NamedQuery(name = "Station.getAll", query = "SELECT s FROM Station s"),
+        @NamedQuery(name = "Station.get", query = "SELECT s FROM Station s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getName", query = "SELECT s.name FROM Station s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getPrice", query = "SELECT s.price FROM Station s WHERE s.id = :id"),
+        @NamedQuery(name = "Station.getSchedule", query = "SELECT s.openTime, s.closeTime FROM Station s WHERE s.id = :id")
 })
 public class Station extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     @Id

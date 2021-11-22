@@ -2,12 +2,13 @@ package si.fri.prpo.skupina00.evcharging.entities;
 
 import javax.persistence.*;
 
-@javax.persistence.Entity(name = "cities")
+@javax.persistence.Entity
+@Table(name = "cities")
 @NamedQueries(value = {
-        @NamedQuery(name = "City.getAll", query = "SELECT c FROM cities c"),
-        @NamedQuery(name = "City.get", query = "SELECT c FROM cities c WHERE c.id = :id"),
-        @NamedQuery(name = "City.getId", query = "SELECT c.id FROM cities c WHERE c.name = :name"),
-        @NamedQuery(name = "City.getName", query = "SELECT c.name FROM cities c WHERE c.id = :id")
+        @NamedQuery(name = "City.getAll", query = "SELECT c FROM City c"),
+        @NamedQuery(name = "City.get", query = "SELECT c FROM City c WHERE c.id = :id"),
+        @NamedQuery(name = "City.getId", query = "SELECT c.id FROM City c WHERE c.name = :name"),
+        @NamedQuery(name = "City.getName", query = "SELECT c.name FROM City c WHERE c.id = :id")
 })
 public class City extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     @Id

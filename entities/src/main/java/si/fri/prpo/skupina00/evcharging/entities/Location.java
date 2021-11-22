@@ -2,13 +2,14 @@ package si.fri.prpo.skupina00.evcharging.entities;
 
 import javax.persistence.*;
 
-@javax.persistence.Entity(name = "locations")
+@javax.persistence.Entity
+@Table(name = "locations")
 @NamedQueries(value = {
-        @NamedQuery(name = "Location.getAll", query = "SELECT l FROM locations l"),
-        @NamedQuery(name = "Location.get", query = "SELECT l FROM locations l WHERE l.id = :id"),
-        @NamedQuery(name = "Location.getCity", query = "SELECT l.city FROM locations l WHERE l.id = :id"),
-        @NamedQuery(name = "Location.getAddress", query = "SELECT l.address FROM locations l WHERE l.id = :id"),
-        @NamedQuery(name = "Location.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM locations l WHERE l.id = :id")
+        @NamedQuery(name = "Location.getAll", query = "SELECT l FROM Location l"),
+        @NamedQuery(name = "Location.get", query = "SELECT l FROM Location l WHERE l.id = :id"),
+        @NamedQuery(name = "Location.getCity", query = "SELECT l.city FROM Location l WHERE l.id = :id"),
+        @NamedQuery(name = "Location.getAddress", query = "SELECT l.address FROM Location l WHERE l.id = :id"),
+        @NamedQuery(name = "Location.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM Location l WHERE l.id = :id")
 })
 public class Location extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     @Id

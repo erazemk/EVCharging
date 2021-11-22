@@ -4,11 +4,12 @@ import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.util.List;
 
-@javax.persistence.Entity(name = "owners")
+@javax.persistence.Entity
+@Table(name = "owners")
 @NamedQueries(value = {
-        @NamedQuery(name = "Owner.getAll", query = "SELECT o FROM owners o"),
-        @NamedQuery(name = "Owner.get", query = "SELECT o FROM owners o WHERE o.id = :id"),
-        @NamedQuery(name = "Owner.getAllStations", query = "SELECT s FROM stations s WHERE s.owner = :owner"),
+        @NamedQuery(name = "Owner.getAll", query = "SELECT o FROM Owner o"),
+        @NamedQuery(name = "Owner.get", query = "SELECT o FROM Owner o WHERE o.id = :id"),
+        @NamedQuery(name = "Owner.getAllStations", query = "SELECT s FROM Station s WHERE s.owner = :owner"),
 })
 
 public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {

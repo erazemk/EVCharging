@@ -4,12 +4,13 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalTime;
 
-@javax.persistence.Entity(name = "reservations")
+@javax.persistence.Entity
+@Table(name = "reservations")
 @NamedQueries(value = {
-        @NamedQuery(name = "Reservation.getAll", query = "SELECT r FROM reservations r"),
-        @NamedQuery(name = "Reservation.get", query = "SELECT r FROM reservations r WHERE r.id = :id"),
-        @NamedQuery(name = "Reservation.getLocationCharges", query = "SELECT r FROM reservations r WHERE r.id = :id"),
-        @NamedQuery(name = "Reservation.getUserCharges", query = "SELECT r FROM reservations r WHERE r.user = :user")
+        @NamedQuery(name = "Reservation.getAll", query = "SELECT r FROM Reservation r"),
+        @NamedQuery(name = "Reservation.get", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
+        @NamedQuery(name = "Reservation.getLocationCharges", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
+        @NamedQuery(name = "Reservation.getUserCharges", query = "SELECT r FROM Reservation r WHERE r.user = :user")
 })
 public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     @Id
