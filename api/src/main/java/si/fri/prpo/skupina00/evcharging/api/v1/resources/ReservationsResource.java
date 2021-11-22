@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("reservations")
+@Path("/reservations")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
@@ -34,7 +34,7 @@ public class ReservationsResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response getReservation(@PathParam("id") Integer id) {
         Reservation reservation = reservationBean.getReservation(id);
         Response response;
@@ -62,7 +62,7 @@ public class ReservationsResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     public Response updateReservation(@PathParam("id") Integer id, Reservation reservation) {
         Response response;
 
@@ -76,7 +76,7 @@ public class ReservationsResource {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     public Response deleteReservation(@PathParam("id") Integer id) {
         Response response;
 

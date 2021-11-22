@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("locations")
+@Path("/locations")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
@@ -34,7 +34,7 @@ public class LocationsResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response getLocation(@PathParam("id") Integer id) {
         Location location = locationBean.getLocation(id);
         Response response;
@@ -62,7 +62,7 @@ public class LocationsResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     public Response updateLocation(@PathParam("id") Integer id, Location location) {
         Response response;
 
@@ -76,7 +76,7 @@ public class LocationsResource {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     public Response deleteLocation(@PathParam("id") Integer id) {
         Response response;
 

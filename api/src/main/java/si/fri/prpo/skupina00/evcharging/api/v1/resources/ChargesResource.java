@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("charges")
+@Path("/charges")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
@@ -34,7 +34,7 @@ public class ChargesResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response getCharge(@PathParam("id") Integer id) {
         Charge charge = chargeBean.getCharge(id);
         Response response;
@@ -62,7 +62,7 @@ public class ChargesResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     public Response updateCharge(@PathParam("id") Integer id, Charge charge) {
         Response response;
 
@@ -76,7 +76,7 @@ public class ChargesResource {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     public Response deleteCharge(@PathParam("id") Integer id) {
         Response response;
 

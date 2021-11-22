@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Path("cities")
+@Path("/cities")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
@@ -34,7 +34,7 @@ public class CitiesResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response getCity(@PathParam("id") Integer id) {
         City city = cityBean.getCity(id);
         Response response;
@@ -62,7 +62,7 @@ public class CitiesResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     public Response updateCity(@PathParam("id") Integer id, City city) {
         Response response;
 
@@ -76,7 +76,7 @@ public class CitiesResource {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     public Response deleteCity(@PathParam("id") Integer id) {
         Response response;
 

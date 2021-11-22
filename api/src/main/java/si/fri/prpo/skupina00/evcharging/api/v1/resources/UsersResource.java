@@ -35,7 +35,7 @@ public class UsersResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response getUser(@PathParam("id") Integer id) {
         User user = userBean.getUser(id);
         Response response;
@@ -63,7 +63,7 @@ public class UsersResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     public Response updateUser(@PathParam("id") Integer id, User user) {
         Response response;
 
@@ -77,7 +77,7 @@ public class UsersResource {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     public Response deleteUser(@PathParam("id") Integer id) {
         Response response;
 

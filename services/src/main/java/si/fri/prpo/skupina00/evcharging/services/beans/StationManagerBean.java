@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
 import si.fri.prpo.skupina00.evcharging.entities.*;
+import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 import si.fri.prpo.skupina00.evcharging.services.dtos.*;
 
 import javax.annotation.PostConstruct;
@@ -11,6 +12,7 @@ import javax.transaction.Transactional;
 import java.util.logging.Logger;
 
 @RequestScoped
+@LogCalls
 public class StationManagerBean {
     private static final Logger log = Logger.getLogger(StationManagerBean.class.getName());
 

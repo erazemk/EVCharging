@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Path("owners")
+@Path("/owners")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
@@ -29,7 +29,7 @@ public class OwnersResource {
     }
 
     @GET
-    @Path("{id}")
+    @Path("/{id}")
     public Response getOwner(@PathParam("id") Integer id) {
         Owner owner = ownerBean.getOwner(id);
         Response response;
@@ -57,7 +57,7 @@ public class OwnersResource {
     }
 
     @PUT
-    @Path("{id}")
+    @Path("/{id}")
     public Response updateOwner(@PathParam("id") Integer id, Owner owner) {
         Response response;
 
@@ -71,7 +71,7 @@ public class OwnersResource {
     }
 
     @DELETE
-    @Path("{id}")
+    @Path("/{id}")
     public Response deleteOwner(@PathParam("id") Integer id) {
         Response response;
 
