@@ -1,13 +1,16 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.skupina00.evcharging.entities.Charge;
 import si.fri.prpo.skupina00.evcharging.services.beans.ChargeBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("/charges")
@@ -19,13 +22,21 @@ public class ChargesResource {
     @Inject
     private ChargeBean chargeBean;
 
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     public Response getCharges() {
-        List<Charge> chargeList = chargeBean.getCharges();
+        QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<Charge> chargeList = chargeBean.getCharges(queryParameters);
         Response response;
 
         if (!chargeList.isEmpty()) {
-            response = Response.status(Response.Status.OK).entity(chargeList).build();
+            response = Response
+                    .status(Response.Status.OK)
+                    .entity(chargeList)
+                    .header("X-Total-Count", chargeBean.getChargeCount(queryParameters))
+                    .build();
         } else {
             response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

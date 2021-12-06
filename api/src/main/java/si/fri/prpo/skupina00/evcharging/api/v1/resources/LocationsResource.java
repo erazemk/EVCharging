@@ -1,13 +1,16 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.skupina00.evcharging.entities.Location;
 import si.fri.prpo.skupina00.evcharging.services.beans.LocationBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("/locations")
@@ -19,15 +22,25 @@ public class LocationsResource {
     @Inject
     private LocationBean locationBean;
 
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     public Response getLocations() {
-        List<Location> locationList = locationBean.getLocations();
+        QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<Location> locationList = locationBean.getLocations(queryParameters);
         Response response;
 
         if (!locationList.isEmpty()) {
-            response = Response.status(Response.Status.OK).entity(locationList).build();
+            response = Response
+                    .status(Response.Status.OK)
+                    .entity(locationList)
+                    .header("X-Total-Count", locationBean.getLocationCount(queryParameters))
+                    .build();
         } else {
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            response = Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .build();
         }
 
         return response;

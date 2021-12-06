@@ -1,5 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina00.evcharging.entities.User;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 
@@ -40,6 +42,14 @@ public class UserBean {
                 .getResultList();
         log.info("Queried user list:");
         return users;
+    }
+
+    public List<User> getUsers(QueryParameters queryParameters) {
+        return JPAUtils.queryEntities(em, User.class, queryParameters);
+    }
+
+    public Long getUserCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, User.class, queryParameters);
     }
 
     public List<User> getUsersCriteriaAPI() {

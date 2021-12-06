@@ -1,13 +1,16 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.skupina00.evcharging.entities.City;
 import si.fri.prpo.skupina00.evcharging.services.beans.CityBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("/cities")
@@ -19,15 +22,25 @@ public class CitiesResource {
     @Inject
     private CityBean cityBean;
 
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     public Response getCities() {
-        List<City> cityList = cityBean.getCities();
+        QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<City> cityList = cityBean.getCities(queryParameters);
         Response response;
 
         if (!cityList.isEmpty()) {
-            response = Response.status(Response.Status.OK).entity(cityList).build();
+            response = Response
+                    .status(Response.Status.OK)
+                    .entity(cityList)
+                    .header("X-Total-Count", cityBean.getCityCount(queryParameters))
+                    .build();
         } else {
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            response = Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .build();
         }
 
         return response;

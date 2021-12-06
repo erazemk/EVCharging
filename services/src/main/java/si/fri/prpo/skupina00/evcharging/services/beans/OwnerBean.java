@@ -1,5 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina00.evcharging.entities.Owner;
 import si.fri.prpo.skupina00.evcharging.entities.Station;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
@@ -37,6 +39,14 @@ public class OwnerBean {
                 .getResultList();
         log.info("Queried owner list");
         return ownerList;
+    }
+
+    public List<Owner> getOwners(QueryParameters queryParameters) {
+        return JPAUtils.queryEntities(em, Owner.class, queryParameters);
+    }
+
+    public Long getOwnerCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, Owner.class, queryParameters);
     }
 
     public Owner getOwner(Integer id) {

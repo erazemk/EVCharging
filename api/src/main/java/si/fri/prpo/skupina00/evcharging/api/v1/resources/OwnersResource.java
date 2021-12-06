@@ -1,13 +1,16 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.skupina00.evcharging.entities.Owner;
 import si.fri.prpo.skupina00.evcharging.services.beans.OwnerBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -22,10 +25,18 @@ public class OwnersResource {
     @Inject
     private OwnerBean ownerBean;
 
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     public Response getOwners() {
-        List<Owner> ownerList = ownerBean.getOwners();
-        return Response.status(Response.Status.OK).entity(ownerList).build();
+        QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<Owner> ownerList = ownerBean.getOwners(queryParameters);
+        return Response
+                .status(Response.Status.OK)
+                .entity(ownerList)
+                .header("X-Total-Count", ownerBean.getOwnerCount(queryParameters))
+                .build();
     }
 
     @GET

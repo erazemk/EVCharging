@@ -1,13 +1,16 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.skupina00.evcharging.entities.User;
 import si.fri.prpo.skupina00.evcharging.services.beans.UserBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("users")
@@ -19,16 +22,26 @@ public class UsersResource {
     @Inject
     private UserBean userBean;
 
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     public Response getUsers() {
-        List<User> userList = userBean.getUsers();
+        QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<User> userList = userBean.getUsers(queryParameters);
         Response response;
 
         if (!userList.isEmpty()) {
-            response = Response.status(Response.Status.OK).entity(userList).build();
+            response = Response
+                    .status(Response.Status.OK)
+                    .entity(userList)
+                    .header("X-Total-Count", userBean.getUserCount(queryParameters))
+                    .build();
         } else {
             // Internal error - can't retrieve users from database
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            response = Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .build();
         }
 
         return response;

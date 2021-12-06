@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
-import si.fri.prpo.skupina00.evcharging.entities.Charge;
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina00.evcharging.entities.City;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 
@@ -37,6 +38,14 @@ public class CityBean {
                 .getResultList();
         log.info("Query cities list");
         return stations;
+    }
+
+    public List<City> getCities(QueryParameters queryParameters) {
+        return JPAUtils.queryEntities(em, City.class, queryParameters);
+    }
+
+    public Long getCityCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, City.class, queryParameters);
     }
 
     public City getCity(Integer id) {

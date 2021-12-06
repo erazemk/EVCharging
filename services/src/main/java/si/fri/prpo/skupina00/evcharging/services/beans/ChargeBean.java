@@ -1,5 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina00.evcharging.entities.Charge;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 
@@ -36,6 +38,14 @@ public class ChargeBean {
                 .getResultList();
         log.info("Queried charge list");
         return chargeList;
+    }
+
+    public List<Charge> getCharges(QueryParameters queryParameters) {
+        return JPAUtils.queryEntities(em, Charge.class, queryParameters);
+    }
+
+    public Long getChargeCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, Charge.class, queryParameters);
     }
 
     public Charge getCharge(Integer id) {

@@ -1,5 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina00.evcharging.entities.Reservation;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 
@@ -36,6 +38,14 @@ public class ReservationBean {
                 .getResultList();
         log.info("Query reservations");
         return reservations;
+    }
+
+    public List<Reservation> getReservations(QueryParameters queryParameters) {
+        return JPAUtils.queryEntities(em, Reservation.class, queryParameters);
+    }
+
+    public Long getReservationCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, Reservation.class, queryParameters);
     }
 
     public Reservation getReservation(Integer id) {

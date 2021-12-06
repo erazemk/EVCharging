@@ -1,5 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina00.evcharging.entities.Location;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 
@@ -36,6 +38,14 @@ public class LocationBean {
                 Location.class).getResultList();
         log.info("Query location list");
         return locationList;
+    }
+
+    public List<Location> getLocations(QueryParameters queryParameters) {
+        return JPAUtils.queryEntities(em, Location.class, queryParameters);
+    }
+
+    public Long getLocationCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, Location.class, queryParameters);
     }
 
     public Location getLocation(Integer id) {

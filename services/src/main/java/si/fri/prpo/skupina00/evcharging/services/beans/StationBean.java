@@ -1,5 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina00.evcharging.entities.Station;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 
@@ -36,6 +38,14 @@ public class StationBean {
                 .getResultList();
         log.info("Query stations");
         return stations;
+    }
+
+    public List<Station> getStations(QueryParameters queryParameters) {
+        return JPAUtils.queryEntities(em, Station.class, queryParameters);
+    }
+
+    public Long getStationCount(QueryParameters queryParameters) {
+        return JPAUtils.queryEntitiesCount(em, Station.class, queryParameters);
     }
 
     public Station getStation(int id) {

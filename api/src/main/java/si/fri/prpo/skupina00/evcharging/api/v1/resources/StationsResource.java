@@ -1,13 +1,16 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
+import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.fri.prpo.skupina00.evcharging.entities.Station;
 import si.fri.prpo.skupina00.evcharging.services.beans.StationBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 @Path("/stations")
@@ -19,15 +22,25 @@ public class StationsResource {
     @Inject
     private StationBean stationBean;
 
+    @Context
+    protected UriInfo uriInfo;
+
     @GET
     public Response getStations() {
-        List<Station> stationList = stationBean.getStations();
+        QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+        List<Station> stationList = stationBean.getStations(queryParameters);
         Response response;
 
         if (!stationList.isEmpty()) {
-            response = Response.status(Response.Status.OK).entity(stationList).build();
+            response = Response
+                    .status(Response.Status.OK)
+                    .entity(stationList)
+                    .header("X-Total-Count", stationBean.getStationCount(queryParameters))
+                    .build();
         } else {
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            response = Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .build();
         }
 
         return response;
