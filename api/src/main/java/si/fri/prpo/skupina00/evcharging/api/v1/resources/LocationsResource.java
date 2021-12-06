@@ -11,7 +11,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 
 @Path("/locations")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,77 +27,48 @@ public class LocationsResource {
     @GET
     public Response getLocations() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
-        List<Location> locationList = locationBean.getLocations(queryParameters);
-        Response response;
-
-        if (!locationList.isEmpty()) {
-            response = Response
-                    .status(Response.Status.OK)
-                    .entity(locationList)
-                    .header("X-Total-Count", locationBean.getLocationCount(queryParameters))
-                    .build();
-        } else {
-            response = Response
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
-
-        return response;
+        return Response
+                .status(Response.Status.OK)
+                .entity(locationBean.getLocations(queryParameters))
+                .header("X-Total-Count", locationBean.getLocationCount(queryParameters))
+                .build();
     }
 
     @GET
     @Path("/{id}")
     public Response getLocation(@PathParam("id") Integer id) {
-        Location location = locationBean.getLocation(id);
-        Response response;
-
-        if (location != null) {
-            response = Response.status(Response.Status.OK).entity(location).build();
-        } else {
-            response = Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return response;
+        return Response
+                .status(Response.Status.OK)
+                .entity(locationBean.getLocation(id))
+                .build();
     }
 
     @POST
     public Response addLocation(Location location) {
-        Response response;
-
         if (locationBean.addLocation(location)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 
     @PUT
     @Path("/{id}")
     public Response updateLocation(@PathParam("id") Integer id, Location location) {
-        Response response;
-
         if (locationBean.updateLocation(id, location)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteLocation(@PathParam("id") Integer id) {
-        Response response;
-
         if (locationBean.deleteLocation(id)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 }

@@ -11,16 +11,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
-import java.util.logging.Logger;
 
 @Path("/owners")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class OwnersResource {
-
-    private static final Logger log = Logger.getLogger(OwnersResource.class.getName());
 
     @Inject
     private OwnerBean ownerBean;
@@ -31,10 +27,9 @@ public class OwnersResource {
     @GET
     public Response getOwners() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
-        List<Owner> ownerList = ownerBean.getOwners(queryParameters);
         return Response
                 .status(Response.Status.OK)
-                .entity(ownerList)
+                .entity(ownerBean.getOwners(queryParameters))
                 .header("X-Total-Count", ownerBean.getOwnerCount(queryParameters))
                 .build();
     }
@@ -42,56 +37,38 @@ public class OwnersResource {
     @GET
     @Path("/{id}")
     public Response getOwner(@PathParam("id") Integer id) {
-        Owner owner = ownerBean.getOwner(id);
-        Response response;
-
-        if (owner != null) {
-            response = Response.status(Response.Status.OK).entity(owner).build();
-        } else {
-            response = Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return response;
+        return Response
+                .status(Response.Status.OK)
+                .entity(ownerBean.getOwner(id))
+                .build();
     }
 
     @POST
     public Response addOwner(Owner owner) {
-        Response response;
-
         if (ownerBean.addOwner(owner)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 
     @PUT
     @Path("/{id}")
     public Response updateOwner(@PathParam("id") Integer id, Owner owner) {
-        Response response;
-
         if (ownerBean.updateOwner(id, owner)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteOwner(@PathParam("id") Integer id) {
-        Response response;
-
         if (ownerBean.deleteOwner(id)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 }

@@ -11,7 +11,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 
 @Path("/cities")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,77 +27,48 @@ public class CitiesResource {
     @GET
     public Response getCities() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
-        List<City> cityList = cityBean.getCities(queryParameters);
-        Response response;
-
-        if (!cityList.isEmpty()) {
-            response = Response
-                    .status(Response.Status.OK)
-                    .entity(cityList)
-                    .header("X-Total-Count", cityBean.getCityCount(queryParameters))
-                    .build();
-        } else {
-            response = Response
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-                    .build();
-        }
-
-        return response;
+        return Response
+                .status(Response.Status.OK)
+                .entity(cityBean.getCities(queryParameters))
+                .header("X-Total-Count", cityBean.getCityCount(queryParameters))
+                .build();
     }
 
     @GET
     @Path("/{id}")
     public Response getCity(@PathParam("id") Integer id) {
-        City city = cityBean.getCity(id);
-        Response response;
-
-        if (city != null) {
-            response = Response.status(Response.Status.OK).entity(city).build();
-        } else {
-            response = Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return response;
+        return Response
+                .status(Response.Status.OK)
+                .entity(cityBean.getCity(id))
+                .build();
     }
 
     @POST
     public Response addCity(City city) {
-        Response response;
-
         if (cityBean.addCity(city)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 
     @PUT
     @Path("/{id}")
     public Response updateCity(@PathParam("id") Integer id, City city) {
-        Response response;
-
         if (cityBean.updateCity(id, city)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteCity(@PathParam("id") Integer id) {
-        Response response;
-
         if (cityBean.deleteCity(id)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 }

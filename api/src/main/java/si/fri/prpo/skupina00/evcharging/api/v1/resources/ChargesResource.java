@@ -11,7 +11,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 
 @Path("/charges")
 @Produces(MediaType.APPLICATION_JSON)
@@ -28,75 +27,48 @@ public class ChargesResource {
     @GET
     public Response getCharges() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
-        List<Charge> chargeList = chargeBean.getCharges(queryParameters);
-        Response response;
-
-        if (!chargeList.isEmpty()) {
-            response = Response
-                    .status(Response.Status.OK)
-                    .entity(chargeList)
-                    .header("X-Total-Count", chargeBean.getChargeCount(queryParameters))
-                    .build();
-        } else {
-            response = Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-        return response;
+        return Response
+                .status(Response.Status.OK)
+                .entity(chargeBean.getCharges(queryParameters))
+                .header("X-Total-Count", chargeBean.getChargeCount(queryParameters))
+                .build();
     }
 
     @GET
     @Path("/{id}")
     public Response getCharge(@PathParam("id") Integer id) {
-        Charge charge = chargeBean.getCharge(id);
-        Response response;
-
-        if (charge != null) {
-            response = Response.status(Response.Status.OK).entity(charge).build();
-        } else {
-            response = Response.status(Response.Status.NOT_FOUND).build();
-        }
-
-        return response;
+        return Response
+                .status(Response.Status.OK)
+                .entity(chargeBean.getCharge(id))
+                .build();
     }
 
     @POST
     public Response addCharge(Charge charge) {
-        Response response;
-
         if (chargeBean.addCharge(charge)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 
     @PUT
     @Path("/{id}")
     public Response updateCharge(@PathParam("id") Integer id, Charge charge) {
-        Response response;
-
         if (chargeBean.updateCharge(id, charge)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 
     @DELETE
     @Path("/{id}")
     public Response deleteCharge(@PathParam("id") Integer id) {
-        Response response;
-
         if (chargeBean.deleteCharge(id)) {
-            response = Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.OK).build();
         } else {
-            response = Response.status(Response.Status.FORBIDDEN).build();
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-        return response;
     }
 }
