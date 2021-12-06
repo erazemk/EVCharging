@@ -60,6 +60,11 @@
                 <artifactId>kumuluzee-openapi-mp</artifactId>
                 <version>${kumuluzee-openapi.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.openapi</groupId>
+                <artifactId>kumuluzee-openapi-mp-ui</artifactId>
+                <version>${kumuluzee-openapi.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
