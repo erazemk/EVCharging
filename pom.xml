@@ -24,6 +24,7 @@
         <kumuluzee.version>3.12.2</kumuluzee.version>
         <kumuluzee-rest.version>1.5.1</kumuluzee-rest.version>
         <kumuluzee-openapi.version>1.4.0</kumuluzee-openapi.version>
+        <kumuluzee-config-mp.version>1.4.1</kumuluzee-config-mp.version>
     </properties>
 
     <dependencyManagement>
@@ -64,6 +65,11 @@
                 <groupId>com.kumuluz.ee.openapi</groupId>
                 <artifactId>kumuluzee-openapi-mp-ui</artifactId>
                 <version>${kumuluzee-openapi.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.config</groupId>
+                <artifactId>kumuluzee-config-mp</artifactId>
+                <version>${kumuluzee-config-mp.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
