@@ -1,0 +1,26 @@
+version: 3.9
+
+services:
+  evcharging-api:
+    build: .
+    container_name: evcharging-api
+    restart: unless-stopped
+    environment:
+      - VER=0.4.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - maven-repo:/root/.m2
+    depends_on:
+      - postgres
+
+  postgres:
+    image: docker.io/library/postgres:14.1
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: evcharging
+
+volumes:
+  maven-repo:
