@@ -3,6 +3,7 @@ package si.fri.prpo.skupina00.evcharging.services.beans;
 import si.fri.prpo.skupina00.evcharging.entities.*;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 import si.fri.prpo.skupina00.evcharging.services.dtos.*;
+import si.fri.prpo.skupina00.evcharging.services.exceptions.InvalidRequestException;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -54,11 +55,11 @@ public class StationManagerBean {
         Station station = stationBean.getStation(chargeDto.getStationId());
 
         if (user == null) {
-            log.warning("Could not add charge, user does not exist");
+            throw new InvalidRequestException("Could not add charge, user does not exist");
         }
 
         if (station == null) {
-            log.warning("Could not add charge, station does not exist");
+            throw new InvalidRequestException("Could not add charge, station does not exist");
         }
 
         Charge charge = new Charge(user, station);
@@ -70,11 +71,11 @@ public class StationManagerBean {
         Station station = stationBean.getStation(reservationDto.getStationId());
 
         if (user == null) {
-            log.warning("Could not add reservation, user does not exist");
+            throw new InvalidRequestException("Could not add reservation, user does not exist");
         }
 
         if (station == null) {
-            log.warning("Could not add reservation, station does not exist");
+            throw new InvalidRequestException("Could not add reservation, station does not exist");
         }
 
         Reservation reservation = new Reservation(user, station);
@@ -86,11 +87,11 @@ public class StationManagerBean {
         Location location = locationBean.getLocation(stationDto.getLocationId());
 
         if (owner == null) {
-            log.warning("Could not add station, owner does not exist");
+            throw new InvalidRequestException("Could not add station, owner does not exist");
         }
 
         if (location == null) {
-            log.warning("Could not add station, location does not exist");
+            throw new InvalidRequestException("Could not add station, location does not exist");
         }
 
         Station station = new Station(stationDto.getName(), owner, stationDto.getOpenTime(), stationDto.getCloseTime(),
