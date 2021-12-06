@@ -3,8 +3,21 @@ kumuluzee:
   version: 0.4.0
   env:
     name: dev
+
   datasources:
     - jndi-name: jdbc/EVChargingDS
       connection-url: jdbc:postgresql://localhost:5432/evcharging
       username: postgres
       password: postgres
+
+  openapi-mp:
+    enabled: true
+    servlet:
+      mapping: /openapi-spec
+    scan:
+      packages: si.fri.prpo.skupina00.evcharging.api.v1.resources
+    servers: http://localhost:8080/v1
+    ui:
+      mapping: /openapi
+      server-auto-config:
+        enabled: false
