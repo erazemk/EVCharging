@@ -18,12 +18,6 @@ public class Mapper {
     private CityBean cityBean;
 
     @Inject
-    private ChargeBean chargeBean;
-
-    @Inject
-    private ReservationBean reservationBean;
-
-    @Inject
     private StationBean stationBean;
 
     @Inject
