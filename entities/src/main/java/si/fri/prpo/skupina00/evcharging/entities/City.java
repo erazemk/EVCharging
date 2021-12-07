@@ -2,7 +2,7 @@ package si.fri.prpo.skupina00.evcharging.entities;
 
 import javax.persistence.*;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "cities")
 @NamedQueries(value = {
         @NamedQuery(name = "City.getAll", query = "SELECT c FROM City c"),
@@ -10,7 +10,7 @@ import javax.persistence.*;
         @NamedQuery(name = "City.getId", query = "SELECT c.id FROM City c WHERE c.name = :name"),
         @NamedQuery(name = "City.getName", query = "SELECT c.name FROM City c WHERE c.id = :id")
 })
-public class City extends si.fri.prpo.skupina00.evcharging.entities.Entity {
+public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -26,8 +26,16 @@ public class City extends si.fri.prpo.skupina00.evcharging.entities.Entity {
         this.name = name;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -36,6 +44,9 @@ public class City extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Override
     public String toString() {
-        return this.name;
+        return "City{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalTime;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "reservations")
 @NamedQueries(value = {
         @NamedQuery(name = "Reservation.getAll", query = "SELECT r FROM Reservation r"),
@@ -12,7 +12,7 @@ import java.time.LocalTime;
         @NamedQuery(name = "Reservation.getLocationCharges", query = "SELECT r FROM Reservation r WHERE r.id = :id"),
         @NamedQuery(name = "Reservation.getUserCharges", query = "SELECT r FROM Reservation r WHERE r.user = :user")
 })
-public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entity {
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -38,8 +38,16 @@ public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entit
         this.reservationTime = Time.valueOf(LocalTime.now());
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public User getUser() {
-        return this.user;
+        return user;
     }
 
     public void setUser(User user) {
@@ -47,7 +55,7 @@ public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entit
     }
 
     public Station getStation() {
-        return this.station;
+        return station;
     }
 
     public void setStation(Station station) {
@@ -55,14 +63,20 @@ public class Reservation extends si.fri.prpo.skupina00.evcharging.entities.Entit
     }
 
     public Time getReservationTime() {
-        return this.reservationTime;
+        return reservationTime;
     }
 
     public void setReservationTime(Time reservationTime) {
         this.reservationTime = reservationTime;
     }
 
+    @Override
     public String toString() {
-        return this.user + ", " + this.station.getName() + ", " + this.reservationTime;
+        return "Reservation{" +
+                "id=" + id +
+                ", user=" + user +
+                ", station=" + station +
+                ", reservationTime=" + reservationTime +
+                '}';
     }
 }

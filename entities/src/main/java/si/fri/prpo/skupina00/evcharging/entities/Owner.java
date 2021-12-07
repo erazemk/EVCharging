@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.List;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "owners")
 @NamedQueries(value = {
         @NamedQuery(name = "Owner.getAll", query = "SELECT o FROM Owner o"),
@@ -13,7 +13,7 @@ import java.util.List;
         @NamedQuery(name = "Owner.getAllStations", query = "SELECT s FROM Station s WHERE s.owner = :owner"),
 })
 
-public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
+public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -37,8 +37,16 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
         this.email = email;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -46,7 +54,7 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getSurname() {
-        return this.surname;
+        return surname;
     }
 
     public void setSurname(String surname) {
@@ -54,7 +62,7 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -62,15 +70,21 @@ public class Owner extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public List<Station> getOwnedStations() {
-        return this.ownedStations;
+        return ownedStations;
     }
 
-    public void addOwnedStation(Station station) {
-        this.ownedStations.add(station);
+    public void setOwnedStations(List<Station> ownedStations) {
+        this.ownedStations = ownedStations;
     }
 
     @Override
     public String toString() {
-        return this.name + " " + this.surname + " <" + this.email + ">";
+        return "Owner{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", ownedStations=" + ownedStations +
+                '}';
     }
 }

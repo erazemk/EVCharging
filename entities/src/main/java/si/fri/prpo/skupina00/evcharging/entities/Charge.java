@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalTime;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "charges")
 @NamedQueries(value = {
         @NamedQuery(name = "Charge.getAll", query = "SELECT c FROM Charge c"),
@@ -12,7 +12,7 @@ import java.time.LocalTime;
         @NamedQuery(name = "Charge.getPrice", query = "SELECT c.price FROM Charge c WHERE c.id = :id"),
         @NamedQuery(name = "Charge.getTime", query = "SELECT c.beginTime, c.endTime FROM Charge c WHERE c.id = :id")
 })
-public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
+public class Charge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -51,8 +51,16 @@ public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
         this.price = price;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public User getUser() {
-        return this.user;
+        return user;
     }
 
     public void setUser(User user) {
@@ -60,7 +68,7 @@ public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Station getStation() {
-        return this.station;
+        return station;
     }
 
     public void setStation(Station station) {
@@ -68,7 +76,7 @@ public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Time getBeginTime() {
-        return this.beginTime;
+        return beginTime;
     }
 
     public void setBeginTime(Time beginTime) {
@@ -76,7 +84,7 @@ public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Time getEndTime() {
-        return this.endTime;
+        return endTime;
     }
 
     public void setEndTime(Time endTime) {
@@ -84,7 +92,7 @@ public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Float getPrice() {
-        return this.price;
+        return price;
     }
 
     public void setPrice(Float price) {
@@ -93,7 +101,13 @@ public class Charge extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Override
     public String toString() {
-        return this.user.getName() + " " + this.user.getSurname() + ", " + this.station.getName()
-                + ", " + this.beginTime + "-" + this.endTime + " (" + this.price + "€)";
+        return "Charge{" +
+                "id=" + id +
+                ", user=" + user +
+                ", station=" + station +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", price=" + price +
+                '}';
     }
 }

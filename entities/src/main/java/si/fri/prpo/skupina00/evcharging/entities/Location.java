@@ -2,7 +2,7 @@ package si.fri.prpo.skupina00.evcharging.entities;
 
 import javax.persistence.*;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "locations")
 @NamedQueries(value = {
         @NamedQuery(name = "Location.getAll", query = "SELECT l FROM Location l"),
@@ -11,7 +11,7 @@ import javax.persistence.*;
         @NamedQuery(name = "Location.getAddress", query = "SELECT l.address FROM Location l WHERE l.id = :id"),
         @NamedQuery(name = "Location.getCoordinates", query = "SELECT l.xCoordinate, l.yCoordinate FROM Location l WHERE l.id = :id")
 })
-public class Location extends si.fri.prpo.skupina00.evcharging.entities.Entity {
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -36,8 +36,16 @@ public class Location extends si.fri.prpo.skupina00.evcharging.entities.Entity {
         this.yCoordinate = yCoordinate;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public City getCity() {
-        return this.city;
+        return city;
     }
 
     public void setCity(City city) {
@@ -45,7 +53,7 @@ public class Location extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getAddress() {
-        return this.address;
+        return address;
     }
 
     public void setAddress(String address) {
@@ -53,7 +61,7 @@ public class Location extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Float getXCoordinate() {
-        return this.xCoordinate;
+        return xCoordinate;
     }
 
     public void setXCoordinate(Float xCoordinate) {
@@ -61,7 +69,7 @@ public class Location extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public Float getYCoordinate() {
-        return this.yCoordinate;
+        return yCoordinate;
     }
 
     public void setYCoordinate(Float yCoordinate) {
@@ -70,7 +78,12 @@ public class Location extends si.fri.prpo.skupina00.evcharging.entities.Entity {
 
     @Override
     public String toString() {
-        return this.id + "[" + this.city + ", " + this.address + " (" + this.xCoordinate + ", "
-                + this.yCoordinate + ")]";
+        return "Location{" +
+                "id=" + id +
+                ", city=" + city +
+                ", address='" + address + '\'' +
+                ", xCoordinate=" + xCoordinate +
+                ", yCoordinate=" + yCoordinate +
+                '}';
     }
 }

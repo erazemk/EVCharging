@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.List;
 
-@javax.persistence.Entity
+@Entity
 @Table(name = "users")
 @NamedQueries(value = {
         @NamedQuery(name = "User.getAll", query = "SELECT u FROM User u"),
@@ -13,7 +13,7 @@ import java.util.List;
         @NamedQuery(name = "User.getCharges", query = "SELECT c FROM Charge c WHERE c.user = :user"),
         @NamedQuery(name = "User.getReservations", query = "SELECT r FROM Reservation r WHERE r.user = :user"),
 })
-public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -41,8 +41,16 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
         this.email = email;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public void setName(String name) {
@@ -50,7 +58,7 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getSurname() {
-        return this.surname;
+        return surname;
     }
 
     public void setSurname(String surname) {
@@ -58,7 +66,7 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public String getEmail() {
-        return this.email;
+        return email;
     }
 
     public void setEmail(String email) {
@@ -66,23 +74,30 @@ public class User extends si.fri.prpo.skupina00.evcharging.entities.Entity {
     }
 
     public List<Charge> getCharges() {
-        return this.charges;
+        return charges;
     }
 
-    public void addCharge(Charge charge) {
-        this.charges.add(charge);
+    public void setCharges(List<Charge> charges) {
+        this.charges = charges;
     }
 
     public List<Reservation> getReservations() {
-        return this.reservations;
+        return reservations;
     }
 
-    public void addReservation(Reservation reservation) {
-        this.reservations.add(reservation);
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     @Override
     public String toString() {
-        return this.name + " " + this.surname + " <" + this.email + ">";
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", charges=" + charges +
+                ", reservations=" + reservations +
+                '}';
     }
 }
