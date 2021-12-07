@@ -8,8 +8,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import si.fri.prpo.skupina00.evcharging.entities.Charge;
 import si.fri.prpo.skupina00.evcharging.services.beans.ChargeBean;
+import si.fri.prpo.skupina00.evcharging.services.beans.StationManagerBean;
+import si.fri.prpo.skupina00.evcharging.services.dtos.ChargeDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -28,85 +29,102 @@ public class ChargesResource {
     @Inject
     private ChargeBean chargeBean;
 
+    @Inject
+    private StationManagerBean stationManagerBean;
+
     @Context
     protected UriInfo uriInfo;
 
     @GET
-    @Operation(summary = "Get all charges.", description = "Returns all charges.")
+    @Operation(summary = "Get charges", description = "Returns list of charges")
     @APIResponses({
-            @APIResponse(description = "All charges.", responseCode = "200",
-                content = @Content(schema = @Schema(implementation = Charge.class, type = SchemaType.ARRAY)),
-                headers = {
-                    @Header(name = "X-Total-Count", description = "Number of returned charges.")
-                })
+            @APIResponse(description = "All charges", responseCode = "200",
+                content = @Content(schema = @Schema(implementation = ChargeDto.class, type = SchemaType.ARRAY)),
+                headers = { @Header(name = "X-Total-Count", description = "Number of returned charges") })
     })
     public Response getCharges() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+
         return Response
                 .status(Response.Status.OK)
-                .entity(chargeBean.getCharges(queryParameters))
+                .entity(stationManagerBean.getCharges(queryParameters))
                 .header("X-Total-Count", chargeBean.getChargeCount(queryParameters))
                 .build();
     }
 
     @GET
-    @Operation(summary = "Get charges for user.", description = "Returns all charges for a specified user.")
+    @Operation(summary = "Get charge", description = "Returns a charge")
     @APIResponses({
-            @APIResponse(description = "All charges for user.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Charge.class))
-    )})
+            @APIResponse(description = "Returned charge", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = ChargeDto.class))),
+            @APIResponse(description = "Failed to find charge", responseCode = "403")})
     @Path("/{id}")
     public Response getCharge(@PathParam("id") Integer id) {
-        return Response
-                .status(Response.Status.OK)
-                .entity(chargeBean.getCharge(id))
-                .build();
+        ChargeDto chargeDto = stationManagerBean.getCharge(id);
+
+        if (chargeDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(chargeDto)
+                    .build();
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @POST
-    @Operation(summary = "Add a charge.", description = "Adds a charge to the table.")
+    @Operation(summary = "Add charge", description = "Adds a charge")
     @APIResponses({
-            @APIResponse(description = "Add a charge.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Charge.class))),
-            @APIResponse(description = "Failed to add a charge.", responseCode = "403")
+            @APIResponse(description = "Added charge", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = ChargeDto.class))),
+            @APIResponse(description = "Failed to add charge", responseCode = "403")
             })
-    public Response addCharge(Charge charge) {
-        if (chargeBean.addCharge(charge)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response addCharge(ChargeDto chargeDto) {
+        ChargeDto addedChargeDto = stationManagerBean.addCharge(chargeDto);
+
+        if (addedChargeDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(addedChargeDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
-    @Operation(summary = "Update a charge.", description = "Updates the specified charge.")
+    @Operation(summary = "Update charge", description = "Updates a charge")
     @APIResponses({
-            @APIResponse(description = "Update charge.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Charge.class))),
-            @APIResponse(description = "Failed to update a charge.", responseCode = "403")
+            @APIResponse(description = "Updated charge", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = ChargeDto.class))),
+            @APIResponse(description = "Failed to update charge", responseCode = "403")
     })
     @Path("/{id}")
-    public Response updateCharge(@PathParam("id") Integer id, Charge charge) {
-        if (chargeBean.updateCharge(id, charge)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response updateCharge(@PathParam("id") Integer id, ChargeDto chargeDto) {
+        ChargeDto updatedChargeDto = stationManagerBean.updateCharge(id, chargeDto);
+
+        if (updatedChargeDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(updatedChargeDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @DELETE
-    @Operation(summary = "Delete charge.", description = "Deletes the specified charge.")
+    @Operation(summary = "Delete charge", description = "Deletes a charge")
     @APIResponses({
-            @APIResponse(description = "Delete charge.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Charge.class))),
-            @APIResponse(description = "Failed to delete charge.", responseCode = "403")
+            @APIResponse(description = "Deleted charge", responseCode = "200"),
+            @APIResponse(description = "Failed to delete charge", responseCode = "403")
     })
     @Path("/{id}")
     public Response deleteCharge(@PathParam("id") Integer id) {
-        if (chargeBean.deleteCharge(id)) {
+        if (stationManagerBean.deleteCharge(id)) {
             return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }

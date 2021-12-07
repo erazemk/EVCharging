@@ -56,30 +56,31 @@ public class ChargeBean {
     }
 
     @Transactional
-    public boolean addCharge(Charge charge) {
+    public Charge addCharge(Charge charge) {
         if(charge != null){
             em.persist(charge);
             log.info("Added charge");
             log.config("Added charge " + charge);
+            return charge;
         }
 
         log.severe("Failed to add charge");
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean updateCharge(Integer id, Charge charge) {
+    public Charge updateCharge(Integer id, Charge charge) {
         Charge oldCharge = getCharge(id);
         charge.setId(oldCharge.getId());
 
         if (em.merge(charge) != null) {
             log.info("Updated charge");
             log.config("Updated charge " + charge);
-            return true;
+            return charge;
         }
 
         log.severe("Failed to update charge");
-        return false;
+        return null;
     }
 
     @Transactional

@@ -69,31 +69,31 @@ public class UserBean {
     }
 
     @Transactional
-    public boolean addUser(User user) {
+    public User addUser(User user) {
         if (user != null) {
             em.persist(user);
             log.info("Created user");
             log.config("Created user " + user);
-            return true;
+            return user;
         }
 
         log.severe("Failed to create user");
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean updateUser(Integer id, User user) {
+    public User updateUser(Integer id, User user) {
         User oldUser = getUser(id);
         user.setId(oldUser.getId());
 
         if (em.merge(user) != null) {
             log.info("Updated user");
             log.config("Updated user " + user);
-            return true;
+            return user;
         }
 
         log.severe("Failed to update user");
-        return false;
+        return null;
     }
 
     @Transactional

@@ -57,31 +57,31 @@ public class OwnerBean {
     }
 
     @Transactional
-    public boolean addOwner(Owner owner) {
+    public Owner addOwner(Owner owner) {
         if (owner != null) {
             em.persist(owner);
             log.info("Created owner");
             log.config("Created owner " + owner);
-            return true;
+            return owner;
         }
 
         log.severe("Failed to create owner");
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean updateOwner(Integer id, Owner owner) {
+    public Owner updateOwner(Integer id, Owner owner) {
         Owner oldOwner = getOwner(id);
         owner.setId(oldOwner.getId());
 
         if (em.merge(owner) != null) {
             log.info("Updated owner");
             log.config("Updated owner " + owner);
-            return true;
+            return owner;
         }
 
         log.severe("Failed to update owner");
-        return false;
+        return null;
     }
 
     @Transactional

@@ -8,8 +8,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import si.fri.prpo.skupina00.evcharging.entities.City;
 import si.fri.prpo.skupina00.evcharging.services.beans.CityBean;
+import si.fri.prpo.skupina00.evcharging.services.beans.StationManagerBean;
+import si.fri.prpo.skupina00.evcharging.services.dtos.CityDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -28,85 +29,104 @@ public class CitiesResource {
     @Inject
     private CityBean cityBean;
 
+    @Inject
+    private StationManagerBean stationManagerBean;
+
     @Context
     protected UriInfo uriInfo;
 
     @GET
-    @Operation(summary = "Get all cities.", description = "Returns all cities.")
+    @Operation(summary = "Get cities", description = "Returns list of cities")
     @APIResponses({
-            @APIResponse(description = "All cities.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = City.class, type = SchemaType.ARRAY)),
+            @APIResponse(description = "All cities", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = CityDto.class, type = SchemaType.ARRAY)),
                     headers = {
-                            @Header(name = "X-Total-Count", description = "Number of returned cities.")
+                            @Header(name = "X-Total-Count", description = "Number of returned cities")
                     })
     })
     public Response getCities() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+
         return Response
                 .status(Response.Status.OK)
-                .entity(cityBean.getCities(queryParameters))
+                .entity(stationManagerBean.getCities(queryParameters))
                 .header("X-Total-Count", cityBean.getCityCount(queryParameters))
                 .build();
     }
 
     @GET
-    @Operation(summary = "Get city.", description = "Returns specified city.")
+    @Operation(summary = "Get city", description = "Returns a city")
     @APIResponses({
-            @APIResponse(description = "Specified city.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = City.class))
-            )})
+            @APIResponse(description = "Returned city", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = CityDto.class))),
+            @APIResponse(description = "Failed to find city", responseCode = "403")})
     @Path("/{id}")
     public Response getCity(@PathParam("id") Integer id) {
-        return Response
-                .status(Response.Status.OK)
-                .entity(cityBean.getCity(id))
-                .build();
+        CityDto cityDto = stationManagerBean.getCity(id);
+
+        if (cityDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(cityDto)
+                    .build();
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @POST
-    @Operation(summary = "Add city.", description = "Adds a new city to the table.")
+    @Operation(summary = "Add city", description = "Adds a city")
     @APIResponses({
-            @APIResponse(description = "Add a city.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = City.class))),
-            @APIResponse(description = "Failed to add a city.", responseCode = "403")
+            @APIResponse(description = "Added city", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = CityDto.class))),
+            @APIResponse(description = "Failed to add city", responseCode = "403")
     })
-    public Response addCity(City city) {
-        if (cityBean.addCity(city)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response addCity(CityDto cityDto) {
+        CityDto addedCityDto = stationManagerBean.addCity(cityDto);
+
+        if (addedCityDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(addedCityDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
-    @Operation(summary = "Update city.", description = "Updates the specified city.")
+    @Operation(summary = "Update city", description = "Updates a city")
     @APIResponses({
-            @APIResponse(description = "Update city.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = City.class))),
-            @APIResponse(description = "Failed to update a city.", responseCode = "403")
+            @APIResponse(description = "Updated city", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = CityDto.class))),
+            @APIResponse(description = "Failed to update city", responseCode = "403")
     })
     @Path("/{id}")
-    public Response updateCity(@PathParam("id") Integer id, City city) {
-        if (cityBean.updateCity(id, city)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response updateCity(@PathParam("id") Integer id, CityDto cityDto) {
+        CityDto updatedCityDto = stationManagerBean.updateCity(id, cityDto);
+
+        if (updatedCityDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(updatedCityDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @DELETE
-    @Operation(summary = "Delete city.", description = "Deletes the specified city.")
+    @Operation(summary = "Delete city", description = "Deletes a city")
     @APIResponses({
-            @APIResponse(description = "Delete city.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = City.class))),
-            @APIResponse(description = "Failed to delete city.", responseCode = "403")
+            @APIResponse(description = "Delete city", responseCode = "200"),
+            @APIResponse(description = "Failed to delete city", responseCode = "403")
     })
     @Path("/{id}")
     public Response deleteCity(@PathParam("id") Integer id) {
-        if (cityBean.deleteCity(id)) {
+        if (stationManagerBean.deleteCity(id)) {
             return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }

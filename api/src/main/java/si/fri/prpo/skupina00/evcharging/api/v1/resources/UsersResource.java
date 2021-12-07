@@ -8,8 +8,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import si.fri.prpo.skupina00.evcharging.entities.User;
 import si.fri.prpo.skupina00.evcharging.services.beans.UserBean;
+import si.fri.prpo.skupina00.evcharging.services.beans.UserManagerBean;
+import si.fri.prpo.skupina00.evcharging.services.dtos.UserDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -28,85 +29,104 @@ public class UsersResource {
     @Inject
     private UserBean userBean;
 
+    @Inject
+    private UserManagerBean userManagerBean;
+
     @Context
     protected UriInfo uriInfo;
 
     @GET
-    @Operation(summary = "Get all users.", description = "Returns all users.")
+    @Operation(summary = "Get users", description = "Returns all users")
     @APIResponses({
-            @APIResponse(description = "All users.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = User.class, type = SchemaType.ARRAY)),
+            @APIResponse(description = "All users", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = UserDto.class, type = SchemaType.ARRAY)),
                     headers = {
-                            @Header(name = "X-Total-Count", description = "Number of returned users.")
+                            @Header(name = "X-Total-Count", description = "Number of returned users")
                     })
     })
     public Response getUsers() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+
         return Response
                 .status(Response.Status.OK)
-                .entity(userBean.getUsers(queryParameters))
+                .entity(userManagerBean.getUsers(queryParameters))
                 .header("X-Total-Count", userBean.getUserCount(queryParameters))
                 .build();
     }
 
     @GET
-    @Operation(summary = "Get user.", description = "Returns specified user.")
+    @Operation(summary = "Get user", description = "Returns a user")
     @APIResponses({
-            @APIResponse(description = "Specified user.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = User.class))
-            )})
+            @APIResponse(description = "Returned user", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = UserDto.class))),
+            @APIResponse(description = "Failed to find user", responseCode = "403")})
     @Path("/{id}")
     public Response getUser(@PathParam("id") Integer id) {
-        return Response
-                .status(Response.Status.OK)
-                .entity(userBean.getUser(id))
-                .build();
+        UserDto userDto = userManagerBean.getUser(id);
+
+        if (userDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(userDto)
+                    .build();
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @POST
-    @Operation(summary = "Add user.", description = "Adds user to the table.")
+    @Operation(summary = "Add user", description = "Adds a user")
     @APIResponses({
-            @APIResponse(description = "Add user.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = User.class))),
-            @APIResponse(description = "Failed to add user.", responseCode = "403")
+            @APIResponse(description = "Added user", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = UserDto.class))),
+            @APIResponse(description = "Failed to add user", responseCode = "403")
     })
-    public Response addUser(User user) {
-        if (userBean.addUser(user)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response addUser(UserDto userDto) {
+        UserDto addedUserDto = userManagerBean.addUser(userDto);
+
+        if (addedUserDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(addedUserDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
-    @Operation(summary = "Update user.", description = "Updates the specified user.")
+    @Operation(summary = "Update user", description = "Updates a user")
     @APIResponses({
-            @APIResponse(description = "Update user.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = User.class))),
-            @APIResponse(description = "Failed to update user.", responseCode = "403")
+            @APIResponse(description = "Updated user", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = UserDto.class))),
+            @APIResponse(description = "Failed to update user", responseCode = "403")
     })
     @Path("/{id}")
-    public Response updateUser(@PathParam("id") Integer id, User user) {
-        if (userBean.updateUser(id, user)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response updateUser(@PathParam("id") Integer id, UserDto userDto) {
+        UserDto updatedUserDto = userManagerBean.updateUser(id, userDto);
+
+        if (updatedUserDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(updatedUserDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @DELETE
-    @Operation(summary = "Delete user.", description = "Deletes the specified user.")
+    @Operation(summary = "Delete user", description = "Deletes a user")
     @APIResponses({
-            @APIResponse(description = "Delete user.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = User.class))),
-            @APIResponse(description = "Failed to delete user.", responseCode = "403")
+            @APIResponse(description = "Deleted user", responseCode = "200"),
+            @APIResponse(description = "Failed to delete user", responseCode = "403")
     })
     @Path("/{id}")
     public Response deleteUser(@PathParam("id") Integer id) {
-        if (userBean.deleteUser(id)) {
+        if (userManagerBean.deleteUser(id)) {
             return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }

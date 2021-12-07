@@ -8,10 +8,16 @@ import org.eclipse.microprofile.openapi.annotations.servers.Server;
 
 import javax.ws.rs.ApplicationPath;
 
-@OpenAPIDefinition(info = @Info(title = "EVCharging API", version = "v1",
-        contact = @Contact(email = "ne@pisi.mi"),
-        license = @License(name = "dev"), description = "API for EVCharging services."),
-        servers = @Server(url = "http://localhost:8080/"))
+@OpenAPIDefinition(
+        info = @Info(
+                title = "EVCharging API",
+                version = "v1",
+                description = "API for EVCharging services.",
+                contact = @Contact(email = "ne@pisi.mi"),
+                license = @License(name = "MIT")
+        ),
+        servers = @Server(url = "http://localhost:8080")
+)
 @ApplicationPath("/v1")
 public class EVChargingApplication extends javax.ws.rs.core.Application {
 }

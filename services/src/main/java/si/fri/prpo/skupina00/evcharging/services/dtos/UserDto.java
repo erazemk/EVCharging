@@ -1,14 +1,10 @@
 package si.fri.prpo.skupina00.evcharging.services.dtos;
 
-import java.util.List;
-
 public class UserDto {
     private Integer id;
     private String name;
     private String surname;
     private String email;
-    private List<ChargeDto> charges;
-    private List<ReservationDto> reservations;
 
     public Integer getId() {
         return id;
@@ -40,21 +36,5 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public List<ChargeDto> getCharges() {
-        return charges;
-    }
-
-    public void setCharges(List<ChargeDto> charges) {
-        this.charges = charges;
-    }
-
-    public List<ReservationDto> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<ReservationDto> reservations) {
-        this.reservations = reservations;
     }
 }

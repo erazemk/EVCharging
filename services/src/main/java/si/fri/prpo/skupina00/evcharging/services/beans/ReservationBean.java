@@ -55,30 +55,30 @@ public class ReservationBean {
     }
 
     @Transactional
-    public boolean addReservation(Reservation reservation) {
+    public Reservation addReservation(Reservation reservation) {
         if(reservation != null){
             em.persist(reservation);
             log.info("Created reservation");
             log.config("Created reservation " + reservation);
-            return true;
+            return reservation;
         }
 
         log.severe("Failed to add reservation");
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean updateReservation(Integer id, Reservation reservation) {
+    public Reservation updateReservation(Integer id, Reservation reservation) {
         Reservation oldReservation = getReservation(id);
         reservation.setId(oldReservation.getId());
 
         if (em.merge(reservation) != null) {
             log.info("Updated reservation");
-            return true;
+            return reservation;
         }
 
         log.severe("Failed to update reservation");
-        return false;
+        return null;
     }
 
     @Transactional

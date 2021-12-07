@@ -55,29 +55,29 @@ public class CityBean {
     }
 
     @Transactional
-    public boolean addCity(City city) {
+    public City addCity(City city) {
         if(city != null) {
             em.persist(city);
             log.info("Added city " + city.getName());
-            return true;
+            return city;
         }
 
         log.severe("Failed to add city");
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean updateCity(Integer id, City city) {
+    public City updateCity(Integer id, City city) {
         City oldCity = getCity(id);
         city.setId(oldCity.getId());
 
         if (em.merge(city) != null) {
             log.info("Updated city " + city.getName());
-            return true;
+            return city;
         }
 
         log.severe("Failed to update city");
-        return false;
+        return null;
     }
 
     @Transactional

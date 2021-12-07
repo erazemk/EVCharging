@@ -55,29 +55,29 @@ public class LocationBean {
     }
 
     @Transactional
-    public boolean addLocation(Location location) {
+    public Location addLocation(Location location) {
         if(location != null) {
             em.persist(location);
             log.info("Added location " + location);
-            return true;
+            return location;
         }
 
         log.severe("Failed to add location");
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean updateLocation(Integer id, Location location) {
+    public Location updateLocation(Integer id, Location location) {
         Location oldLocation = getLocation(id);
         location.setId(oldLocation.getId());
 
         if (em.merge(location) != null) {
             log.info("Updated location " + location);
-            return true;
+            return location;
         }
 
         log.severe("Failed to update location " + location);
-        return false;
+        return null;
     }
 
     @Transactional

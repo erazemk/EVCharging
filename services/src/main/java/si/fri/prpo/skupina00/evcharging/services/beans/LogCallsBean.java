@@ -18,7 +18,6 @@ public class LogCallsBean {
             mapMethodCounter.replace(hashCodeMethod, mapMethodCounter.get(hashCodeMethod)+1);
         }
 
-        log.info("Metoda " + name + " je bila poklicana: " + mapMethodCounter.get(hashCodeMethod) + "-krat.");
-
+        log.info("Method " + name + " has been called " + mapMethodCounter.get(hashCodeMethod) + " times.");
     }
 }

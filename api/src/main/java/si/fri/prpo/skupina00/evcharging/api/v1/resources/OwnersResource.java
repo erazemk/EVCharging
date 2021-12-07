@@ -8,8 +8,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import si.fri.prpo.skupina00.evcharging.entities.Owner;
 import si.fri.prpo.skupina00.evcharging.services.beans.OwnerBean;
+import si.fri.prpo.skupina00.evcharging.services.beans.UserManagerBean;
+import si.fri.prpo.skupina00.evcharging.services.dtos.OwnerDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -28,85 +29,104 @@ public class OwnersResource {
     @Inject
     private OwnerBean ownerBean;
 
+    @Inject
+    private UserManagerBean userManagerBean;
+
     @Context
     protected UriInfo uriInfo;
 
     @GET
-    @Operation(summary = "Get all owners.", description = "Returns all owners.")
+    @Operation(summary = "Get owners", description = "Returns list of owners")
     @APIResponses({
-            @APIResponse(description = "All owners.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Owner.class, type = SchemaType.ARRAY)),
+            @APIResponse(description = "All owners", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = OwnerDto.class, type = SchemaType.ARRAY)),
                     headers = {
-                            @Header(name = "X-Total-Count", description = "Number of returned owner.")
+                            @Header(name = "X-Total-Count", description = "Number of returned owner")
                     })
     })
     public Response getOwners() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+
         return Response
                 .status(Response.Status.OK)
-                .entity(ownerBean.getOwners(queryParameters))
+                .entity(userManagerBean.getOwners(queryParameters))
                 .header("X-Total-Count", ownerBean.getOwnerCount(queryParameters))
                 .build();
     }
 
     @GET
-    @Operation(summary = "Get owner.", description = "Returns specified owner.")
+    @Operation(summary = "Get owner", description = "Returns an owner")
     @APIResponses({
-            @APIResponse(description = "Specified owner.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Owner.class))
-            )})
+            @APIResponse(description = "Returned owner", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = OwnerDto.class))),
+            @APIResponse(description = "Failed to find owner", responseCode = "403")})
     @Path("/{id}")
     public Response getOwner(@PathParam("id") Integer id) {
-        return Response
-                .status(Response.Status.OK)
-                .entity(ownerBean.getOwner(id))
-                .build();
+        OwnerDto ownerDto = userManagerBean.getOwner(id);
+
+        if (ownerDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(ownerDto)
+                    .build();
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @POST
-    @Operation(summary = "Add owner.", description = "Adds owner to the table.")
+    @Operation(summary = "Add owner", description = "Adds an owner")
     @APIResponses({
-            @APIResponse(description = "Add owner.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Owner.class))),
-            @APIResponse(description = "Failed to add owner.", responseCode = "403")
+            @APIResponse(description = "Added owner", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = OwnerDto.class))),
+            @APIResponse(description = "Failed to add owner", responseCode = "403")
     })
-    public Response addOwner(Owner owner) {
-        if (ownerBean.addOwner(owner)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response addOwner(OwnerDto ownerDto) {
+        OwnerDto addedOwnerDto = userManagerBean.addOwner(ownerDto);
+
+        if (addedOwnerDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(addedOwnerDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
-    @Operation(summary = "Update owner.", description = "Updates the specified owner.")
+    @Operation(summary = "Update owner", description = "Updates an owner")
     @APIResponses({
-            @APIResponse(description = "Update owner.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Owner.class))),
-            @APIResponse(description = "Failed to update owner.", responseCode = "403")
+            @APIResponse(description = "Updated owner", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = OwnerDto.class))),
+            @APIResponse(description = "Failed to update owner", responseCode = "403")
     })
     @Path("/{id}")
-    public Response updateOwner(@PathParam("id") Integer id, Owner owner) {
-        if (ownerBean.updateOwner(id, owner)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response updateOwner(@PathParam("id") Integer id, OwnerDto ownerDto) {
+        OwnerDto updatedOwnerDto = userManagerBean.updateOwner(id, ownerDto);
+
+        if (updatedOwnerDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(updatedOwnerDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @DELETE
-    @Operation(summary = "Delete owner.", description = "Deletes the specified owner.")
+    @Operation(summary = "Delete owner", description = "Deletes an owner")
     @APIResponses({
-            @APIResponse(description = "Delete owner.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Owner.class))),
-            @APIResponse(description = "Failed to delete owner.", responseCode = "403")
+            @APIResponse(description = "Deleted owner", responseCode = "200"),
+            @APIResponse(description = "Failed to delete owner", responseCode = "403")
     })
     @Path("/{id}")
     public Response deleteOwner(@PathParam("id") Integer id) {
-        if (ownerBean.deleteOwner(id)) {
+        if (userManagerBean.deleteOwner(id)) {
             return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }

@@ -7,14 +7,14 @@ import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 @LogCalls
 public class StationBean {
     private static final Logger log = Logger.getLogger(StationBean.class.getName());
@@ -55,30 +55,30 @@ public class StationBean {
     }
 
     @Transactional
-    public boolean addStation(Station station) {
+    public Station addStation(Station station) {
         if(station != null) {
             em.persist(station);
             log.info("Created station");
             log.config("Created station " + station.getName());
-            return true;
+            return station;
         }
 
         log.severe("Failed to create station");
-        return false;
+        return null;
     }
 
     @Transactional
-    public boolean updateStation(Integer id, Station station) {
+    public Station updateStation(Integer id, Station station) {
         Station oldStation = getStation(id);
         station.setId(oldStation.getId());
 
         if (em.merge(station) != null) {
             log.info("Updated station " + station.getName());
-            return true;
+            return station;
         }
 
         log.severe("Failed to update station");
-        return false;
+        return null;
     }
 
     @Transactional

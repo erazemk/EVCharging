@@ -8,8 +8,9 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import si.fri.prpo.skupina00.evcharging.entities.Location;
 import si.fri.prpo.skupina00.evcharging.services.beans.LocationBean;
+import si.fri.prpo.skupina00.evcharging.services.beans.StationManagerBean;
+import si.fri.prpo.skupina00.evcharging.services.dtos.LocationDto;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -28,20 +29,24 @@ public class LocationsResource {
     @Inject
     private LocationBean locationBean;
 
+    @Inject
+    private StationManagerBean stationManagerBean;
+
     @Context
     protected UriInfo uriInfo;
 
     @GET
-    @Operation(summary = "Get all locations.", description = "Returns all locations.")
+    @Operation(summary = "Get locations", description = "Returns all locations")
     @APIResponses({
-            @APIResponse(description = "All locations.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Location.class, type = SchemaType.ARRAY)),
+            @APIResponse(description = "All locations", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = LocationDto.class, type = SchemaType.ARRAY)),
                     headers = {
-                            @Header(name = "X-Total-Count", description = "Number of returned locations.")
+                            @Header(name = "X-Total-Count", description = "Number of returned locations")
                     })
     })
     public Response getLocations() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
+
         return Response
                 .status(Response.Status.OK)
                 .entity(locationBean.getLocations(queryParameters))
@@ -50,63 +55,78 @@ public class LocationsResource {
     }
 
     @GET
-    @Operation(summary = "Get location.", description = "Returns specified location.")
+    @Operation(summary = "Get location", description = "Returns a location")
     @APIResponses({
-            @APIResponse(description = "Specified location.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Location.class))
-            )})
+            @APIResponse(description = "Returned location", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = LocationDto.class))),
+            @APIResponse(description = "Failed to find location", responseCode = "403")})
     @Path("/{id}")
     public Response getLocation(@PathParam("id") Integer id) {
-        return Response
-                .status(Response.Status.OK)
-                .entity(locationBean.getLocation(id))
-                .build();
+        LocationDto locationDto = stationManagerBean.getLocation(id);
+
+        if (locationDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(locationDto)
+                    .build();
+        }
+
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @POST
-    @Operation(summary = "Add a location.", description = "Adds a location to the table.")
+    @Operation(summary = "Add location", description = "Adds a location")
     @APIResponses({
-            @APIResponse(description = "Add a location.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Location.class))),
-            @APIResponse(description = "Failed to add a location.", responseCode = "403")
+            @APIResponse(description = "Added location", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = LocationDto.class))),
+            @APIResponse(description = "Failed to add location", responseCode = "403")
     })
-    public Response addLocation(Location location) {
-        if (locationBean.addLocation(location)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response addLocation(LocationDto locationDto) {
+        LocationDto addedLocationDto = stationManagerBean.addLocation(locationDto);
+
+        if (addedLocationDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(addedLocationDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @PUT
-    @Operation(summary = "Update a location.", description = "Updates the specified location.")
+    @Operation(summary = "Update location", description = "Updates a location")
     @APIResponses({
-            @APIResponse(description = "Update location.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Location.class))),
-            @APIResponse(description = "Failed to update a location.", responseCode = "403")
+            @APIResponse(description = "Updated location", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = LocationDto.class))),
+            @APIResponse(description = "Failed to update location", responseCode = "403")
     })
     @Path("/{id}")
-    public Response updateLocation(@PathParam("id") Integer id, Location location) {
-        if (locationBean.updateLocation(id, location)) {
-            return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
+    public Response updateLocation(@PathParam("id") Integer id, LocationDto locationDto) {
+        LocationDto updatedLocationDto = stationManagerBean.updateLocation(id, locationDto);
+
+        if (updatedLocationDto != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(updatedLocationDto)
+                    .build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 
     @DELETE
-    @Operation(summary = "Delete location.", description = "Deletes the specified location.")
+    @Operation(summary = "Delete location", description = "Deletes a location")
     @APIResponses({
-            @APIResponse(description = "Delete location.", responseCode = "200",
-                    content = @Content(schema = @Schema(implementation = Location.class))),
+            @APIResponse(description = "Deleted location", responseCode = "200"),
             @APIResponse(description = "Failed to delete location.", responseCode = "403")
     })
     @Path("/{id}")
     public Response deleteLocation(@PathParam("id") Integer id) {
-        if (locationBean.deleteLocation(id)) {
+        if (stationManagerBean.deleteLocation(id)) {
             return Response.status(Response.Status.OK).build();
-        } else {
-            return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }
