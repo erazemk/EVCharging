@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -12,6 +13,7 @@ import si.fri.prpo.skupina00.evcharging.services.beans.ChargeBean;
 import si.fri.prpo.skupina00.evcharging.services.beans.StationManagerBean;
 import si.fri.prpo.skupina00.evcharging.services.dtos.ChargeDto;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -24,6 +26,7 @@ import javax.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
+@Secure
 public class ChargesResource {
 
     @Inject
@@ -42,6 +45,7 @@ public class ChargesResource {
                 content = @Content(schema = @Schema(implementation = ChargeDto.class, type = SchemaType.ARRAY)),
                 headers = { @Header(name = "X-Total-Count", description = "Number of returned charges") })
     })
+    @RolesAllowed({"user"})
     public Response getCharges() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
 
@@ -59,6 +63,7 @@ public class ChargesResource {
                     content = @Content(schema = @Schema(implementation = ChargeDto.class))),
             @APIResponse(description = "Failed to find charge", responseCode = "403")})
     @Path("/{id}")
+    @RolesAllowed("user")
     public Response getCharge(@PathParam("id") Integer id) {
         ChargeDto chargeDto = stationManagerBean.getCharge(id);
 
@@ -79,6 +84,7 @@ public class ChargesResource {
                     content = @Content(schema = @Schema(implementation = ChargeDto.class))),
             @APIResponse(description = "Failed to add charge", responseCode = "403")
             })
+    @RolesAllowed("user")
     public Response addCharge(ChargeDto chargeDto) {
         ChargeDto addedChargeDto = stationManagerBean.addCharge(chargeDto);
 
@@ -100,6 +106,7 @@ public class ChargesResource {
             @APIResponse(description = "Failed to update charge", responseCode = "403")
     })
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response updateCharge(@PathParam("id") Integer id, ChargeDto chargeDto) {
         ChargeDto updatedChargeDto = stationManagerBean.updateCharge(id, chargeDto);
 
@@ -120,6 +127,7 @@ public class ChargesResource {
             @APIResponse(description = "Failed to delete charge", responseCode = "403")
     })
     @Path("/{id}")
+    @RolesAllowed("admin")
     public Response deleteCharge(@PathParam("id") Integer id) {
         if (stationManagerBean.deleteCharge(id)) {
             return Response.status(Response.Status.OK).build();

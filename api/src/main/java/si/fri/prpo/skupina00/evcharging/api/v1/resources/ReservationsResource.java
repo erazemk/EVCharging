@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -12,6 +13,7 @@ import si.fri.prpo.skupina00.evcharging.services.beans.ReservationBean;
 import si.fri.prpo.skupina00.evcharging.services.beans.StationManagerBean;
 import si.fri.prpo.skupina00.evcharging.services.dtos.ReservationDto;
 
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -24,6 +26,7 @@ import javax.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
+@Secure
 public class ReservationsResource {
 
     @Inject
@@ -44,6 +47,7 @@ public class ReservationsResource {
                             @Header(name = "X-Total-Count", description = "Number of returned reservations")
                     })
     })
+    @RolesAllowed("user")
     public Response getReservations() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
 
@@ -61,6 +65,7 @@ public class ReservationsResource {
                     content = @Content(schema = @Schema(implementation = ReservationDto.class))),
             @APIResponse(description = "Failed to find reservation", responseCode = "403")})
     @Path("/{id}")
+    @RolesAllowed("user")
     public Response getReservation(@PathParam("id") Integer id) {
         ReservationDto reservationDto = stationManagerBean.getReservation(id);
 
@@ -81,6 +86,7 @@ public class ReservationsResource {
                     content = @Content(schema = @Schema(implementation = ReservationDto.class))),
             @APIResponse(description = "Failed to add reservation", responseCode = "403")
     })
+    @RolesAllowed("user")
     public Response addReservation(ReservationDto reservationDto) {
         ReservationDto addedReservationDto = stationManagerBean.addReservation(reservationDto);
 
@@ -102,6 +108,7 @@ public class ReservationsResource {
             @APIResponse(description = "Failed to update reservation", responseCode = "403")
     })
     @Path("/{id}")
+    @RolesAllowed("user")
     public Response updateReservation(@PathParam("id") Integer id, ReservationDto reservationDto) {
         ReservationDto updatedReservationDto = stationManagerBean.updateReservation(id, reservationDto);
 
@@ -122,6 +129,7 @@ public class ReservationsResource {
             @APIResponse(description = "Failed to delete reservation", responseCode = "403")
     })
     @Path("/{id}")
+    @RolesAllowed("user")
     public Response deleteReservation(@PathParam("id") Integer id) {
         if (stationManagerBean.deleteReservation(id)) {
             return Response.status(Response.Status.OK).build();

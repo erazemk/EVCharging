@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -12,6 +13,8 @@ import si.fri.prpo.skupina00.evcharging.services.beans.StationBean;
 import si.fri.prpo.skupina00.evcharging.services.beans.StationManagerBean;
 import si.fri.prpo.skupina00.evcharging.services.dtos.StationDto;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -24,6 +27,7 @@ import javax.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
+@Secure
 public class StationsResource {
 
     @Inject
@@ -44,6 +48,7 @@ public class StationsResource {
                             @Header(name = "X-Total-Count", description = "Number of returned stations")
                     })
     })
+    @PermitAll
     public Response getStations() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
 
@@ -61,6 +66,7 @@ public class StationsResource {
                     content = @Content(schema = @Schema(implementation = StationDto.class))),
             @APIResponse(description = "Failed to find station", responseCode = "403")})
     @Path("/{id}")
+    @PermitAll
     public Response getStation(@PathParam("id") Integer id) {
         StationDto stationDto = stationManagerBean.getStation(id);
 
@@ -81,6 +87,7 @@ public class StationsResource {
                     content = @Content(schema = @Schema(implementation = StationDto.class))),
             @APIResponse(description = "Failed to add station", responseCode = "403")
     })
+    @RolesAllowed("owner")
     public Response addStation(StationDto stationDto) {
         StationDto addedStationDto = stationManagerBean.addStation(stationDto);
 
@@ -102,6 +109,7 @@ public class StationsResource {
             @APIResponse(description = "Failed to update station", responseCode = "403")
     })
     @Path("/{id}")
+    @RolesAllowed("owner")
     public Response updateStation(@PathParam("id") Integer id, StationDto stationDto) {
         StationDto updatedStationDto = stationManagerBean.updateStation(id, stationDto);
 
@@ -122,6 +130,7 @@ public class StationsResource {
             @APIResponse(description = "Failed to delete station", responseCode = "403")
     })
     @Path("/{id}")
+    @RolesAllowed("owner")
     public Response deleteStation(@PathParam("id") Integer id) {
         if (stationManagerBean.deleteStation(id)) {
             return Response.status(Response.Status.OK).build();
