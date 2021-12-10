@@ -7,7 +7,7 @@ RUN mvn clean package
 
 FROM docker.io/library/openjdk:11-slim AS run
 
-ENV VER=0.0.0
+ENV VER=0.5.0
 
 COPY --from=build /package/api/target/evcharging-api-${VER}.jar ./
 EXPOSE 8080
