@@ -1,5 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.reports.api.v1.beans;
 
+import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import si.fri.prpo.skupina00.evcharging.entities.*;
 
 import javax.annotation.PostConstruct;
@@ -24,7 +25,9 @@ public class ReportBean {
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
-        baseUrl = "http://localhost:8080/v1";
+        baseUrl = ConfigurationUtil.getInstance()
+                .get("integrations.main.base-url")
+                .orElse("http://localhost:8080/v1");
     }
 
     public List<User> getUsers() {
