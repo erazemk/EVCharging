@@ -3,7 +3,6 @@
     <persistence-unit name="evcharging-jpa" transaction-type="JTA">
         <jta-data-source>jdbc/EVChargingDS</jta-data-source>
 
-        <class>si.fri.prpo.skupina00.evcharging.entities.Entity</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.Owner</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.Reservation</class>
         <class>si.fri.prpo.skupina00.evcharging.entities.Station</class>
