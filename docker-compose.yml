@@ -1,8 +1,17 @@
 version: 3.9
 
 services:
+
+  evcharging-build:
+    image: evcharging-build
+    build:
+      context: .
+      dockerfile: Containerfile.build
+
   evcharging-main:
-    build: .
+    build:
+      context: .
+      dockerfile: Containerfile.main
     target: run-main
     container_name: evcharging-main
     restart: unless-stopped
@@ -10,79 +19,65 @@ services:
       - "8080:8080"
     volumes:
       - maven-repo:/root/.m2
-    networks:
-      - evcharging-main-net
     depends_on:
       - postgres
-      - keycloak
+      - evcharging-build
+#      - keycloak
 
   evcharging-reports:
-    build: .
+    build:
+      context: .
+      dockerfile: Containerfile.reports
     target: run-reports
     container_name: evcharging-reports
     restart: unless-stopped
     ports:
       - "8081:8081"
-    networks:
-      - evcharging-reports-net
     depends_on:
       - evcharging-main
+      - evcharging-build
 
-  evcharging-invoices:
-    build: .
-    target: run-invoices
-    container_name: evcharging-invoices
-    restart: unless-stopped
-    ports:
-      - "8082:8082"
-    networks:
-      - evcharging-invoices-net
-    depends_on:
-      - evcharging_main
+#   evcharging-invoices:
+#     build:
+#       context: .
+#       dockerfile: Containerfile.invoices
+#     target: run-invoices
+#     container_name: evcharging-invoices
+#     restart: unless-stopped
+#     ports:
+#       - "8082:8082"
+#     depends_on:
+#       - evcharging_main
 
   postgres:
     image: docker.io/library/postgres:14.1
     container_name: postgres
     restart: unless-stopped
-    networks:
-      - evcharging-main-net
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: evcharging
 
-  keycloak:
-    image: docker.io/jboss/keycloak:15.0.2
-    container_name: keycloak
-    restart: unless-stopped
-    ports:
-      - "7999:8080"
-    volumes:
-      - ./res/customers-realm.json:/tmp/customers-realm.json:ro
-    networks:
-      - keycloak-net
-    environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: password
-      KEYCLOAK_IMPORT: /tmp/customers-realm.json
-      KUMULUZEE_SECURITY_KEYCLOAK_JSON:
-        '{
-          "realm": "customers-realm",
-          "bearer-only": true,
-          "auth-server-url": "http://localhost:8081/auth/",
-          "ssl-required": "external",
-          "resource": "customers-api",
-          "confidential-port": 0
-        }'
+#   keycloak:
+#     image: docker.io/jboss/keycloak:15.0.2
+#     container_name: keycloak
+#     restart: unless-stopped
+#     ports:
+#       - "7999:8080"
+#     volumes:
+#       - ./res/customers-realm.json:/tmp/customers-realm.json:ro
+#     environment:
+#       KEYCLOAK_USER: admin
+#       KEYCLOAK_PASSWORD: password
+#       KEYCLOAK_IMPORT: /tmp/customers-realm.json
+#       KUMULUZEE_SECURITY_KEYCLOAK_JSON:
+#         '{
+#           "realm": "customers-realm",
+#           "bearer-only": true,
+#           "auth-server-url": "http://localhost:8081/auth/",
+#           "ssl-required": "external",
+#           "resource": "customers-api",
+#           "confidential-port": 0
+#         }'
 
 volumes:
   maven-repo: {}
-
-networks:
-  evcharging-main-net:
-    driver: bridge
-  evcharging-reports-net:
-    driver: bridge
-  evcharging-invoices-net:
-    driver: bridge
-  keycloak-net:
-    driver: bridge
