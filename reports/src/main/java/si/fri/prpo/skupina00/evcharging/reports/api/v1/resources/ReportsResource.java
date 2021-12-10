@@ -35,7 +35,8 @@ public class ReportsResource {
     })
     public Response getReport() {
         ReportDto reportDto = new ReportDto();
-        reportDto.setUsers(reportBean.getUsers().size());
+        reportDto.setUsers(reportBean.getEntities("/users").size());
+        //reportDto.setUsers(reportBean.getUsers().size());
         reportDto.setOwners(reportBean.getOwners().size());
         reportDto.setStations(reportBean.getStations().size());
         reportDto.setCities(reportBean.getCities().size());

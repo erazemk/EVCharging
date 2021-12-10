@@ -1,7 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.reports.api.v1.beans;
 
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
-import si.fri.prpo.skupina00.evcharging.entities.*;
+import si.fri.prpo.skupina00.evcharging.reports.api.v1.dtos.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -30,7 +30,20 @@ public class ReportBean {
                 .orElse("http://localhost:8080/v1");
     }
 
-    public List<User> getUsers() {
+    public <T> List<T> getEntities(String endpoint) {
+        try {
+            return httpClient
+                    .target(baseUrl)
+                    .path(endpoint)
+                    .request(MediaType.APPLICATION_JSON)
+                    .get(new GenericType<>(){});
+        } catch (WebApplicationException | ProcessingException e) {
+            log.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+    }
+
+    public List<UserDto> getUsers() {
         try {
             return httpClient
                     .target(baseUrl)
@@ -43,7 +56,7 @@ public class ReportBean {
         }
     }
 
-    public List<Owner> getOwners() {
+    public List<OwnerDto> getOwners() {
         try {
             return httpClient
                     .target(baseUrl)
@@ -56,7 +69,7 @@ public class ReportBean {
         }
     }
 
-    public List<Station> getStations() {
+    public List<StationDto> getStations() {
         try {
             return httpClient
                     .target(baseUrl)
@@ -69,7 +82,7 @@ public class ReportBean {
         }
     }
 
-    public List<Location> getLocations() {
+    public List<LocationDto> getLocations() {
         try {
             return httpClient
                     .target(baseUrl)
@@ -82,7 +95,7 @@ public class ReportBean {
         }
     }
 
-    public List<City> getCities() {
+    public List<CityDto> getCities() {
         try {
             return httpClient
                     .target(baseUrl)
@@ -95,7 +108,7 @@ public class ReportBean {
         }
     }
 
-    public List<Charge> getCharges() {
+    public List<ChargeDto> getCharges() {
         try {
             return httpClient
                     .target(baseUrl)
@@ -108,7 +121,7 @@ public class ReportBean {
         }
     }
 
-    public List<Reservation> getReservations() {
+    public List<ReservationDto> getReservations() {
         try {
             return httpClient
                     .target(baseUrl)
