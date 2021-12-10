@@ -8,8 +8,8 @@ public class ReportDto {
     private Integer locations;
     private Integer charges;
     private Integer reservations;
-    private Long maxPrice;
-    private Long minPrice;
+    private Float maxPrice;
+    private Float minPrice;
 
     public Integer getUsers() {
         return users;
@@ -67,19 +67,19 @@ public class ReportDto {
         this.reservations = reservations;
     }
 
-    public Long getMaxPrice() {
+    public Float getMaxPrice() {
         return maxPrice;
     }
 
-    public void setMaxPrice(Long maxPrice) {
+    public void setMaxPrice(Float maxPrice) {
         this.maxPrice = maxPrice;
     }
 
-    public Long getMinPrice() {
+    public Float getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(Long minPrice) {
+    public void setMinPrice(Float minPrice) {
         this.minPrice = minPrice;
     }
 }
