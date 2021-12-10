@@ -1,9 +1,14 @@
 package si.fri.prpo.skupina00.evcharging.services.dtos;
 
+import java.sql.Time;
+
 public class ChargeDto {
     private Integer id;
     private Integer userId;
     private Integer stationId;
+    private Time beginTime;
+    private Time endTime;
+    private Float price;
 
     public Integer getId() {
         return id;
@@ -27,5 +32,29 @@ public class ChargeDto {
 
     public void setStationId(Integer stationId) {
         this.stationId = stationId;
+    }
+
+    public Time getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(Time beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public Time getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Time endTime) {
+        this.endTime = endTime;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
     }
 }

@@ -31,6 +31,9 @@ public class Mapper {
         charge.setId(chargeDto.getId());
         charge.setUser(user);
         charge.setStation(station);
+        charge.setBeginTime(chargeDto.getBeginTime());
+        charge.setEndTime(chargeDto.getEndTime());
+        charge.setPrice(chargeDto.getPrice());
 
         return charge;
     }
@@ -41,6 +44,9 @@ public class Mapper {
         chargeDto.setId(charge.getId());
         chargeDto.setStationId(charge.getStation().getId());
         chargeDto.setUserId(charge.getUser().getId());
+        chargeDto.setBeginTime(charge.getBeginTime());
+        chargeDto.setEndTime(charge.getEndTime());
+        chargeDto.setPrice(charge.getPrice());
 
         return chargeDto;
     }
