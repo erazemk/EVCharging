@@ -6,12 +6,10 @@ services:
     image: evcharging-build
     build:
       context: .
-      dockerfile: Containerfile.build
 
   evcharging-main:
     build:
-      context: .
-      dockerfile: Containerfile.main
+      context: api
     target: run-main
     container_name: evcharging-main
     restart: unless-stopped
@@ -26,8 +24,7 @@ services:
 
   evcharging-reports:
     build:
-      context: .
-      dockerfile: Containerfile.reports
+      context: reports
     target: run-reports
     container_name: evcharging-reports
     restart: unless-stopped
@@ -39,8 +36,7 @@ services:
 
 #   evcharging-invoices:
 #     build:
-#       context: .
-#       dockerfile: Containerfile.invoices
+#       context: invoices
 #     target: run-invoices
 #     container_name: evcharging-invoices
 #     restart: unless-stopped
