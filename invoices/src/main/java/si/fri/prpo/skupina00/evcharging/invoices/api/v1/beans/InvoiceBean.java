@@ -1,7 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.invoices.api.v1.beans;
 
-import si.fri.prpo.skupina00.evcharging.entities.Charge;
-import si.fri.prpo.skupina00.evcharging.entities.User;
+import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.ChargeDto;
+import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.UserDto;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -12,7 +12,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
@@ -28,7 +27,7 @@ public class InvoiceBean {
         baseUrl = "http://localhost:8080/v1";
     }
 
-    public User getUser(Integer id) {
+    public UserDto getUser(Integer id) {
         try {
             return httpClient
                     .target(baseUrl)
@@ -41,7 +40,7 @@ public class InvoiceBean {
         }
     }
 
-    public Charge getCharge(Integer id) {
+    public ChargeDto getCharge(Integer id) {
         try {
             return httpClient
                     .target(baseUrl)

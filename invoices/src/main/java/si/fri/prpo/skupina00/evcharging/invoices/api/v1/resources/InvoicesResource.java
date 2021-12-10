@@ -1,9 +1,9 @@
 package si.fri.prpo.skupina00.evcharging.invoices.api.v1.resources;
 
-import si.fri.prpo.skupina00.evcharging.entities.Charge;
-import si.fri.prpo.skupina00.evcharging.entities.User;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.beans.InvoiceBean;
+import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.ChargeDto;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.InvoiceDto;
+import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.UserDto;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -47,14 +47,14 @@ public class InvoicesResource {
     public Response getInvoice(@QueryParam("user") Integer userId, @QueryParam("charge") Integer chargeId)
             throws JAXBException, FileNotFoundException {
         InvoiceDto invoiceDto = new InvoiceDto();
-        User user = invoiceBean.getUser(userId);
-        Charge charge = invoiceBean.getCharge(chargeId);
+        UserDto user = invoiceBean.getUser(userId);
+        ChargeDto charge = invoiceBean.getCharge(chargeId);
         invoiceDto.setName(user.getName());
         invoiceDto.setSurname(user.getSurname());
         invoiceDto.setEmail(user.getEmail());
 
         invoiceDto.setPrice(charge.getPrice());
-        invoiceDto.setStationName(charge.getStation().getName());
+        invoiceDto.setStationId(charge.getStationId());
         invoiceDto.setDuration(Duration.between(charge.getBeginTime().toInstant(),
                 charge.getEndTime().toInstant()).toMinutes());
 

@@ -9,7 +9,7 @@ public class InvoiceDto {
     private String name;
     private String surname;
     private String email;
-    private String stationName;
+    private Integer stationId;
     private long duration;
     private Float price;
 
@@ -41,12 +41,12 @@ public class InvoiceDto {
     }
 
     @XmlElement
-    public String getStationName() {
-        return stationName;
+    public Integer getStationId() {
+        return stationId;
     }
 
-    public void setStationName(String stationName) {
-        this.stationName = stationName;
+    public void setStationId(Integer stationId) {
+        this.stationId = stationId;
     }
 
     @XmlElement
