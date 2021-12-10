@@ -1,7 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
-import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -13,8 +12,6 @@ import si.fri.prpo.skupina00.evcharging.services.beans.CityBean;
 import si.fri.prpo.skupina00.evcharging.services.beans.StationManagerBean;
 import si.fri.prpo.skupina00.evcharging.services.dtos.CityDto;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -27,7 +24,7 @@ import javax.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
-@Secure
+//@Secure
 public class CitiesResource {
 
     @Inject
@@ -48,7 +45,7 @@ public class CitiesResource {
                             @Header(name = "X-Total-Count", description = "Number of returned cities")
                     })
     })
-    @PermitAll
+    //@PermitAll
     public Response getCities() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
 
@@ -66,7 +63,7 @@ public class CitiesResource {
                     content = @Content(schema = @Schema(implementation = CityDto.class))),
             @APIResponse(description = "Failed to find city", responseCode = "403")})
     @Path("/{id}")
-    @PermitAll
+    //@PermitAll
     public Response getCity(@PathParam("id") Integer id) {
         CityDto cityDto = stationManagerBean.getCity(id);
 
@@ -87,7 +84,7 @@ public class CitiesResource {
                     content = @Content(schema = @Schema(implementation = CityDto.class))),
             @APIResponse(description = "Failed to add city", responseCode = "403")
     })
-    @RolesAllowed("admin")
+    //@RolesAllowed("admin")
     public Response addCity(CityDto cityDto) {
         CityDto addedCityDto = stationManagerBean.addCity(cityDto);
 
@@ -109,7 +106,7 @@ public class CitiesResource {
             @APIResponse(description = "Failed to update city", responseCode = "403")
     })
     @Path("/{id}")
-    @RolesAllowed("admin")
+    //@RolesAllowed("admin")
     public Response updateCity(@PathParam("id") Integer id, CityDto cityDto) {
         CityDto updatedCityDto = stationManagerBean.updateCity(id, cityDto);
 
@@ -130,7 +127,7 @@ public class CitiesResource {
             @APIResponse(description = "Failed to delete city", responseCode = "403")
     })
     @Path("/{id}")
-    @RolesAllowed("admin")
+    //@RolesAllowed("admin")
     public Response deleteCity(@PathParam("id") Integer id) {
         if (stationManagerBean.deleteCity(id)) {
             return Response.status(Response.Status.OK).build();

@@ -1,7 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
-import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -13,8 +12,6 @@ import si.fri.prpo.skupina00.evcharging.services.beans.OwnerBean;
 import si.fri.prpo.skupina00.evcharging.services.beans.UserManagerBean;
 import si.fri.prpo.skupina00.evcharging.services.dtos.OwnerDto;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -27,7 +24,7 @@ import javax.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
-@Secure
+//@Secure
 public class OwnersResource {
 
     @Inject
@@ -48,7 +45,7 @@ public class OwnersResource {
                             @Header(name = "X-Total-Count", description = "Number of returned owner")
                     })
     })
-    @PermitAll
+    //@PermitAll
     public Response getOwners() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
 
@@ -66,7 +63,7 @@ public class OwnersResource {
                     content = @Content(schema = @Schema(implementation = OwnerDto.class))),
             @APIResponse(description = "Failed to find owner", responseCode = "403")})
     @Path("/{id}")
-    @PermitAll
+    //@PermitAll
     public Response getOwner(@PathParam("id") Integer id) {
         OwnerDto ownerDto = userManagerBean.getOwner(id);
 
@@ -87,7 +84,7 @@ public class OwnersResource {
                     content = @Content(schema = @Schema(implementation = OwnerDto.class))),
             @APIResponse(description = "Failed to add owner", responseCode = "403")
     })
-    @RolesAllowed("admin")
+    //@RolesAllowed("admin")
     public Response addOwner(OwnerDto ownerDto) {
         OwnerDto addedOwnerDto = userManagerBean.addOwner(ownerDto);
 
@@ -109,7 +106,7 @@ public class OwnersResource {
             @APIResponse(description = "Failed to update owner", responseCode = "403")
     })
     @Path("/{id}")
-    @RolesAllowed("owner")
+    //@RolesAllowed("owner")
     public Response updateOwner(@PathParam("id") Integer id, OwnerDto ownerDto) {
         OwnerDto updatedOwnerDto = userManagerBean.updateOwner(id, ownerDto);
 
@@ -130,7 +127,7 @@ public class OwnersResource {
             @APIResponse(description = "Failed to delete owner", responseCode = "403")
     })
     @Path("/{id}")
-    @RolesAllowed("admin")
+    //@RolesAllowed("admin")
     public Response deleteOwner(@PathParam("id") Integer id) {
         if (userManagerBean.deleteOwner(id)) {
             return Response.status(Response.Status.OK).build();

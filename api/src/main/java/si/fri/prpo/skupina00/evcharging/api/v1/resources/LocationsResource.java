@@ -1,7 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
-import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
@@ -13,8 +12,6 @@ import si.fri.prpo.skupina00.evcharging.services.beans.LocationBean;
 import si.fri.prpo.skupina00.evcharging.services.beans.StationManagerBean;
 import si.fri.prpo.skupina00.evcharging.services.dtos.LocationDto;
 
-import javax.annotation.security.PermitAll;
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -27,7 +24,7 @@ import javax.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
-@Secure
+//@Secure
 public class LocationsResource {
 
     @Inject
@@ -48,7 +45,7 @@ public class LocationsResource {
                             @Header(name = "X-Total-Count", description = "Number of returned locations")
                     })
     })
-    @PermitAll
+    //@PermitAll
     public Response getLocations() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
 
@@ -66,7 +63,7 @@ public class LocationsResource {
                     content = @Content(schema = @Schema(implementation = LocationDto.class))),
             @APIResponse(description = "Failed to find location", responseCode = "403")})
     @Path("/{id}")
-    @PermitAll
+    //@PermitAll
     public Response getLocation(@PathParam("id") Integer id) {
         LocationDto locationDto = stationManagerBean.getLocation(id);
 
@@ -87,7 +84,7 @@ public class LocationsResource {
                     content = @Content(schema = @Schema(implementation = LocationDto.class))),
             @APIResponse(description = "Failed to add location", responseCode = "403")
     })
-    @RolesAllowed("owner")
+    //@RolesAllowed("owner")
     public Response addLocation(LocationDto locationDto) {
         LocationDto addedLocationDto = stationManagerBean.addLocation(locationDto);
 
@@ -109,7 +106,7 @@ public class LocationsResource {
             @APIResponse(description = "Failed to update location", responseCode = "403")
     })
     @Path("/{id}")
-    @RolesAllowed("owner")
+    //@RolesAllowed("owner")
     public Response updateLocation(@PathParam("id") Integer id, LocationDto locationDto) {
         LocationDto updatedLocationDto = stationManagerBean.updateLocation(id, locationDto);
 
@@ -130,7 +127,7 @@ public class LocationsResource {
             @APIResponse(description = "Failed to delete location.", responseCode = "403")
     })
     @Path("/{id}")
-    @RolesAllowed("owner")
+    //@RolesAllowed("owner")
     public Response deleteLocation(@PathParam("id") Integer id) {
         if (stationManagerBean.deleteLocation(id)) {
             return Response.status(Response.Status.OK).build();
