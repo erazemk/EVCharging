@@ -34,16 +34,17 @@ services:
       - evcharging-main
       - evcharging-build
 
-#   evcharging-invoices:
-#     build:
-#       context: invoices
-#     target: run-invoices
-#     container_name: evcharging-invoices
-#     restart: unless-stopped
-#     ports:
-#       - "8082:8082"
-#     depends_on:
-#       - evcharging_main
+  evcharging-invoices:
+    build:
+      context: invoices
+    target: run-invoices
+    container_name: evcharging-invoices
+    restart: unless-stopped
+    ports:
+      - "8082:8082"
+    depends_on:
+      - evcharging-main
+      - evcharging-build
 
   postgres:
     image: docker.io/library/postgres:14.1
