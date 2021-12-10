@@ -15,6 +15,7 @@
         <module>services</module>
         <module>entities</module>
         <module>reports</module>
+        <module>invoices</module>
     </modules>
 
     <properties>
@@ -54,6 +55,11 @@
             <dependency>
                 <groupId>si.fri.prpo.skupina00</groupId>
                 <artifactId>evcharging-reports</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>si.fri.prpo.skupina00</groupId>
+                <artifactId>evcharging-invoices</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
