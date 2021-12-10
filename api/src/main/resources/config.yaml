@@ -3,6 +3,15 @@ kumuluzee:
   version: 0.5.0
   env:
     name: dev
+  server:
+    http:
+      port: 8080
+
+  integrations:
+    reports:
+      base-url: http://localhost:8081/v1
+    invoices:
+      base-url: http://localhost:8082/v1
 
   datasources:
     - jndi-name: jdbc/EVChargingDS
