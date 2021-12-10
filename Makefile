@@ -40,6 +40,7 @@ tag:
 		sed -i '0,/<version>/{s/<version>.*<\/version>/<version>'$(ver)'<\/version>/}' services/pom.xml
 		sed -i '0,/<version>/{s/<version>.*<\/version>/<version>'$(ver)'<\/version>/}' entities/pom.xml
 		sed -i '0,/version/{s/version: .*/version: '$(ver)'/}' api/src/main/resources/config.yaml
+		sed -i '0,/ENV VER/{s/ENV VER=.*/ENV VER='$(ver)'/}' Dockerfile
 
 		git add pom.xml api/pom.xml services/pom.xml entities/pom.xml api/src/main/resources/config.yaml
 		git commit -qm "Bump project version to $(ver)"
