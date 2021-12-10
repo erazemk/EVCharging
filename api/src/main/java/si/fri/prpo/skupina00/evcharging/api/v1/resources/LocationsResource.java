@@ -51,7 +51,7 @@ public class LocationsResource {
 
         return Response
                 .status(Response.Status.OK)
-                .entity(locationBean.getLocations(queryParameters))
+                .entity(stationManagerBean.getLocations(queryParameters))
                 .header("X-Total-Count", locationBean.getLocationCount(queryParameters))
                 .build();
     }
