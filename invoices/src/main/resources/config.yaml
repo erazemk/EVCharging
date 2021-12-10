@@ -10,3 +10,5 @@ kumuluzee:
   integrations:
     main:
       base-url: http://localhost:8080/v1
+    reports:
+      base-url: http://localhost:8081/v1
