@@ -12,7 +12,7 @@ services:
       - evcharging-main
     depends_on:
       - postgres
-#       - keycloak
+      - keycloak
 
   evcharging-reports:
     build: reports
@@ -46,29 +46,35 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: evcharging
 
-#   keycloak:
-#     image: docker.io/jboss/keycloak:15.0.2
-#     container_name: evcharging-keycloak
-#     restart: unless-stopped
-#     ports:
-#       - "7999:8080"
-#     networks:
-#       - keycloak
-#     volumes:
-#       - ./res/customers-realm.json:/tmp/customers-realm.json:ro
-#     environment:
-#       KEYCLOAK_USER: admin
-#       KEYCLOAK_PASSWORD: password
-#       KEYCLOAK_IMPORT: /tmp/customers-realm.json
-#       KUMULUZEE_SECURITY_KEYCLOAK_JSON:
-#         '{
-#           "realm": "customers-realm",
-#           "bearer-only": true,
-#           "auth-server-url": "http://localhost:8081/auth/",
-#           "ssl-required": "external",
-#           "resource": "customers-api",
-#           "confidential-port": 0
-#         }'
+  keycloak:
+    image: docker.io/jboss/keycloak:15.0.2
+    container_name: evcharging-keycloak
+    restart: unless-stopped
+    ports:
+      - "7999:8080"
+    networks:
+      - keycloak
+    volumes:
+      - ./res/evcharging-keycloak.json:/tmp/evcharging-config.json:z
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      JAVA_OPTS_APPEND:
+        '
+          -Dkeycloak.migration.action=import
+          -Dkeycloak.migration.provider=singleFile
+          -Dkeycloak.migration.file=/tmp/evcharging-config.json
+          -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+        '
+      KUMULUZEE_SECURITY_KEYCLOAK_JSON:
+        '{
+           "realm": "evcharging",
+           "bearer-only": true,
+           "auth-server-url": "http://localhost:7999/auth/",
+           "ssl-required": "external",
+           "resource": "evcharging-api",
+           "confidential-port": 0
+         }'
 
 networks:
   evcharging-main:
