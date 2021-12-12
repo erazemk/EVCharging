@@ -12,6 +12,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.logging.Logger;
 
@@ -38,7 +39,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/users/" + id)
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -52,7 +53,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/charges/" + id)
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());

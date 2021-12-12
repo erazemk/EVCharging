@@ -11,6 +11,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,7 +41,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/users")
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -54,7 +55,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/owners")
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -68,7 +69,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/stations")
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -82,7 +83,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/locations")
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -96,7 +97,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/cities")
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -110,7 +111,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/charges")
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -124,7 +125,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/reservations")
                     .request(MediaType.APPLICATION_JSON)
-                    .header("authorization", "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
