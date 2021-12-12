@@ -2,64 +2,58 @@ version: 3.9
 
 services:
 
-  evcharging-build:
-    image: evcharging-build
-    build:
-      context: .
-
   evcharging-main:
-    build:
-      context: api
-    target: run-main
+    build: api
     container_name: evcharging-main
     restart: unless-stopped
     ports:
       - "8080:8080"
-    volumes:
-      - maven-repo:/root/.m2
+    networks:
+      - evcharging-main
     depends_on:
       - postgres
-      - evcharging-build
-#      - keycloak
+#       - keycloak
 
   evcharging-reports:
-    build:
-      context: reports
-    target: run-reports
+    build: reports
     container_name: evcharging-reports
     restart: unless-stopped
     ports:
       - "8081:8081"
+    networks:
+      - evcharging-reports
     depends_on:
       - evcharging-main
-      - evcharging-build
 
   evcharging-invoices:
-    build:
-      context: invoices
-    target: run-invoices
+    build: invoices
     container_name: evcharging-invoices
     restart: unless-stopped
     ports:
       - "8082:8082"
+    networks:
+      - evcharging-invoices
     depends_on:
       - evcharging-main
-      - evcharging-build
 
   postgres:
     image: docker.io/library/postgres:14.1
-    container_name: postgres
+    container_name: evcharging-postgres
     restart: unless-stopped
+    networks:
+      - evcharging-main
     environment:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: evcharging
 
 #   keycloak:
 #     image: docker.io/jboss/keycloak:15.0.2
-#     container_name: keycloak
+#     container_name: evcharging-keycloak
 #     restart: unless-stopped
 #     ports:
 #       - "7999:8080"
+#     networks:
+#       - keycloak
 #     volumes:
 #       - ./res/customers-realm.json:/tmp/customers-realm.json:ro
 #     environment:
@@ -76,5 +70,12 @@ services:
 #           "confidential-port": 0
 #         }'
 
-volumes:
-  maven-repo: {}
+networks:
+  evcharging-main:
+    driver: bridge
+  evcharging-reports:
+    driver: bridge
+  evcharging-invoices:
+    driver: bridge
+  keycloak:
+    driver: bridge
