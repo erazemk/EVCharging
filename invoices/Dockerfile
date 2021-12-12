@@ -1,7 +1,5 @@
-FROM docker.io/library/openjdk:11-slim AS run-invoices
+FROM docker.io/library/openjdk:11-slim AS invoices
 
-ENV VER=0.5.0
-
-COPY --from=evcharging-build /package/invoices/target/evcharging-invoices-${VER}.jar ./
+COPY ./target/evcharging-invoices-*.jar ./
 EXPOSE 8082
-CMD java -jar evcharging-invoices-${VER}.jar
+CMD java -jar evcharging-invoices-*.jar

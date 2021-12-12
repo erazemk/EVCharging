@@ -1,7 +1,5 @@
-FROM docker.io/library/openjdk:11-slim AS run-reports
+FROM docker.io/library/openjdk:11-slim AS reports
 
-ENV VER=0.5.0
-
-COPY --from=evcharging-build /package/reports/target/evcharging-reports-${VER}.jar ./
+COPY ./target/evcharging-reports-*.jar ./
 EXPOSE 8081
-CMD java -jar evcharging-reports-${VER}.jar
+CMD java -jar evcharging-reports-*.jar

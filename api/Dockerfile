@@ -1,7 +1,5 @@
-FROM docker.io/library/openjdk:11-slim AS run-main
+FROM docker.io/library/openjdk:11-slim AS main
 
-ENV VER=0.5.0
-
-COPY --from=evcharging-build /package/api/target/evcharging-api-${VER}.jar ./
+COPY ./target/evcharging-api-*.jar ./
 EXPOSE 8080
-CMD java -jar evcharging-api-${VER}.jar
+CMD java -jar evcharging-api-*.jar
