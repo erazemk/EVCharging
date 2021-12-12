@@ -21,6 +21,7 @@ public class ReportBean {
 
     private Client httpClient;
     private String baseUrl;
+    private String apiKey;
 
     @PostConstruct
     private void init() {
@@ -28,19 +29,9 @@ public class ReportBean {
         baseUrl = ConfigurationUtil.getInstance()
                 .get("integrations.main.base-url")
                 .orElse("http://localhost:8080/v1");
-    }
-
-    public <T> List<T> getEntities(String endpoint) {
-        try {
-            return httpClient
-                    .target(baseUrl)
-                    .path(endpoint)
-                    .request(MediaType.APPLICATION_JSON)
-                    .get(new GenericType<>(){});
-        } catch (WebApplicationException | ProcessingException e) {
-            log.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
-        }
+        apiKey = ConfigurationUtil.getInstance()
+                .get("secrets.api-key")
+                .orElse("");
     }
 
     public List<UserDto> getUsers() {
@@ -49,6 +40,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/users")
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -62,6 +54,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/owners")
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -75,6 +68,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/stations")
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -88,6 +82,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/locations")
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -101,6 +96,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/cities")
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -114,6 +110,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/charges")
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -127,6 +124,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/reservations")
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
