@@ -6,9 +6,10 @@ import org.eclipse.microprofile.openapi.annotations.info.Info;
 import org.eclipse.microprofile.openapi.annotations.info.License;
 import org.eclipse.microprofile.openapi.annotations.servers.Server;
 
+import javax.annotation.security.DeclareRoles;
 import javax.ws.rs.ApplicationPath;
 
-//@DeclareRoles({"user", "owner", "admin"})
+@DeclareRoles({"user", "owner", "admin"})
 @OpenAPIDefinition(
         info = @Info(
                 title = "EVCharging API",
