@@ -24,7 +24,7 @@ kumuluzee:
     servlet:
       mapping: /openapi-spec
     scan:
-      packages: si.fri.prpo.skupina00.evcharging.api.v1.resources,si.fri.prpo.skupina00.evcharging.reports.api.v1.resources
+      packages: si.fri.prpo.skupina00.evcharging.api.v1.resources
     servers: http://localhost:8080/v1
     ui:
       mapping: /openapi
@@ -35,10 +35,10 @@ kumuluzee:
     keycloak:
       json:
         '{
-           "realm": "customers-realm",
+           "realm": "evcharging",
            "bearer-only": true,
            "auth-server-url": "http://localhost:7999/auth/",
            "ssl-required": "external",
-           "resource": "customers-api",
+           "resource": "evcharging-api",
            "confidential-port": 0
-        }'
+         }'
