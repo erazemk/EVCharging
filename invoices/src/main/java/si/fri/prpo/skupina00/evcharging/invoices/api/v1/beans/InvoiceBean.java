@@ -1,5 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.invoices.api.v1.beans;
 
+import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.ChargeDto;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.UserDto;
 
@@ -20,11 +21,15 @@ public class InvoiceBean {
 
     private Client httpClient;
     private String baseUrl;
+    private String apiKey;
 
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
         baseUrl = "http://localhost:8080/v1";
+        apiKey = ConfigurationUtil.getInstance()
+                .get("secrets.api-key")
+                .orElse("");
     }
 
     public UserDto getUser(Integer id) {
@@ -33,6 +38,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/users/" + id)
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -46,6 +52,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/charges/" + id)
                     .request(MediaType.APPLICATION_JSON)
+                    .header("authorization", "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
