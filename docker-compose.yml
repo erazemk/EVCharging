@@ -2,8 +2,14 @@ version: 3.9
 
 services:
 
+#   evcharging-build:
+#     build: .
+#     image: evcharging-build
+#     container_name: evcharging-build
+
   evcharging-main:
     build: api
+    image: evcharging-main
     container_name: evcharging-main
     restart: unless-stopped
     ports:
@@ -11,11 +17,13 @@ services:
     networks:
       - evcharging-main
     depends_on:
+#       - evcharging-build
       - postgres
       - keycloak
 
   evcharging-reports:
     build: reports
+    image: evcharging-reports
     container_name: evcharging-reports
     restart: unless-stopped
     ports:
@@ -23,10 +31,12 @@ services:
     networks:
       - evcharging-reports
     depends_on:
+#       - evcharging-build
       - evcharging-main
 
   evcharging-invoices:
     build: invoices
+    image: evcharging-invoices
     container_name: evcharging-invoices
     restart: unless-stopped
     ports:
@@ -34,6 +44,7 @@ services:
     networks:
       - evcharging-invoices
     depends_on:
+#       - evcharging-build
       - evcharging-main
 
   postgres:
@@ -51,7 +62,7 @@ services:
     container_name: evcharging-keycloak
     restart: unless-stopped
     ports:
-      - "7999:8080"
+      - "7999:7999"
     networks:
       - keycloak
     volumes:
@@ -59,12 +70,14 @@ services:
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: password
+      DB_VENDOR: h2
       JAVA_OPTS_APPEND:
         '
           -Dkeycloak.migration.action=import
           -Dkeycloak.migration.provider=singleFile
           -Dkeycloak.migration.file=/tmp/evcharging-config.json
           -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+          -Djboss.http.port=7999
         '
       KUMULUZEE_SECURITY_KEYCLOAK_JSON:
         '{
