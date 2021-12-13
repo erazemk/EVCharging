@@ -1,6 +1,8 @@
 package si.fri.prpo.skupina00.evcharging.reports.api.v1.beans;
 
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import si.fri.prpo.skupina00.evcharging.reports.api.v1.dtos.*;
 
 import javax.annotation.PostConstruct;
@@ -10,6 +12,8 @@ import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -26,13 +30,21 @@ public class ReportBean {
 
     @PostConstruct
     private void init() {
-        httpClient = ClientBuilder.newClient();
+        httpClient = ClientBuilder.newClient(new ClientConfig().register(HttpAuthenticationFeature.universalBuilder()));
         baseUrl = ConfigurationUtil.getInstance()
                 .get("integrations.main.base-url")
                 .orElse("http://localhost:8080/v1");
-        apiKey = ConfigurationUtil.getInstance()
-                .get("secrets.api-key")
-                .orElse("");
+        apiKey = httpClient
+                .target("http://localhost:7999/auth/realms/evcharging/protocol/openid-connect/token")
+                .request(MediaType.APPLICATION_FORM_URLENCODED)
+                .post(Entity.form(new Form()
+                        .param("grant_type", "password")
+                        .param("client_id", "evcharging-app")
+                        .param("username", "microservice")
+                        .param("password", "password")
+                ))
+                .readEntity(String.class);
+        log.info("API key: " + apiKey);
     }
 
     public List<UserDto> getUsers() {
