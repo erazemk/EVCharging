@@ -1,9 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,14 +18,6 @@ public class User {
     private String name;
     private String surname;
     private String email;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Charge> charges;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnore
-    private List<Reservation> reservations;
 
     public User() {
         super();
@@ -73,22 +62,6 @@ public class User {
         this.email = email;
     }
 
-    public List<Charge> getCharges() {
-        return charges;
-    }
-
-    public void setCharges(List<Charge> charges) {
-        this.charges = charges;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -96,8 +69,6 @@ public class User {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", charges=" + charges +
-                ", reservations=" + reservations +
                 '}';
     }
 }

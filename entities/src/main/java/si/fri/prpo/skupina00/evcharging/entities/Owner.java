@@ -1,9 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "owners")
@@ -21,10 +18,6 @@ public class Owner {
     private String name;
     private String surname;
     private String email;
-
-    @OneToMany(mappedBy = "owner")
-    @JsonIgnore
-    private List<Station> ownedStations;
 
     public Owner() {
         super();
@@ -69,14 +62,6 @@ public class Owner {
         this.email = email;
     }
 
-    public List<Station> getOwnedStations() {
-        return ownedStations;
-    }
-
-    public void setOwnedStations(List<Station> ownedStations) {
-        this.ownedStations = ownedStations;
-    }
-
     @Override
     public String toString() {
         return "Owner{" +
@@ -84,7 +69,6 @@ public class Owner {
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
-                ", ownedStations=" + ownedStations +
                 '}';
     }
 }

@@ -3,7 +3,6 @@ package si.fri.prpo.skupina00.evcharging.services.beans;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import si.fri.prpo.skupina00.evcharging.entities.Owner;
-import si.fri.prpo.skupina00.evcharging.entities.Station;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 
 import javax.annotation.PostConstruct;
@@ -97,19 +96,5 @@ public class OwnerBean {
 
         log.severe("Failed to delete owner " + id);
         return false;
-    }
-
-    public List<Station> getOwnedStations(Integer id) {
-        Owner owner = em.find(Owner.class, id);
-
-        if (owner != null) {
-            List<Station> ownedStations = owner.getOwnedStations();
-            log.info("Queried owned stations");
-            log.config("Queried " + owner + "'s owned stations");
-            return ownedStations;
-        }
-
-        log.severe("Failed to get owned stations, owner does not exist");
-        return null;
     }
 }
