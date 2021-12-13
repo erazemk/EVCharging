@@ -22,6 +22,7 @@ help:
 
 package: clean
 	mvn package
+	podman-compose build
 
 pull:
 	git pull --prune --tags
