@@ -40,10 +40,15 @@ tag:
 		sed -i '0,/<version>/{s/<version>.*<\/version>/<version>'$(ver)'<\/version>/}' api/pom.xml
 		sed -i '0,/<version>/{s/<version>.*<\/version>/<version>'$(ver)'<\/version>/}' services/pom.xml
 		sed -i '0,/<version>/{s/<version>.*<\/version>/<version>'$(ver)'<\/version>/}' entities/pom.xml
+		sed -i '0,/<version>/{s/<version>.*<\/version>/<version>'$(ver)'<\/version>/}' reports/pom.xml
+		sed -i '0,/<version>/{s/<version>.*<\/version>/<version>'$(ver)'<\/version>/}' invoices/pom.xml
 		sed -i '0,/version/{s/version: .*/version: '$(ver)'/}' api/src/main/resources/config.yaml
-		sed -i '0,/ENV VER/{s/ENV VER=.*/ENV VER='$(ver)'/}' Dockerfile
+		sed -i '0,/version/{s/version: .*/version: '$(ver)'/}' reports/src/main/resources/config.yaml
+		sed -i '0,/version/{s/version: .*/version: '$(ver)'/}' invoices/src/main/resources/config.yaml
 
-		git add pom.xml api/pom.xml services/pom.xml entities/pom.xml api/src/main/resources/config.yaml
+		git add pom.xml api/pom.xml services/pom.xml entities/pom.xml reports/pom.xml invoices/pom.xml \
+			api/src/main/resources/config.yaml reports/src/main/resources/config.yaml \
+			invoices/src/main/resources/config.yaml
 		git commit -qm "Bump project version to $(ver)"
 		printf "Release v$(ver)\n\nChangelog:\n" > changelog.txt
 		git log $(shell git describe --tags --abbrev=0)..HEAD~1 --pretty=format:"  - %s" >> changelog.txt
