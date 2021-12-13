@@ -42,3 +42,20 @@ kumuluzee:
            "resource": "evcharging-api",
            "confidential-port": 0
          }'
+
+  health:
+    servlet:
+      mapping: /health
+      enabled: true
+    logs:
+      enabled: true
+      level: INFO
+      period-s: 30
+    checks:
+      data-source-health-check:
+        - jndi-name: jdbc/EVChargingDS
+          type: liveness
+      http-health-check:
+        - connection-url: http://localhost:8080/openapi
+        - connection-url: http://localhost:8081/v1/reports
+        - connection-url: http://localhost:7999
