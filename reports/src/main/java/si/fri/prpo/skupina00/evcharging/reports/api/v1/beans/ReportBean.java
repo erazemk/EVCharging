@@ -3,6 +3,7 @@ package si.fri.prpo.skupina00.evcharging.reports.api.v1.beans;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+import org.json.JSONObject;
 import si.fri.prpo.skupina00.evcharging.reports.api.v1.dtos.*;
 
 import javax.annotation.PostConstruct;
@@ -25,8 +26,7 @@ public class ReportBean {
     private static final Logger log = Logger.getLogger(ReportBean.class.getName());
 
     private Client httpClient;
-    private String baseUrl;
-    private String apiKey;
+    private String baseUrl, apiKey;
 
     @PostConstruct
     private void init() {
@@ -34,7 +34,7 @@ public class ReportBean {
         baseUrl = ConfigurationUtil.getInstance()
                 .get("integrations.main.base-url")
                 .orElse("http://localhost:8080/v1");
-        apiKey = httpClient
+        apiKey = new JSONObject(httpClient
                 .target("http://localhost:7999/auth/realms/evcharging/protocol/openid-connect/token")
                 .request(MediaType.APPLICATION_FORM_URLENCODED)
                 .post(Entity.form(new Form()
@@ -43,8 +43,8 @@ public class ReportBean {
                         .param("username", "microservice")
                         .param("password", "password")
                 ))
-                .readEntity(String.class);
-        log.info("API key: " + apiKey);
+                .readEntity(String.class))
+                .getString("access_token");
     }
 
     public List<UserDto> getUsers() {
