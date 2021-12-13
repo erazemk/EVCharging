@@ -5,20 +5,18 @@ import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.ChargeDto;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.InvoiceDto;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.UserDto;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import java.io.FileNotFoundException;
 import java.io.StringWriter;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 @Path("/invoices")
 @Produces(MediaType.APPLICATION_XML)
@@ -32,29 +30,20 @@ public class InvoicesResource {
     @Context
     protected UriInfo uriInfo;
 
-    private Client httpClient;
-    private String baseUrl;
-    private static final Logger log = Logger.getLogger(InvoicesResource.class.getName());
-
-    @PostConstruct
-    private void init() {
-        httpClient = ClientBuilder.newClient();
-        baseUrl = "http://localhost:8080/v1";
-    }
-
     @GET
-    public Response getInvoice(@QueryParam("user") Integer userId, @QueryParam("charge") Integer chargeId)
-            throws JAXBException {
+    public Response getInvoice(@QueryParam("charge") Integer chargeId) throws JAXBException {
+
         InvoiceDto invoiceDto = new InvoiceDto();
-        UserDto user = invoiceBean.getUser(userId);
         ChargeDto charge = invoiceBean.getCharge(chargeId);
+        UserDto user = invoiceBean.getUser(charge.getUserId());
         invoiceDto.setName(user.getName());
         invoiceDto.setSurname(user.getSurname());
         invoiceDto.setEmail(user.getEmail());
 
         invoiceDto.setPrice(charge.getPrice());
         invoiceDto.setStationId(charge.getStationId());
-        invoiceDto.setDuration(TimeUnit.MILLISECONDS.toMinutes(charge.getEndTime().getTime()-charge.getBeginTime().getTime()));
+        invoiceDto.setDuration(TimeUnit.MILLISECONDS.toMinutes(charge.getEndTime().getTime() -
+                charge.getBeginTime().getTime()));
 
         JAXBContext ctx = JAXBContext.newInstance(InvoiceDto.class);
         Marshaller marshaller = ctx.createMarshaller();
@@ -73,6 +62,4 @@ public class InvoicesResource {
 
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
-
-
 }

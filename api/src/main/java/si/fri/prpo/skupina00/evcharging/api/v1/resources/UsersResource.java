@@ -26,7 +26,7 @@ import javax.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
-//@Secure
+@Secure
 public class UsersResource {
 
     @Inject
@@ -47,7 +47,7 @@ public class UsersResource {
                             @Header(name = "X-Total-Count", description = "Number of returned users")
                     })
     })
-    //@RolesAllowed({"admin"})
+    @RolesAllowed({"admin"})
     public Response getUsers() {
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
 
@@ -65,7 +65,7 @@ public class UsersResource {
                     content = @Content(schema = @Schema(implementation = UserDto.class))),
             @APIResponse(description = "Failed to find user", responseCode = "403")})
     @Path("/{id}")
-    //@RolesAllowed({"admin"})
+    @RolesAllowed({"admin"})
     public Response getUser(@PathParam("id") Integer id) {
         UserDto userDto = userManagerBean.getUser(id);
 
@@ -86,7 +86,7 @@ public class UsersResource {
                     content = @Content(schema = @Schema(implementation = UserDto.class))),
             @APIResponse(description = "Failed to add user", responseCode = "403")
     })
-    //@RolesAllowed({"admin"})
+    @RolesAllowed({"admin"})
     public Response addUser(UserDto userDto) {
         UserDto addedUserDto = userManagerBean.addUser(userDto);
 
@@ -108,7 +108,7 @@ public class UsersResource {
             @APIResponse(description = "Failed to update user", responseCode = "403")
     })
     @Path("/{id}")
-    //@RolesAllowed({"admin", "user"})
+    @RolesAllowed({"admin", "user"})
     public Response updateUser(@PathParam("id") Integer id, UserDto userDto) {
         UserDto updatedUserDto = userManagerBean.updateUser(id, userDto);
 
@@ -129,7 +129,7 @@ public class UsersResource {
             @APIResponse(description = "Failed to delete user", responseCode = "403")
     })
     @Path("/{id}")
-    //@RolesAllowed({"admin"})
+    @RolesAllowed({"admin"})
     public Response deleteUser(@PathParam("id") Integer id) {
         if (userManagerBean.deleteUser(id)) {
             return Response.status(Response.Status.OK).build();

@@ -1,6 +1,7 @@
 package si.fri.prpo.skupina00.evcharging.invoices.api.v1.beans;
 
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
+import org.json.JSONObject;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.ChargeDto;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.UserDto;
 
@@ -11,6 +12,8 @@ import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -21,16 +24,25 @@ public class InvoiceBean {
     private static final Logger log = Logger.getLogger(InvoiceBean.class.getName());
 
     private Client httpClient;
-    private String baseUrl;
-    private String apiKey;
+    private String baseUrl, apiKey;
 
     @PostConstruct
     private void init() {
         httpClient = ClientBuilder.newClient();
-        baseUrl = "http://localhost:8080/v1";
-        apiKey = ConfigurationUtil.getInstance()
-                .get("secrets.api-key")
-                .orElse("");
+        baseUrl = ConfigurationUtil.getInstance()
+                .get("integrations.main.base-url")
+                .orElse("http://localhost:8080/v1");
+        apiKey = new JSONObject(httpClient
+                .target("http://localhost:7999/auth/realms/evcharging/protocol/openid-connect/token")
+                .request(MediaType.APPLICATION_FORM_URLENCODED)
+                .post(Entity.form(new Form()
+                        .param("grant_type", "password")
+                        .param("client_id", "evcharging-app")
+                        .param("username", "microservice")
+                        .param("password", "password")
+                ))
+                .readEntity(String.class))
+                .getString("access_token");
     }
 
     public UserDto getUser(Integer id) {
@@ -39,7 +51,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/users/" + id)
                     .request(MediaType.APPLICATION_JSON)
-                    //.header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -53,7 +65,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/charges/" + id)
                     .request(MediaType.APPLICATION_JSON)
-                    //.header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
