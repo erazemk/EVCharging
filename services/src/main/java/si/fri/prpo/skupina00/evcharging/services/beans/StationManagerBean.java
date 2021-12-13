@@ -24,9 +24,6 @@ public class StationManagerBean {
     private Mapper mapper;
 
     @Inject
-    private UserBean userBean;
-
-    @Inject
     private CityBean cityBean;
 
     @Inject
@@ -40,9 +37,6 @@ public class StationManagerBean {
 
     @Inject
     private LocationBean locationBean;
-
-    @Inject
-    private OwnerBean ownerBean;
 
     @PostConstruct
     private void init() {
