@@ -2,11 +2,6 @@ version: 3.9
 
 services:
 
-#   evcharging-build:
-#     build: .
-#     image: evcharging-build
-#     container_name: evcharging-build
-
   evcharging-main:
     build: api
     image: evcharging-main
@@ -17,7 +12,6 @@ services:
     networks:
       - evcharging-main
     depends_on:
-#       - evcharging-build
       - postgres
       - keycloak
 
@@ -31,7 +25,6 @@ services:
     networks:
       - evcharging-reports
     depends_on:
-#       - evcharging-build
       - evcharging-main
 
   evcharging-invoices:
@@ -44,7 +37,6 @@ services:
     networks:
       - evcharging-invoices
     depends_on:
-#       - evcharging-build
       - evcharging-main
 
   postgres:
