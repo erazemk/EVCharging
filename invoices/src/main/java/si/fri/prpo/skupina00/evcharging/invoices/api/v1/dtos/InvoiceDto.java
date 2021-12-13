@@ -2,9 +2,10 @@ package si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.sql.Time;
+import javax.xml.bind.annotation.XmlType;
 
-@XmlRootElement
+@XmlRootElement(name = "charge")
+@XmlType(propOrder = {"name", "surname", "email", "stationId", "duration", "price"})
 public class InvoiceDto {
     private String name;
     private String surname;
@@ -13,7 +14,7 @@ public class InvoiceDto {
     private long duration;
     private Float price;
 
-    @XmlElement
+    @XmlElement(name = "name")
     public String getName() {
         return name;
     }
@@ -22,7 +23,7 @@ public class InvoiceDto {
         this.name = name;
     }
 
-    @XmlElement
+    @XmlElement(name = "surname")
     public String getSurname() {
         return surname;
     }
@@ -31,7 +32,7 @@ public class InvoiceDto {
         this.surname = surname;
     }
 
-    @XmlElement
+    @XmlElement(name = "email")
     public String getEmail() {
         return email;
     }
@@ -40,7 +41,7 @@ public class InvoiceDto {
         this.email = email;
     }
 
-    @XmlElement
+    @XmlElement(name = "stationId")
     public Integer getStationId() {
         return stationId;
     }
@@ -49,7 +50,7 @@ public class InvoiceDto {
         this.stationId = stationId;
     }
 
-    @XmlElement
+    @XmlElement(name = "duration")
     public long getDuration() {
         return duration;
     }
@@ -58,7 +59,7 @@ public class InvoiceDto {
         this.duration = duration;
     }
 
-    @XmlElement
+    @XmlElement(name = "price")
     public Float getPrice() {
         return price;
     }

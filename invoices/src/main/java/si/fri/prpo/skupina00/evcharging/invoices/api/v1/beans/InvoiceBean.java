@@ -39,7 +39,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/users/" + id)
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    //.header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -53,7 +53,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/charges/" + id)
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    //.header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());

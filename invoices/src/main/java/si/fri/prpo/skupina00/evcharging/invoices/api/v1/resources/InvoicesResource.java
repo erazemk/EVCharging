@@ -16,9 +16,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.time.Duration;
+import java.io.StringWriter;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 @Path("/invoices")
@@ -45,7 +44,7 @@ public class InvoicesResource {
 
     @GET
     public Response getInvoice(@QueryParam("user") Integer userId, @QueryParam("charge") Integer chargeId)
-            throws JAXBException, FileNotFoundException {
+            throws JAXBException {
         InvoiceDto invoiceDto = new InvoiceDto();
         UserDto user = invoiceBean.getUser(userId);
         ChargeDto charge = invoiceBean.getCharge(chargeId);
@@ -55,18 +54,20 @@ public class InvoicesResource {
 
         invoiceDto.setPrice(charge.getPrice());
         invoiceDto.setStationId(charge.getStationId());
-        invoiceDto.setDuration(Duration.between(charge.getBeginTime().toInstant(),
-                charge.getEndTime().toInstant()).toMinutes());
+        invoiceDto.setDuration(TimeUnit.MILLISECONDS.toMinutes(charge.getEndTime().getTime()-charge.getBeginTime().getTime()));
 
-        OutputStream xml = new FileOutputStream("invoice.xml");
         JAXBContext ctx = JAXBContext.newInstance(InvoiceDto.class);
         Marshaller marshaller = ctx.createMarshaller();
-        marshaller.marshal(invoiceDto, xml);
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        StringWriter sw = new StringWriter();
+        marshaller.marshal(invoiceDto, sw);
+        String xmlContent = sw.toString();
 
-        if (xml != null){
+        if (xmlContent != null){
             return Response
                     .status(Response.Status.OK)
-                    .entity(xml)
+                    .type(MediaType.TEXT_XML)
+                    .entity(xmlContent)
                     .build();
         }
 
