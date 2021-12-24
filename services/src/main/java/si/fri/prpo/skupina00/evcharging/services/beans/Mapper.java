@@ -160,7 +160,7 @@ public class Mapper {
         StationDto stationDto = new StationDto();
 
         stationDto.setId(station.getId());
-        stationDto.setName(stationDto.getName());
+        stationDto.setName(station.getName());
         stationDto.setOwnerId(station.getOwner().getId());
         stationDto.setOpenTime(station.getOpenTime());
         stationDto.setCloseTime(station.getCloseTime());
