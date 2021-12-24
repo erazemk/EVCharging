@@ -22,6 +22,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.io.ByteArrayOutputStream;
 
 @Path("/stations")
 @Produces(MediaType.APPLICATION_JSON)
@@ -78,6 +79,19 @@ public class StationsResource {
         }
 
         return Response.status(Response.Status.BAD_REQUEST).build();
+    }
+
+    @GET
+    @Operation(summary = "Get station's QR code", description = "Returns a QR code with the station's info")
+    @APIResponses({
+            @APIResponse(description = "Returned station's QR code", responseCode = "200",
+                    content = @Content(schema = @Schema(implementation = ByteArrayOutputStream.class))),
+            @APIResponse(description = "Failed to generate a QR code", responseCode = "403")})
+    @Path("/{id}/qr")
+    @PermitAll
+    @Produces("image/png")
+    public Response getStationQRCode(@PathParam("id") Integer id) {
+        return stationManagerBean.getStationQRCode(id);
     }
 
     @POST

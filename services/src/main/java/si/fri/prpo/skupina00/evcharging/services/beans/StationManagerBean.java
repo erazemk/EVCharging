@@ -1,6 +1,8 @@
 package si.fri.prpo.skupina00.evcharging.services.beans;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 import si.fri.prpo.skupina00.evcharging.entities.*;
 import si.fri.prpo.skupina00.evcharging.services.annotations.LogCalls;
 import si.fri.prpo.skupina00.evcharging.services.dtos.*;
@@ -11,6 +13,12 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -37,6 +45,9 @@ public class StationManagerBean {
 
     @Inject
     private LocationBean locationBean;
+
+    @Inject
+    private UserManagerBean userManagerBean;
 
     @PostConstruct
     private void init() {
@@ -308,6 +319,36 @@ public class StationManagerBean {
         }
 
         throw new InvalidRequestException("Could not find station");
+    }
+
+    public Response getStationQRCode(Integer id) {
+        Client httpClient = ClientBuilder.newClient(
+                new ClientConfig().register(HttpAuthenticationFeature.universalBuilder()));
+        StationDto stationDto = getStation(id);
+        String baseUrl = "https://api.qrserver.com/v1/create-qr-code/";
+
+        String name = stationDto.getName();
+        String address = getLocation(stationDto.getLocationId()).getAddress();
+        String owner = userManagerBean.getOwner(stationDto.getOwnerId()).getName() + " " +
+                userManagerBean.getOwner(stationDto.getOwnerId()).getSurname();
+        String timetable = stationDto.getOpenTime() + " - " + stationDto.getCloseTime();
+
+        String stationInfo = String.format("Station name: %s\nLocation: %s\nOwner: %s\n" +
+                "Timetable: %s\nPrice per kWh: %f\nWattage: %dW\nAdapter type: %s",
+                name, address, owner, timetable, stationDto.getPrice(), stationDto.getWattage(),
+                stationDto.getAdapterType());
+
+        log.info("Station info: " + stationInfo);
+
+        String data = URLEncoder.encode(stationInfo, StandardCharsets.UTF_8);
+
+        Response resp = httpClient
+                .target(baseUrl + "?size=400x400&data=" + data)
+                .request("image/png")
+                .get(new GenericType<>(){});
+
+        log.info(resp.toString());
+        return resp;
     }
 
     @Transactional
