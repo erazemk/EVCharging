@@ -18,21 +18,21 @@ spec:
       - name: evcharging-reports
         image: ghcr.io/erazemk/evcharging-reports:latest
         ports:
-        - containerPort: 8081
+        - containerPort: 80
           name: server
           protocol: TCP
-        livensessProbe:
-          httpGet:
-            path: /health/live
-            port: server
-          initialDelaySeconds: 30
-          periodSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /health/ready
-            port: server
-          initialDelaySeconds: 30
-          periodSeconds: 5
+        # livensessProbe:
+        #   httpGet:
+        #     path: /health/live
+        #     port: server
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 5
+        # readinessProbe:
+        #   httpGet:
+        #     path: /health/ready
+        #     port: server
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 5
         resources: {}
 
 ---
@@ -44,8 +44,9 @@ metadata:
     app: evcharging-reports
 spec:
   type: LoadBalancer
+  loadBalancerIP: 20.124.102.116
   ports:
-  - port: 8081
+  - port: 80
     protocol: TCP
     targetPort: server
   selector:
