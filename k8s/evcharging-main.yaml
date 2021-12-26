@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: evcharging-main
+  labels:
+    app: evcharging-main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: evcharging-main
+  template:
+    metadata:
+      labels:
+        app: evcharging-main
+    spec:
+      containers:
+      - name: evcharging-imain
+        image: ghcr.io/erazemk/evcharging-main:latest
+        ports:
+        - containerPort: 8080
+          name: server
+          protocol: TCP
+        livensessProbe:
+          httpGet:
+            path: /health/live
+            port: server
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: server
+          initialDelaySeconds: 30
+          periodSeconds: 5
+        resources: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: evcharging-main
+  labels:
+    app: evcharging-main
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: server
+  selector:
+    app: evcharging-main
