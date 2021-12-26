@@ -43,7 +43,7 @@ metadata:
   labels:
     app: evcharging-reports
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - port: 8081
     protocol: TCP

@@ -43,7 +43,7 @@ metadata:
   labels:
     app: evcharging-invoices
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - port: 8082
     targetPort: server
