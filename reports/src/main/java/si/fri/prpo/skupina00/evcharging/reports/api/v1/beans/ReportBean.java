@@ -33,7 +33,7 @@ public class ReportBean {
         httpClient = ClientBuilder.newClient(new ClientConfig().register(HttpAuthenticationFeature.universalBuilder()));
         baseUrl = ConfigurationUtil.getInstance()
                 .get("integrations.main.base-url")
-                .orElse("http://main.prpo.erazem.eu/v1");
+                .orElse("http://prpo.erazem.eu/v1");
         apiKey = new JSONObject(httpClient
                 .target("http://do.erazem.eu:8080/auth/realms/evcharging/protocol/openid-connect/token")
                 .request(MediaType.APPLICATION_FORM_URLENCODED)
