@@ -15,24 +15,12 @@ spec:
         app: evcharging-main
     spec:
       containers:
-      - name: evcharging-imain
-        image: ghcr.io/erazemk/evcharging-main:latest
+      - name: evcharging-main
+        image: ghcr.io/erazemk/evcharging-main:0.6.3
         ports:
         - containerPort: 80
           name: server
           protocol: TCP
-        # livensessProbe:
-        #   httpGet:
-        #     path: /health/live
-        #     port: server
-        #   initialDelaySeconds: 30
-        #   periodSeconds: 5
-        # readinessProbe:
-        #   httpGet:
-        #     path: /health/ready
-        #     port: server
-        #   initialDelaySeconds: 30
-        #   periodSeconds: 5
         resources: {}
 
 ---
@@ -44,7 +32,6 @@ metadata:
     app: evcharging-main
 spec:
   type: LoadBalancer
-  loadBalancerIP: 20.124.99.141
   ports:
   - port: 80
     protocol: TCP

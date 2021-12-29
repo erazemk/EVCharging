@@ -16,23 +16,11 @@ spec:
     spec:
       containers:
       - name: evcharging-invoices
-        image: ghcr.io/erazemk/evcharging-invoices:latest
+        image: ghcr.io/erazemk/evcharging-invoices:0.6.2
         ports:
         - containerPort: 80
           name: server
           protocol: TCP
-        # livensessProbe:
-        #   httpGet:
-        #     path: /health/live
-        #     port: server
-        #   initialDelaySeconds: 30
-        #   periodSeconds: 5
-        # readinessProbe:
-        #   httpGet:
-        #     path: /health/ready
-        #     port: server
-        #   initialDelaySeconds: 30
-        #   periodSeconds: 5
         resources: {}
 
 ---
@@ -44,7 +32,6 @@ metadata:
     app: evcharging-invoices
 spec:
   type: LoadBalancer
-  loadBalancerIP: 20.124.102.129
   ports:
   - port: 80
     targetPort: server
