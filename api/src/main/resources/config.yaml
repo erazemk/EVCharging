@@ -7,12 +7,6 @@ kumuluzee:
     http:
       port: 80
 
-  integrations:
-    reports:
-      base-url: http://reports.prpo.erazem.eu/v1
-    invoices:
-      base-url: http://invoices.prpo.erazem.eu/v1
-
   datasources:
     - jndi-name: jdbc/EVChargingDS
       connection-url: jdbc:postgresql://do.erazem.eu:5432/evcharging
@@ -25,7 +19,7 @@ kumuluzee:
       mapping: /openapi-spec
     scan:
       packages: si.fri.prpo.skupina00.evcharging.api.v1.resources
-    servers: http://localhost:80/v1
+    servers: http://prpo.erazem.eu:80/v1
     ui:
       mapping: /openapi
       server-auto-config:
@@ -38,7 +32,7 @@ kumuluzee:
            "realm": "evcharging",
            "bearer-only": true,
            "auth-server-url": "http://do.erazem.eu:8080/auth/",
-           "ssl-required": "external",
+           "ssl-required": "none",
            "resource": "evcharging-api",
            "confidential-port": 0
          }'
@@ -56,6 +50,5 @@ kumuluzee:
         - jndi-name: jdbc/EVChargingDS
           type: liveness
       http-health-check:
-        - connection-url: http://main.prpo.erazem.eu/openapi
-        - connection-url: http://reports.prpo.erazem.eu/v1/reports
-        - connection-url: http://do.erazem.eu:8080
+        - connection-url: http://prpo.erazem.eu/openapi
+        - connection-url: http://do.erazem.eu:8080/auth

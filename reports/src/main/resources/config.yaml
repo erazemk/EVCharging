@@ -9,6 +9,4 @@ kumuluzee:
 
   integrations:
     main:
-      base-url: http://main.prpo.erazem.eu/v1
-    invoices:
-      base-url: http://invoices.prpo.erazem.eu/v1
+      base-url: http://prpo.erazem.eu/v1

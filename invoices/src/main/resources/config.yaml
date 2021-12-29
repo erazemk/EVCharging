@@ -9,6 +9,4 @@ kumuluzee:
 
   integrations:
     main:
-      base-url: http://main.prpo.erazem.eu/v1
-    reports:
-      base-url: http://reports.prpo.erazem.eu/v1
+      base-url: http://prpo.erazem.eu/v1
