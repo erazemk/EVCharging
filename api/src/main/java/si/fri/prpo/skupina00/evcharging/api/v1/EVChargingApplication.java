@@ -18,7 +18,7 @@ import javax.ws.rs.ApplicationPath;
                 contact = @Contact(email = "ne@pisi.mi"),
                 license = @License(name = "MIT")
         ),
-        servers = @Server(url = "http://localhost:8080")
+        servers = @Server(url = "http://prpo.erazem.eu")
 )
 @ApplicationPath("/v1")
 public class EVChargingApplication extends javax.ws.rs.core.Application {
