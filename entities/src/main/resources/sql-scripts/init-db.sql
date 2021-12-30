@@ -25,8 +25,8 @@ INSERT INTO stations (name, ownerId, openTime, closeTime, price, wattage, adapte
 
 -- Charges
 INSERT INTO charges (userId, stationId, beginTime, endTime, price) VALUES (1, 1, '08:00:00', '09:00:00', 20.5);
-INSERT INTO charges (userId, stationId, beginTime, endTime, price) VALUES (2, 2, '08:00:00', '09:00:00', 21.5);
-INSERT INTO charges (userId, stationId, beginTime, endTime, price) VALUES (3, 3, '08:00:00', '09:00:00', 22.5);
+INSERT INTO charges (userId, stationId, beginTime, endTime, price) VALUES (2, 2, '08:00:00', '09:32:45', 21.5);
+INSERT INTO charges (userId, stationId, beginTime, endTime, price) VALUES (3, 3, '08:00:00', '12:03:51', 22.5);
 
 -- Reservations
 INSERT INTO reservations (userId, stationId, reservationTime) VALUES (1, 2, '12:00:00');
