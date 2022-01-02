@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: evcharging-main
-        image: ghcr.io/erazemk/evcharging-main:0.7.0
+        image: ghcr.io/erazemk/evcharging-main:0.8.1
         ports:
         - containerPort: 80
           name: server
