@@ -1,5 +1,6 @@
 package si.fri.prpo.skupina00.evcharging.api.v1.resources;
 
+import com.kumuluz.ee.cors.annotations.CrossOrigin;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.security.annotations.Secure;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -27,6 +28,7 @@ import javax.ws.rs.core.UriInfo;
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 @Secure
+@CrossOrigin(supportedMethods = "GET, POST, HEAD, DELETE, OPTIONS")
 public class ReservationsResource {
 
     @Inject
