@@ -24,7 +24,7 @@ public class InvoiceBean {
     private static final Logger log = Logger.getLogger(InvoiceBean.class.getName());
 
     private Client httpClient;
-    private String baseUrl, apiKey;
+    private String baseUrl;
 
     @PostConstruct
     private void init() {
@@ -32,7 +32,10 @@ public class InvoiceBean {
         baseUrl = ConfigurationUtil.getInstance()
                 .get("integrations.main.base-url")
                 .orElse("http://prpo.erazem.eu/v1");
-        apiKey = new JSONObject(httpClient
+    }
+
+    public String getToken() {
+        return new JSONObject(httpClient
                 .target("http://do.erazem.eu:8080/auth/realms/evcharging/protocol/openid-connect/token")
                 .request(MediaType.APPLICATION_FORM_URLENCODED)
                 .post(Entity.form(new Form()
@@ -51,7 +54,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/users/" + id)
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -65,7 +68,7 @@ public class InvoiceBean {
                     .target(baseUrl)
                     .path("/charges/" + id)
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
