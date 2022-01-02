@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: evcharging-invoices
-        image: ghcr.io/erazemk/evcharging-invoices:0.7.0
+        image: ghcr.io/erazemk/evcharging-invoices:0.8.2
         ports:
         - containerPort: 80
           name: server

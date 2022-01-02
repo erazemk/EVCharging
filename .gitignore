@@ -12,3 +12,10 @@ target
 
 # Artifacts
 *.zip
+
+# Angular
+*.js.map
+*.js
+
+# dependencies
+node_modules/

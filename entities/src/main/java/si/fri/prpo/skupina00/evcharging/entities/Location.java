@@ -1,5 +1,8 @@
 package si.fri.prpo.skupina00.evcharging.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -18,6 +21,7 @@ public class Location {
 
     @ManyToOne
     @JoinColumn(name = "cityId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private City city;
 
     private String address;

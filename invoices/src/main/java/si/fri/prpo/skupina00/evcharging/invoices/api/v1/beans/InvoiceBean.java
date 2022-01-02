@@ -6,7 +6,7 @@ import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.ChargeDto;
 import si.fri.prpo.skupina00.evcharging.invoices.api.v1.dtos.UserDto;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
@@ -19,7 +19,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class InvoiceBean {
     private static final Logger log = Logger.getLogger(InvoiceBean.class.getName());
 

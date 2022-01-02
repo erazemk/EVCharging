@@ -1,0 +1,43 @@
+<h2>Add Station</h2>
+<div *ngIf="station">
+    <form (ngSubmit)="submitForm()" ngNativeValidate>
+        <table>
+            <tr>
+                <td><label for="name">Name:</label></td>
+                <td><input [(ngModel)]="station.name" id="name" name="name" required /></td>
+            </tr>
+            <tr>
+                <td><label for="ownerId">Owner ID:</label></td>
+                <td><input [(ngModel)]="station.ownerId" id="ownerId" name="ownerId" required /></td>
+            </tr> 
+            <tr>
+                <td><label for="openTime">Open Time:</label></td>
+                <td><input [(ngModel)]="station.openTime" id="openTime" name="openTime" required /></td>
+            </tr>
+            <tr>
+                <td><label for="closeTime">Close Time:</label></td>
+                <td><input [(ngModel)]="station.closeTime" id="closeTime" name="closeTime" required /></td>
+            </tr>
+            <tr>
+                <td><label for="price">Price:</label></td>
+                <td><input [(ngModel)]="station.price" id="price" name="price" /></td>
+            </tr>
+            <tr>
+                <td><label for="wattage">Wattage:</label></td>
+                <td><input [(ngModel)]="station.wattage" id="wattage" name="wattage" required /></td>
+            </tr>
+            <tr>
+                <td><label for="adapterType">Adapter Type:</label></td>
+                <td><input [(ngModel)]="station.adapterType" id="adapterType" name="adapterType" required /></td>
+            </tr>
+            <tr>
+                <td><label for="locationId">Location ID:</label></td>
+                <td><input [(ngModel)]="station.locationId" id="locationId" name="locationId" required /></td>
+            </tr>
+        </table>
+
+        <br/>
+        <button type="button" (click)="back()">Back</button>
+        <button type="submit">Add</button>
+    </form>
+</div>

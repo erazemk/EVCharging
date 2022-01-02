@@ -8,6 +8,7 @@ import si.fri.prpo.skupina00.evcharging.reports.api.v1.dtos.*;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
@@ -21,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@RequestScoped
 public class ReportBean {
     private static final Logger log = Logger.getLogger(ReportBean.class.getName());
 
