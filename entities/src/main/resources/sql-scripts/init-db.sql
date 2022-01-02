@@ -17,6 +17,7 @@ INSERT INTO locations (cityId, address, xCoordinate, yCoordinate) VALUES (3, 'Ul
 INSERT INTO owners (name, surname, email) VALUES ('Janez', 'Petrovic', 'janez.petrovic@gmail.com');
 INSERT INTO owners (name, surname, email) VALUES ('Elon', 'Musk', 'musk.elon@tesla.com');
 INSERT INTO owners (name, surname, email) VALUES ('Steve', 'Jobs', 'steve.jobs@microsoft.com');
+INSERT INTO owners (name, surname, email) VALUES ('Uspesen', 'Podjetnik', 'elektrika.je.lajf@gmail.com');
 
 -- Stations
 INSERT INTO stations (name, ownerId, openTime, closeTime, price, wattage, adapterType, locationId) VALUES ('Station 1', 1, '06:00:00', '22:00:00', 0.60, 60000, 'Type 2', 1);
