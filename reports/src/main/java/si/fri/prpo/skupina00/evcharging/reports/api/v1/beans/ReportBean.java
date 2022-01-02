@@ -26,7 +26,7 @@ public class ReportBean {
     private static final Logger log = Logger.getLogger(ReportBean.class.getName());
 
     private Client httpClient;
-    private String baseUrl, apiKey;
+    private String baseUrl;
 
     @PostConstruct
     private void init() {
@@ -34,7 +34,10 @@ public class ReportBean {
         baseUrl = ConfigurationUtil.getInstance()
                 .get("integrations.main.base-url")
                 .orElse("http://prpo.erazem.eu/v1");
-        apiKey = new JSONObject(httpClient
+    }
+
+    public String getToken() {
+        return new JSONObject(httpClient
                 .target("http://do.erazem.eu:8080/auth/realms/evcharging/protocol/openid-connect/token")
                 .request(MediaType.APPLICATION_FORM_URLENCODED)
                 .post(Entity.form(new Form()
@@ -53,7 +56,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/users")
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -67,7 +70,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/owners")
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -81,7 +84,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/stations")
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -95,7 +98,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/locations")
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -109,7 +112,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/cities")
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -123,7 +126,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/charges")
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
@@ -137,7 +140,7 @@ public class ReportBean {
                     .target(baseUrl)
                     .path("/reservations")
                     .request(MediaType.APPLICATION_JSON)
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + apiKey)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + getToken())
                     .get(new GenericType<>(){});
         } catch (WebApplicationException | ProcessingException e) {
             log.severe(e.getMessage());
