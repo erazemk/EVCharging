@@ -1,0 +1,11 @@
+<h2>Stations list</h2>
+
+<ul class="station">
+    <li *ngFor="let station of stations" (click)="details(station)">
+        <span>{{station.name}}</span>
+        <button class="delete"
+                (click)="delete(station); $event.stopPropagation()">x
+        </button>
+    </li>
+</ul>
+

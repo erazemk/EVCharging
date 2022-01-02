@@ -1,0 +1,18 @@
+<div *ngIf="station && owner">
+
+    <h3>{{station.name}}</h3>
+
+    <p>Opening time: {{ station.openTime}}</p>
+    <p>Closing time: {{ station.closeTime}}</p>
+    <p>Price per kwh: {{station.price}}</p>
+    <p>Wattage: {{ station.wattage}}</p>
+    <p>Adapter type: {{ station.adapterType}}</p>
+    <p>This station is owned by: </p>
+    <ul>
+        <li> {{owner.name}} {{owner.surname}} </li>
+    </ul>
+
+    <br>
+    <button (click)="addStation()">Add Station</button>
+    <button (click)="back()">Back</button>
+</div>
