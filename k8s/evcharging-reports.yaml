@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: evcharging-reports
-        image: ghcr.io/erazemk/evcharging-reports:0.6.2
+        image: ghcr.io/erazemk/evcharging-reports:0.7.0
         ports:
         - containerPort: 80
           name: server
