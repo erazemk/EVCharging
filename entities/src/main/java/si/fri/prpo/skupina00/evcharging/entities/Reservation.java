@@ -1,5 +1,8 @@
 package si.fri.prpo.skupina00.evcharging.entities;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.sql.Time;
 import java.time.LocalTime;
@@ -19,10 +22,12 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "userId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "stationId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Station station;
 
     private Time reservationTime;
