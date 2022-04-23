@@ -2,6 +2,8 @@
 
 Aplikacija za iskanje, rezerviranje in uporabo polnilnic za električne avtomobile.
 
+**All the passwords are hardcoded (since this is a one time project for a uni class), but the services aren't live anymore.**
+
 
 ## Navodila za uporabo
 
